@@ -1,7 +1,7 @@
-import InnerApp from './src/InnerApp';
+import Route from './src/Route';
 
 function App() {
-  return <InnerApp />;
+  return <Route />;
 }
 
 export default App;
