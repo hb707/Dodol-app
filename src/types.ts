@@ -32,7 +32,7 @@ export interface ICapsule {
 
 export interface IMemory {
   c_idx: number;
-  memory: {
+  memoryList: {
     m_idx: number;
     m_autor: string;
     content: string;
