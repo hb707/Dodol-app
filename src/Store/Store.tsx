@@ -16,7 +16,7 @@ interface IStoreProps {
 }
 
 function Store({ children }: IStoreProps) {
-  <Provider store={store}>{children}</Provider>;
+  return <Provider store={store}>{children}</Provider>;
 }
 
 export default Store;
