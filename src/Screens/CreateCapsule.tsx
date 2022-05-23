@@ -16,7 +16,7 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
       <View style={{ flex: 12, justifyContent: 'center' }}>
         <Text> 캡슐 생성 페이지 </Text>
       </View>
-      <NavBar style={{ flex: 1 }} navigation={navigation} route={route} />
+      <NavBar style={{ flex: 1 }} navigation={navigation} />
     </View>
   );
 }

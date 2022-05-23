@@ -9,7 +9,10 @@ export const create = (payload: string) => ({
   type: 'memory/CREATE_REQUEST',
   payload,
 });
-export const read = () => ({ type: 'memory/READ_REQUEST' });
+export const read = (payload: { u_idx: number }) => ({
+  type: 'memory/READ_REQUEST',
+  payload,
+});
 
 // 3. 액션타입
 export type MemoryAction = ReturnType<typeof create> | ReturnType<typeof read>;

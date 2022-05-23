@@ -16,19 +16,14 @@ interface ICreateAction {
 }
 
 // axios 함수 : 제너레이터함수 사용하지 않아서 따로 구분함
-async function readAPI() {
-  console.log('함수실행');
+async function readAPI(payload: { u_idx: number }) {
   try {
     const response = await axios.post(
       `http://localhost:4000/api/capsule/list`,
-      {
-        u_idx: 1,
-      },
+      payload,
     );
-    console.log(response);
     return response;
   } catch (e) {
-    console.log(e);
     return e;
   }
 }

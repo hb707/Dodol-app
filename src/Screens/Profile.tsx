@@ -16,7 +16,7 @@ function ProfileScreen({ navigation, route }: Props) {
       <View style={{ flex: 12, justifyContent: 'center' }}>
         <Text> Profile </Text>
       </View>
-      <NavBar style={{ flex: 1 }} navigation={navigation} route={route} />
+      <NavBar style={{ flex: 1 }} navigation={navigation} />
     </View>
   );
 }
