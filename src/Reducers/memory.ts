@@ -36,6 +36,7 @@ const initialState: IMemory = {
 function memory(state: IMemory = initialState, action: MemoryAction): IMemory {
   switch (action.type) {
     case CREATE:
+      console.log('request 실행');
       return {
         ...state,
         loading: true,
@@ -44,11 +45,13 @@ function memory(state: IMemory = initialState, action: MemoryAction): IMemory {
         },
       };
     case 'COMMENT/READ_SUCCESS':
+      console.log('성공');
       return {
         ...state,
         loading: false,
       };
     case 'COMMENT/READ_FAILURE':
+      console.log('실패');
       return {
         ...state,
         error: {

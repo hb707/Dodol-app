@@ -17,8 +17,20 @@ interface ICreateAction {
 
 // axios 함수 : 제너레이터함수 사용하지 않아서 따로 구분함
 async function readAPI() {
-  const response = await axios.get(`${backUrl}/api/memory`);
-  return response;
+  console.log('함수실행');
+  try {
+    const response = await axios.post(
+      `http://localhost:4000/api/capsule/list`,
+      {
+        u_idx: 1,
+      },
+    );
+    console.log(response);
+    return response;
+  } catch (e) {
+    console.log(e);
+    return e;
+  }
 }
 
 async function createAPI(payload: ICreateMemory) {
@@ -29,7 +41,9 @@ async function createAPI(payload: ICreateMemory) {
 // middleware함수 : 통신 실행 후 성공/실패 나눠서 리듀서 실행
 function* memoryREAD() {
   try {
-    const response: AxiosResponse<IMemory> = yield call(readAPI);
+    console.log('미들웨어 실행');
+    const response: AxiosResponse<IMemory> = yield call(readAPI, { u_idx: 1 });
+    console.log(response);
     yield put({
       type: 'memory/READ_SUCCESS',
       payload: response.data,
