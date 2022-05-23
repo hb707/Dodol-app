@@ -1,8 +1,7 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 import axios, { AxiosResponse } from 'axios';
-import { IMemory } from '../types';
+import { IMemory, backUrl } from '../types';
 import { CREATE, READ } from '../Reducers/memory';
-import backUrl from './index';
 
 // 🔥 나중에 인터페이스 전부 types 파일에 정리해주기
 interface ICreateMemory {
