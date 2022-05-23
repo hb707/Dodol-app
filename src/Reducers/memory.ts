@@ -1,8 +1,8 @@
 import { IMemory } from '../types';
 
-// 1. 액션타입
-export const ADD = 'memory/CREATE' as const;
-export const READ = 'memory/READ' as const;
+// 1. 액션
+export const CREATE = 'memory/CREATE_REQUEST' as const;
+export const READ = 'memory/READ_REQUEST' as const;
 
 // 2. 액션함수
 export const create = (payload: string) => ({
@@ -12,9 +12,9 @@ export const create = (payload: string) => ({
 export const read = () => ({ type: 'memory/READ_REQUEST' });
 
 // 3. 액션타입
-type MemoryAction = ReturnType<typeof create> | ReturnType<typeof read>;
+export type MemoryAction = ReturnType<typeof create> | ReturnType<typeof read>;
 
-// 4. state 초기값
+// 4. state 초기값 -- 백엔드 api 확인 후 수정🔥
 const initialState: IMemory = {
   c_idx: 1,
   memoryList: [
@@ -35,7 +35,7 @@ const initialState: IMemory = {
 // 5. 리듀서
 function memory(state: IMemory = initialState, action: MemoryAction): IMemory {
   switch (action.type) {
-    case ADD:
+    case CREATE:
       return {
         ...state,
         loading: true,

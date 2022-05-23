@@ -1,7 +1,12 @@
 import Route from './src/Route';
+import Store from './src/Store/Store';
 
 function App() {
-  return <Route />;
+  return (
+    <Store>
+      <Route />
+    </Store>
+  );
 }
 
 export default App;

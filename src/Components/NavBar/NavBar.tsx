@@ -1,7 +1,6 @@
 import { StyleSheet, View, Pressable } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,7 +35,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function NavBar({ style, navigation, route }) {
+function NavBar({ style, navigation }) {
   return (
     <View style={styles.container}>
       <Pressable
