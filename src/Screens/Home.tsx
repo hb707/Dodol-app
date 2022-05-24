@@ -12,6 +12,7 @@
 //     </View>
 //   );
 // }
+import React from 'react';
 import { WebView } from 'react-native-webview';
 import { StyleSheet, Button, Image, Pressable, View } from 'react-native';
 import axios from 'axios';

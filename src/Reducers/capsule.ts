@@ -1,7 +1,7 @@
 import { IMemory } from '../types';
 
-// 1. 액션타입
-export const ADD = 'memory/CREATE' as const;
+// 1. 액션
+export const ADD = 'memory/CREATE_REQUEST' as const;
 export const READ = 'memory/READ' as const;
 
 // 2. 액션함수
@@ -12,7 +12,7 @@ export const create = (payload: string) => ({
 export const read = () => ({ type: 'memory/READ_REQUEST' });
 
 // 3. 액션타입
-type MemoryAction = ReturnType<typeof create> | ReturnType<typeof read>;
+export type MemoryAction = ReturnType<typeof create> | ReturnType<typeof read>;
 
 // 4. state 초기값
 const initialState: IMemory = {

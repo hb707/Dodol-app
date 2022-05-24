@@ -10,7 +10,7 @@ import {
   NativeSyntheticEvent,
 } from 'react-native';
 // import Location from '../Location/Location';
-import type { NativeStackScreenProps } from 'react-navigation/native-stack';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ThumbPicker from './ThumbPicker';
 import NavBar from '../Components/NavBar/NavBar';
@@ -50,7 +50,15 @@ const styles = StyleSheet.create({
   },
 });
 
-function CreateCapsuleScreen({ navigation, route }: NativeStackScreenProps) {
+type RootStackParamList = {
+  Home: undefined;
+  Profile: { userId: string };
+  Feed: { sort: 'latest' | 'top' } | undefined;
+};
+
+type Props = NativeStackScreenProps<RootStackParamList>;
+
+function CreateCapsuleScreen({ navigation, route }: Props) {
   const [cName, setcName] = useState();
   const [cDesc, setcDesc] = useState();
   const [clocation, setcLocation] = useState();
@@ -105,7 +113,7 @@ function CreateCapsuleScreen({ navigation, route }: NativeStackScreenProps) {
         </View>
       </ScrollView>
       <View style={styles.navBar}>
-        <NavBar navigation={navigation} route={route} />
+        <NavBar style={{ flex: 1 }} navigation={navigation} route={route} />
       </View>
     </View>
   );
