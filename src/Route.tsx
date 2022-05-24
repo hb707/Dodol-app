@@ -6,6 +6,7 @@ import Home from './Screens/Home';
 import Profile from './Screens/Profile';
 import CapsuleList from './Screens/CapsuleList';
 import CreateCapsule from './Screens/CreateCapsule';
+import Login from './Screens/Login';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,7 @@ function Route() {
         <Stack.Screen name="List" component={CapsuleList} />
         <Stack.Screen name="CreateCapsule" component={CreateCapsule} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="Login" component={Login} />
       </Stack.Navigator>
     </NavigationContainer>
   );

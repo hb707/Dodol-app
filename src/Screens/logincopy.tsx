@@ -12,24 +12,26 @@
 //     </View>
 //   );
 // }
+
 import { WebView } from 'react-native-webview';
 import { StyleSheet, Button, Image, Pressable, View } from 'react-native';
 import axios from 'axios';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// const REST_API_KEY = '07e2741dea7ed6e8b2ba90e09024f231';
+// const REDIRECT_URI = 'http://43.200.42.181/'
 
 const styles = StyleSheet.create({
   kakaologin: {
     flex: 1,
   },
 });
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-
-// const REST_API_KEY = '07e2741dea7ed6e8b2ba90e09024f231';
-// const REDIRECT_URI = 'http://43.200.42.181/'
 
 const INJECTED_JAVASCRIPT = `(function() {
   console.log('a')
   window.ReactNativeWebView.postMessage(JSON.parse(window.location));
 })();`;
+
 const requestToken = async code => {
   const returnValue = 'none';
   const requestToeknUrl = 'https://kauth.kakao.com/oauth/token';
@@ -51,12 +53,10 @@ const requestToken = async code => {
 
 function HomeScreen() {
   const LoginProcess = target => {
-    console.log('login process');
     const exp = 'code=';
     const condition = target.indexOf(exp);
     if (condition !== -1) {
       const requestCode = target.substring(condition + exp.length);
-      console.log(requestCode);
       requestToken(requestCode);
     }
   };
