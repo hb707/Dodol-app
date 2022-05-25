@@ -1,6 +1,6 @@
 export interface IUser {
   isLogin: boolean;
-  user: {
+  me: {
     u_idx: number | null;
     u_id: string | null;
     u_alias: string | null;
