@@ -84,8 +84,6 @@ function ProfileScreen({ navigation, route }: Props) {
     }
   };
 
-  console.log(userState.me);
-
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <View style={{ flex: 12, justifyContent: 'center' }}>
