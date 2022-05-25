@@ -1,9 +1,9 @@
 import React, { Props } from 'react';
 import qs from 'querystring';
 import { WebView } from 'react-native-webview';
-import { StyleSheet, Button, Image, Pressable, View } from 'react-native';
+import { View } from 'react-native';
 import axios from 'axios';
-// import type { NativeStackScreenProps } from 'react-navigation/native-stack';
+import { storeUser } from '../Storages/storage';
 
 const REST_API_KEY = '07e2741dea7ed6e8b2ba90e09024f231';
 const REDIRECT_URI = 'http://43.200.42.181/api/user/login';
@@ -15,7 +15,8 @@ const INJECTED_JAVASCRIPT = `window.ReactNativeWebView.postMessage('message from
 const requestToken = async (code: string) => {
   const requestToeknUrl = 'https://kauth.kakao.com/oauth/token';
   const requestUserUrl = 'https://kapi.kakao.com/v1/user/access_token_info';
-  let ACCESS_TOKEN;
+  let ACCESS_TOKEN: string;
+  let body: object;
 
   const options = qs.stringify({
     grant_type: 'authorization_code',
@@ -24,24 +25,25 @@ const requestToken = async (code: string) => {
     code,
   });
 
-  const body = {
-    ACCESS_TOKEN,
-    requestUserUrl,
-    headers: {
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
-    },
-  };
-
   try {
     const response = await axios.post(requestToeknUrl, options);
     ACCESS_TOKEN = response.data.access_token;
+
+    body = {
+      ACCESS_TOKEN,
+      requestUserUrl,
+      headers: {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+      },
+    };
   } catch (e) {
-    console.log('에러 발생', e.message);
+    console.log('에러 발생', e);
   }
 
   try {
     const response = await axios.post(REDIRECT_URI, body);
-    console.log(response.data);
+    const value = response.data;
+    storeUser(value);
   } catch (e) {
     console.log(e);
   }
