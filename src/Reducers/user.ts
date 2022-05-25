@@ -1,60 +1,25 @@
-import { IMemory } from '../types';
+import { IUser } from '../types';
+import profileActions, { ProfileActionType } from '../actions/userProfile';
 
-// 1. 액션타입
-export const ADD = 'memory/CREATE' as const;
-export const READ = 'memory/READ' as const;
-
-// 2. 액션함수
-export const create = (payload: string) => ({
-  type: 'memory/CREATE_REQUEST',
-  payload,
-});
-export const read = () => ({ type: 'memory/READ_REQUEST' });
-
-// 3. 액션타입
-type MemoryAction = ReturnType<typeof create> | ReturnType<typeof read>;
-
-// 4. state 초기값
-const initialState: IMemory = {
-  c_idx: 1,
-  memoryList: [
-    {
-      m_idx: 1,
-      m_autor: 'hb',
-      content: 'memory content 111111',
-      img: ['defaultImg'],
-      music: 'link',
-    },
-  ],
+const initialState: IUser = {
+  isLogin: false,
+  me: {
+    u_idx: null,
+    u_id: null,
+    u_alias: null,
+  },
   loading: false,
   error: {
-    msg: '',
+    msg: null,
   },
 };
 
-// 5. 리듀서
-function user(state: IMemory = initialState, action: MemoryAction): IMemory {
+function user(state: IUser = initialState, action: ProfileActionType): IUser {
   switch (action.type) {
-    case ADD:
+    case profileActions.REQUEST:
       return {
         ...state,
         loading: true,
-        error: {
-          msg: null,
-        },
-      };
-    case 'COMMENT/READ_SUCCESS':
-      return {
-        ...state,
-        loading: false,
-      };
-    case 'COMMENT/READ_FAILURE':
-      return {
-        ...state,
-        error: {
-          msg: 'api접속에러같음',
-        },
-        loading: false,
       };
 
     default:
