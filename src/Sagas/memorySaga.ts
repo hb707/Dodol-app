@@ -1,18 +1,19 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
-import axios, { AxiosResponse } from 'axios';
-import { IMemoryCreateResponse, backUrl } from '../types';
-import { CREATE, READ } from '../Reducers/memory';
+import axios, { AxiosPromise } from 'axios';
+import FormData from 'form-data';
+import { backUrl } from '../types';
+import { CREATE } from '../Reducers/memory';
 
 // 🔥 나중에 인터페이스 전부 types 파일에 정리해주기
 export interface IPayload {
   c_idx: number;
   m_content: string;
   m_author: number;
-  memoryImg: string;
+  memoryImg: string[];
 }
 
 interface IFormData extends FormData {
-  memoryImg?: { name: string; type: string; uri: string };
+  memoryImg?: { name: string; type: string; uri: string }[];
   c_idx?: number;
   m_content?: string;
   m_author?: number;
@@ -28,20 +29,20 @@ async function createAPI(payload: IPayload) {
   } = payload;
 
   const formData: IFormData = new FormData();
-  const name = memoryImg.split('/');
-  const fileName = name[name.length - 1];
 
-  formData.append(
-    'memoryImg',
-    JSON.stringify({
+  memoryImg.forEach(v => {
+    const name = v.split('/');
+    const fileName = name[name.length - 1];
+    formData.append('memoryImg', {
       name: fileName,
       type: 'image/jpeg',
-      uri: memoryImg,
-    }),
-  );
-  formData.append('c_idx', '1');
+      uri: v,
+    });
+  });
+
+  formData.append('c_idx', cIdx);
   formData.append('m_content', mContent);
-  formData.append('m_author', '1');
+  formData.append('m_author', mAuthor);
 
   try {
     const response = await axios.post(
@@ -63,17 +64,18 @@ interface IAction {
   type: string;
   payload: IPayload;
 }
+
+interface IRes extends AxiosPromise {
+  data?: null;
+  result: string;
+}
 // middleware함수 : 통신 실행 후 성공/실패 나눠서 리듀서 실행
 function* memoryCREATE(action: IAction) {
   try {
-    console.log('미들웨어 실행', action.payload);
-    const response: AxiosResponse = yield call(createAPI, action.payload);
-    console.log('success : ', response);
+    const response: IRes = yield call(createAPI, action.payload);
     if (response.result === 'success') {
-      // success reducer 실행
       yield put({
         type: 'memory/READ_SUCCESS',
-        payload: response.data,
       });
     } else {
       // failure reducer 실행 : 서버 에러
@@ -82,7 +84,6 @@ function* memoryCREATE(action: IAction) {
   } catch (e) {
     // failure reducer 실행 : axios 에러
     yield put({ type: 'memory/READ_FAILURE' });
-    console.log('fail : ', e);
   }
 }
 

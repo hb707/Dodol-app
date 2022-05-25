@@ -51,8 +51,6 @@ function MainScreen({ navigation }: Props) {
     // 왜 useEffect안에서 함수를 만들고 dependency에는 dispatch 함수를 넣어줘야하는지?????????🤯
     const loadCapsules = async () => {
       const item = await AsyncStorage.getItem(STORAGE_KEY);
-      console.log(item);
-      console.log('homescreen first render');
       // if (item) dispatch({ type: 'capsule/READ', item });
     };
 

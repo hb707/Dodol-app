@@ -20,7 +20,7 @@ function Route() {
         screenOptions={{
           headerShown: true,
           headerBackTitleVisible: false,
-          headerTransparent: true,
+          headerTransparent: false,
           headerTitleAlign: 'center',
           animation: 'none',
           headerShadowVisible: true,

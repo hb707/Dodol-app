@@ -57,6 +57,7 @@
     "@typescript-eslint/no-shadow": [
       "error"
     ],
-    "default-param-last": "off" // 리듀서 작성시 state와 action 인자 작성순서를 반대로 해줘야 에러가 없어지는데 그러면 리듀서가 제대로 동작안함
+    "default-param-last": "off", // 리듀서 작성시 state와 action 인자 작성순서를 반대로 해줘야 에러가 없어지는데 그러면 리듀서가 제대로 동작안함
+    "react/no-array-index-key": "off"
   }
 }

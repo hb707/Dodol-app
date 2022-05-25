@@ -1,40 +1,59 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Button, Image, Pressable } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  Pressable,
+  ScrollView,
+  Dimensions,
+} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Fontisto } from '@expo/vector-icons';
 
+const SCREEN_WIDTH = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    width: '100%',
+    // flex: 1,
+    width: SCREEN_WIDTH,
     alignItems: 'flex-start',
     justifyContent: 'center',
     borderBottomColor: '#aeaeae',
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
     borderTopColor: '#aeaeae',
-    borderTopWidth: 1,
+    borderTopWidth: 0.5,
     paddingLeft: 20,
-  },
-  thumbButtons: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: 220,
+    backgroundColor: 'blue',
   },
   thumbButton: {
-    width: '40%',
+    width: 100,
+    height: 70,
+    margin: 15,
     borderWidth: 2,
     borderRadius: 15,
-    padding: '5%',
+    borderColor: '#aeaeae',
+    padding: '2%',
     alignItems: 'center',
     justifyContent: 'center',
   },
   img: {
     width: 100,
     height: 70,
-    margin: 25,
+    margin: 15,
     borderRadius: 15,
+  },
+  text: {
+    paddingTop: 10,
+    paddingLeft: 20,
+    borderTopColor: '#aeaeae',
+    borderTopWidth: 1,
+  },
+  delBtn: {
+    position: 'absolute',
+    top: 5,
+    left: 100,
+    backgroundColor: '#ffffff',
+    borderRadius: 13,
   },
 });
 
@@ -48,43 +67,78 @@ const imageOptions = {
 function ImgPicker({ onChangeImg }) {
   // const initialValue = './73bf92ba5c10596abbf4449fbba4165c.jpg'
 
-  const [image, setImage] = useState();
+  const [image, setImage] = useState([]);
   const status = ImagePicker.useCameraPermissions();
 
-  const GetPermission = async () => {
-    if (!status.granted) {
-      const permission = await ImagePicker.requestCameraPermissionsAsync();
-    }
-    const img = await ImagePicker.launchCameraAsync({ imageOptions });
+  const pickImage = async () => {
+    const img = await ImagePicker.launchImageLibraryAsync({
+      imageOptions,
+    });
     if (!img.cancelled) {
-      setImage(img.uri);
+      const newArr = [...image];
+      if (newArr.length < 4) newArr.push(img.uri);
+
+      setImage(newArr);
+      onChangeImg(newArr);
     }
   };
 
-  const PickImage = async () => {
-    const img = await ImagePicker.launchImageLibraryAsync({ imageOptions });
-    if (!img.cancelled) {
-      setImage(img.uri);
-      onChangeImg(img.uri);
-    }
+  const deleteImage = async (idx: number) => {
+    const newArr = [...image];
+    newArr.splice(idx, 1);
+    setImage(newArr);
+    onChangeImg(newArr);
   };
   return (
-    <View style={styles.container}>
-      <View style={styles.thumbButtons}>
-        <Pressable onPress={PickImage} style={styles.thumbButton}>
-          <Text>사진</Text>
-          <Fontisto name="photograph" size={24} color="black" />
-        </Pressable>
-        {image && (
-          <View>
-            <Image source={{ uri: image }} style={styles.img} />
-            {/* <Pressable>
+    <>
+      <Text style={styles.text}>이미지 {image.length}/4</Text>
+      <ScrollView
+        horizontal
+        style={{
+          borderBottomColor: '#aeaeae',
+          borderBottomWidth: 1,
+        }}
+      >
+        {image.length < 4 && (
+          <Pressable onPress={pickImage} style={styles.thumbButton}>
+            {/* <Text>사진</Text> */}
+            <Fontisto name="camera" size={24} color="black" />
+          </Pressable>
+        )}
+        {image[0] && (
+          <View style={{ position: 'relative' }}>
+            <Image source={{ uri: image[0] }} style={styles.img} />
+            <Pressable style={styles.delBtn} onPress={() => deleteImage(0)}>
               <Fontisto name="close" size={24} color="black" />
-            </Pressable> */}
+            </Pressable>
           </View>
         )}
-      </View>
-    </View>
+        {image[1] && (
+          <View>
+            <Image source={{ uri: image[1] }} style={styles.img} />
+            <Pressable style={styles.delBtn} onPress={() => deleteImage(1)}>
+              <Fontisto name="close" size={24} color="black" />
+            </Pressable>
+          </View>
+        )}
+        {image[2] && (
+          <View>
+            <Image source={{ uri: image[2] }} style={styles.img} />
+            <Pressable style={styles.delBtn} onPress={() => deleteImage(2)}>
+              <Fontisto name="close" size={24} color="black" />
+            </Pressable>
+          </View>
+        )}
+        {image[3] && (
+          <View>
+            <Image source={{ uri: image[3] }} style={styles.img} />
+            <Pressable style={styles.delBtn} onPress={() => deleteImage(3)}>
+              <Fontisto name="close" size={24} color="black" />
+            </Pressable>
+          </View>
+        )}
+      </ScrollView>
+    </>
   );
 }
 
