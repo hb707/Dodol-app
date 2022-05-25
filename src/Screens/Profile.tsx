@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,11 +7,11 @@ import {
   TextInput,
   Pressable,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import NavBar from '../Components/NavBar/NavBar';
-import AliasChange from '../Components/user/aliasChange';
 import profileActions from '../actions/userProfile';
+import { IState } from '../types';
 
 type RootStackParamList = {
   Home: undefined;
@@ -51,24 +51,40 @@ const styles = StyleSheet.create({
 });
 
 function ProfileScreen({ navigation, route }: Props) {
+  const userState = useSelector((state: IState) => state.user);
   const [firstRender, setFirstRender] = useState(true);
   const [isEditting, setIsEditting] = useState(false);
+  const [value, setValue] = useState('test');
+
+  const input: React.RefObject<TextInput> = useRef(null);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (firstRender) {
-      return;
-    }
+    if (firstRender) return;
 
     if (!isEditting) {
-      dispatch(profileActions.request({ u_idx: 1 }));
+      dispatch(
+        profileActions.request({
+          u_idx: 1,
+          u_alias: value,
+          u_id: null,
+          error: null,
+        }),
+      );
+    } else {
+      input.current?.focus();
     }
-  }, [isEditting, firstRender]);
+  }, [isEditting]);
 
   const changeAlias = () => {
     setIsEditting(!isEditting);
-    setFirstRender(false);
+    if (firstRender) {
+      setFirstRender(false);
+    }
   };
+
+  console.log(userState.me);
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -84,10 +100,18 @@ function ProfileScreen({ navigation, route }: Props) {
             닉네임
           </Text>
           {isEditting ? (
-            <AliasChange alias="test" />
+            <View style={styles.text}>
+              <TextInput
+                ref={input}
+                maxLength={20}
+                onChangeText={text => setValue(text)}
+              >
+                {userState.me.u_alias || 'test'}
+              </TextInput>
+            </View>
           ) : (
             <View style={styles.text}>
-              <Text>Test</Text>
+              <Text>{userState.me.u_alias || 'test'}</Text>
             </View>
           )}
           <Pressable onPress={changeAlias}>

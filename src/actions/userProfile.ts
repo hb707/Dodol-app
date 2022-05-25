@@ -1,10 +1,13 @@
-interface UserIndex {
+export interface UserIndex {
   u_idx: number;
+  u_alias: string | null;
+  u_id: string | null;
+  error: string | null;
 }
 
 export interface ProfileActionType {
   type: string;
-  data: UserIndex;
+  payload: UserIndex;
 }
 
 class ProfileAction {

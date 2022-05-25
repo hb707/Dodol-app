@@ -20,8 +20,26 @@ function user(state: IUser = initialState, action: ProfileActionType): IUser {
       return {
         ...state,
         loading: true,
+        error: {
+          msg: null,
+        },
       };
 
+    case profileActions.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        me: action.payload,
+      };
+
+    case profileActions.FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: {
+          msg: action.payload.error,
+        },
+      };
     default:
       return state;
   }
