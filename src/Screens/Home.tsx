@@ -1,22 +1,16 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import type { NativeStackScreenProps } from 'react-navigation/native-stack';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import NavBar from '../Components/NavBar/NavBar';
+import Main from './Main';
 
 function HomeScreen({ navigation, route }: NativeStackScreenProps) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <View style={{ flex: 12, justifyContent: 'center' }}>
-        <Text> Hi </Text>
-      </View>
-      <NavBar style={{ flex: 1 }} navigation={navigation} route={route} />
-    </View>
-  );
+  return <Main navigation={navigation} route={route} />;
 }
 
 // import React from 'react';
-// import { WebView } from 'react-native-webview';
-// import { StyleSheet, Button, Image, Pressable, View } from 'react-native';
+// import {WebView} from 'react-native-webview';
+// import {StyleSheet, Button, Image, Pressable, View} from 'react-native';
 // import axios from 'axios';
 
 // const styles = StyleSheet.create({

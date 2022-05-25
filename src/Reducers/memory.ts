@@ -1,11 +1,12 @@
 import { IMemory } from '../types';
+import { IPayload } from '../Sagas/memorySaga';
 
 // 1. 액션
 export const CREATE = 'memory/CREATE_REQUEST' as const;
 export const READ = 'memory/READ_REQUEST' as const;
 
 // 2. 액션함수
-export const create = (payload: string) => ({
+export const create = (payload: IPayload) => ({
   type: 'memory/CREATE_REQUEST',
   payload,
 });

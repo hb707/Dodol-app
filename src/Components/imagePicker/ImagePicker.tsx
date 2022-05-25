@@ -6,9 +6,14 @@ import { Fontisto } from '@expo/vector-icons';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    width: '100%',
+    alignItems: 'flex-start',
     justifyContent: 'center',
-    margin: 30,
+    borderBottomColor: '#aeaeae',
+    borderBottomWidth: 1,
+    borderTopColor: '#aeaeae',
+    borderTopWidth: 1,
+    paddingLeft: 20,
   },
   thumbButtons: {
     flex: 1,
@@ -26,10 +31,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   img: {
-    width: 300,
-    height: 250,
+    width: 100,
+    height: 70,
     margin: 25,
-    marginTop: 50,
+    borderRadius: 15,
   },
 });
 
@@ -40,7 +45,7 @@ const imageOptions = {
   quality: 1,
 };
 
-function ThumbPicker() {
+function ImgPicker({ onChangeImg }) {
   // const initialValue = './73bf92ba5c10596abbf4449fbba4165c.jpg'
 
   const [image, setImage] = useState();
@@ -60,23 +65,27 @@ function ThumbPicker() {
     const img = await ImagePicker.launchImageLibraryAsync({ imageOptions });
     if (!img.cancelled) {
       setImage(img.uri);
+      onChangeImg(img.uri);
     }
   };
   return (
     <View style={styles.container}>
       <View style={styles.thumbButtons}>
         <Pressable onPress={PickImage} style={styles.thumbButton}>
-          <Text>사진업로드</Text>
+          <Text>사진</Text>
           <Fontisto name="photograph" size={24} color="black" />
         </Pressable>
-        <Pressable onPress={GetPermission} style={styles.thumbButton}>
-          <Text>카메라</Text>
-          <Fontisto name="camera" size={24} color="black" />
-        </Pressable>
+        {image && (
+          <View>
+            <Image source={{ uri: image }} style={styles.img} />
+            {/* <Pressable>
+              <Fontisto name="close" size={24} color="black" />
+            </Pressable> */}
+          </View>
+        )}
       </View>
-      {image && <Image source={{ uri: image }} style={styles.img} />}
     </View>
   );
 }
 
-export default ThumbPicker;
+export default ImgPicker;

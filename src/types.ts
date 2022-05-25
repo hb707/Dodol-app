@@ -45,10 +45,15 @@ export interface IMemory {
   };
 }
 
+export interface IMemoryCreateResponse {
+  result: string;
+  data: null;
+}
+
 export interface IState {
   user: IUser;
   capsule: ICapsule;
   memory: IMemory;
 }
 
-export const backUrl = 'http://localhost:4000';
+export const backUrl = ' http://43.200.42.181';

@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -5,22 +6,26 @@ import {
   StyleSheet,
   Dimensions,
   Button,
-  Pressable,
+  ScrollView,
+  Image,
 } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useState } from 'react';
-import { Ionicons } from '@expo/vector-icons';
-import * as ImagePicker from 'expo-image-picker';
+import { useDispatch } from 'react-redux';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import ImgPicker from '../Components/imagePicker/ImagePicker';
+import { create } from '../Reducers/memory';
+import { IPayload } from '../Sagas/memorySaga';
 
 type RootStackParamList = {
   Home: undefined;
   Profile: { userId: string };
   Feed: { sort: 'latest' | 'top' } | undefined;
+  MemoryList: { cIdx: 1 };
 };
 
 type Props = NativeStackScreenProps<RootStackParamList>;
 
-const { width: SCREEN_WIDTH, height } = Dimensions.get('window');
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     width: 0.9 * SCREEN_WIDTH,
@@ -40,51 +45,70 @@ const styles = StyleSheet.create({
     borderBottomColor: '#aeaeae',
     borderBottomWidth: 1,
   },
+  contentContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 function CreateMemoryScreen({ navigation, route }: Props) {
-  const [text, setText] = useState('');
-  const [image, setImage] = useState(null);
+  const [content, setContent] = useState('');
+  const [image, setImage] = useState('');
 
-  const pickImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    console.log(result);
-    if (!result.cancelled) {
-      setImage(result.uri);
-    }
+  const dispatch = useDispatch();
+
+  const onChangeContent = (payload: string) => setContent(payload);
+  const onChangeImg = (payload: string) => setImage(payload);
+
+  // axios 통신 확인용
+  const handleSubmit = async () => {
+    const payload: IPayload = {
+      c_idx: 1,
+      m_content: content,
+      m_author: 1,
+      memoryImg: image,
+    };
+    dispatch(create(payload));
+    navigation.navigate('MemoryList', { cIdx: 1 });
   };
-  const onChangeText = (payload: string) => setText(payload);
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <View style={{ flex: 12, justifyContent: 'center' }}>
-        <View style={{ flex: 3, justifyContent: 'center' }}>
-          <Text>사진</Text>
-          <Pressable style={styles.cameraBtn}>
-            <Ionicons name="camera" size={24} color="black" />
-          </Pressable>
+    <KeyboardAwareScrollView contentContainerstyle={styles.contentContainer}>
+      <View
+        style={{ flex: 12, height: SCREEN_HEIGHT, justifyContent: 'center' }}
+      >
+        <View style={{ flex: 1, justifyContent: 'center' }} />
+        <ScrollView
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          style={{ height: 250 }}
+        >
+          <View style={{ width: SCREEN_WIDTH }}>
+            <Image source={{ uri: image }} style={styles.img} />
+          </View>
+          <View style={{ width: SCREEN_WIDTH }}>
+            <Text>2</Text>
+          </View>
+          <View style={{ width: SCREEN_WIDTH }}>
+            <Text>3</Text>
+          </View>
+        </ScrollView>
+        <View style={{ flex: 2 }}>
+          <ImgPicker onChangeImg={onChangeImg} />
         </View>
         <TextInput
-          value={text}
-          onChangeText={onChangeText}
-          style={{ ...styles.input, flex: 1 }}
-          placeholder="제목"
-        />
-        <TextInput
-          value={text}
-          onChangeText={onChangeText}
-          style={{ ...styles.input, flex: 8 }}
+          value={content}
+          onChangeText={onChangeContent}
+          style={{ ...styles.input, flex: 5 }}
           placeholder="타임캡슐에 남기고 싶은 내용을 작성해주세요."
           textAlignVertical="top"
           textAlign="left"
+          multiline
         />
+        <Button title="제출" onPress={handleSubmit} />
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 }
 
