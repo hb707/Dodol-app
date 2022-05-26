@@ -4,9 +4,7 @@ import { WebView } from 'react-native-webview';
 import { View } from 'react-native';
 import axios from 'axios';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useDispatch } from 'react-redux';
-import { storeUser, getUser } from '../Storages/storage';
-import { create_S } from '../Reducers/USERS';
+import { storeUser } from '../Storages/storage';
 
 type RootStackParamList = {
   Home: undefined;
@@ -54,25 +52,18 @@ const requestToken = async (code: string, navigation: Props) => {
   try {
     const response = await axios.post(REDIRECT_URI, body);
     const value = response.data;
-    storeUser(value, navigation);
-    // const dispatch = useDispatch();
-    // const user:any = getUser()
-    // dispatch(create_S(user));
-    navigation.navigate('Home');
+    await storeUser(value, navigation);
   } catch (e) {
     console.log(e);
   }
 };
 
 function LoginScreen({ navigation }: Props) {
-  // const dispatch = useDispatch();
   const getCode = (target: string) => {
     const exp = 'code=';
     const condition = target.indexOf(exp);
     if (condition !== -1) {
       const requestCode = target.substring(condition + exp.length);
-      // const dispatch = useDispatch()  //
-      // console.log(dispatch)
       requestToken(requestCode, navigation);
     }
   };

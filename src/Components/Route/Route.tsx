@@ -1,6 +1,8 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useSelector } from 'react-redux';
+import { IState } from '../../types';
 
 // Screens
 import Home from '../../Screens/Home';
@@ -10,10 +12,12 @@ import CreateCapsule from '../../Screens/CreateCapsule';
 import MemoryList from '../../Screens/MemoryList';
 import CreateMemory from '../../Screens/CreateMemory';
 import Login from '../../Screens/Login';
+import Main from '../../Screens/Main';
 
 const Stack = createNativeStackNavigator();
 
 function Route() {
+  const isLogin = useSelector((state: IState) => state.user.isLogin);
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -26,13 +30,21 @@ function Route() {
           headerShadowVisible: true,
         }}
       >
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="List" component={CapsuleList} />
-        <Stack.Screen name="CreateCapsule" component={CreateCapsule} />
-        <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="MemoryList" component={MemoryList} />
-        <Stack.Screen name="CreateMemory" component={CreateMemory} />
+        {isLogin === false ? (
+          <>
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Login" component={Login} />
+          </>
+        ) : (
+          <>
+            <Stack.Screen name="Main" component={Main} />
+            <Stack.Screen name="List" component={CapsuleList} />
+            <Stack.Screen name="CreateCapsule" component={CreateCapsule} />
+            <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen name="MemoryList" component={MemoryList} />
+            <Stack.Screen name="CreateMemory" component={CreateMemory} />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

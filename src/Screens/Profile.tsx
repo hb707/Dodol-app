@@ -9,7 +9,8 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { delete_S } from '../Reducers/USERS';
+import { createGlobalStyle } from 'styled-components';
+import { delete_S } from '../Reducers/user';
 import NavBar from '../Components/NavBar/NavBar';
 import profileActions from '../actions/userProfile';
 import { IState } from '../types';
@@ -61,7 +62,6 @@ function ProfileScreen({ navigation, route }: Props) {
   const input: React.RefObject<TextInput> = useRef(null);
 
   const dispatch = useDispatch();
-
   useEffect(() => {
     if (firstRender) return;
 
@@ -106,12 +106,12 @@ function ProfileScreen({ navigation, route }: Props) {
                 maxLength={20}
                 onChangeText={text => setValue(text)}
               >
-                {userState.me.u_alias || 'test'}
+                {userState.me.u_alias}
               </TextInput>
             </View>
           ) : (
             <View style={styles.text}>
-              <Text>{userState.me.u_alias || 'test'}</Text>
+              <Text>{userState.me.u_alias}</Text>
             </View>
           )}
           <Pressable onPress={changeAlias}>
@@ -187,8 +187,7 @@ function ProfileScreen({ navigation, route }: Props) {
           onPress={async () => {
             await removeUser();
             const user: any = getUser();
-            await dispatch(delete_S(user));
-            await navigation.navigate('Home');
+            dispatch(delete_S(user));
           }}
         >
           <View
