@@ -6,6 +6,7 @@ import {
   Dimensions,
   TextInput,
   Pressable,
+  Alert,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -15,6 +16,7 @@ import NavBar from '../Components/NavBar/NavBar';
 import profileActions from '../actions/userProfile';
 import { IState } from '../types';
 import { getUser, removeUser } from '../Storages/storage';
+import quitAction from '../actions/userQuit';
 
 type RootStackParamList = {
   Home: undefined;
@@ -84,6 +86,24 @@ function ProfileScreen({ navigation, route }: Props) {
     if (firstRender) {
       setFirstRender(false);
     }
+  };
+
+  const quitUser = () => {
+    const { u_idx } = userState.me;
+    dispatch(quitAction.request({ u_idx }));
+  };
+
+  const quitAlert = () => {
+    Alert.alert(
+      '회원탈퇴',
+      `탈퇴 시 모든 데이터가 삭제되며, 
+      복구가 불가능합니다. 
+      탈퇴하시겠습니까?`,
+      [
+        { text: '취소', style: 'cancel' },
+        { text: '탈퇴', style: 'destructive', onPress: quitUser },
+      ],
+    );
   };
 
   return (
@@ -159,30 +179,6 @@ function ProfileScreen({ navigation, route }: Props) {
           </View>
         </View>
 
-        <Pressable>
-          <View
-            style={{
-              ...styles.button,
-              width: 0.9 * SCREEN_WIDTH,
-              backgroundColor: '#e4c86c',
-              borderWidth: 0,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginLeft: 0,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: '600',
-                letterSpacing: 5,
-                color: '#fff',
-              }}
-            >
-              회원탈퇴
-            </Text>
-          </View>
-        </Pressable>
         <Pressable
           onPress={async () => {
             await removeUser();
@@ -199,6 +195,7 @@ function ProfileScreen({ navigation, route }: Props) {
               justifyContent: 'center',
               alignItems: 'center',
               marginLeft: 0,
+              marginBottom: 15,
             }}
           >
             <Text
@@ -211,6 +208,32 @@ function ProfileScreen({ navigation, route }: Props) {
             >
               {' '}
               로그아웃
+            </Text>
+          </View>
+        </Pressable>
+
+        <Pressable onPress={quitAlert}>
+          <View
+            style={{
+              ...styles.button,
+              width: 0.9 * SCREEN_WIDTH,
+              backgroundColor: '#815854',
+              borderWidth: 0,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginLeft: 0,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: '600',
+                letterSpacing: 5,
+                color: '#fff',
+              }}
+            >
+              {' '}
+              회원탈퇴
             </Text>
           </View>
         </Pressable>

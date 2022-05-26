@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { UserIndex } from '../actions/userProfile';
+import { QuitAttribute } from '../actions/userQuit';
 
 axios.defaults.baseURL = 'http://43.200.42.181/api';
 
@@ -11,6 +12,10 @@ export const updateAPI = (payload: UserIndex) => {
   }
 };
 
-export const quitAPI = () => {
-  console.log('first');
+export const quitAPI = (payload: QuitAttribute) => {
+  try {
+    return axios.post('/user/quit', payload);
+  } catch (e) {
+    return e;
+  }
 };
