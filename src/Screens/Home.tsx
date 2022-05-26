@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
-  Text,
   View,
   Pressable,
   StyleSheet,
@@ -11,7 +10,7 @@ import type { NativeStackScreenProps } from 'react-navigation/native-stack';
 import { useDispatch, useSelector } from 'react-redux';
 import NavBar from '../Components/NavBar/NavBar';
 import { getUser } from '../Storages/storage';
-import { READ_R, read_S } from '../Reducers/USERS';
+import { read_S } from '../Reducers/USERS';
 import { IState } from '../types';
 import backImage from '../../assets/Home/jar1.jpg';
 import kakaoLogin from '../../assets/Home/kakao_login_medium_narrow.png';
@@ -45,13 +44,30 @@ type Props = NativeStackScreenProps<RootStackParamList>;
 
 function HomeScreen({ navigation, route }: Props) {
   const dispatch = useDispatch();
-  const user: any = getUser();
-  setTimeout(() => {
-    dispatch(read_S(user._W));
-  }, 1000);
+  let user: any;
 
-  const userInfo = useSelector((state: IState) => state.user);
-  console.log(userInfo);
+  const manageUser = async () => {
+    // dispatch = await useDispatch();
+    user = await getUser();
+    if (user !== null) {
+      dispatch(read_S(user));
+      await navigation.navigate('Home');
+    }
+  };
+
+  const isLogin = useSelector((state: IState) => state.user.isLogin);
+  console.log('로그인 여부 :', isLogin);
+  if (!isLogin) {
+    manageUser();
+  }
+
+  // useEffect(() => {
+  //   if (!isLogin) {
+  //     manageUser();
+  //   } else {
+  //     console.log('1')
+  //   }
+  // }, [isLogin])
 
   const requestLogin = () => {
     navigation.navigate('Login');
@@ -60,7 +76,7 @@ function HomeScreen({ navigation, route }: Props) {
   return (
     <>
       <ImageBackground style={styles.background} source={backImage}>
-        {userInfo ? (
+        {isLogin ? (
           <View style={styles.loggedIn} />
         ) : (
           <Pressable onPress={requestLogin}>

@@ -11,19 +11,7 @@ export interface IUser {
   };
 }
 
-export interface ReadS {
-  u_idx: number;
-  u_id: string;
-  u_alias: string;
-}
-
-export interface ReadR {
-  u_idx: number;
-  u_id: string;
-  u_alias: string;
-}
-
-export interface ReadF {
+export interface Iuser {
   u_idx: number;
   u_id: string;
   u_alias: string;

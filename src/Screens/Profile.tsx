@@ -9,9 +9,11 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { delete_S } from '../Reducers/USERS';
 import NavBar from '../Components/NavBar/NavBar';
 import profileActions from '../actions/userProfile';
 import { IState } from '../types';
+import { getUser, removeUser } from '../Storages/storage';
 
 type RootStackParamList = {
   Home: undefined;
@@ -178,6 +180,38 @@ function ProfileScreen({ navigation, route }: Props) {
               }}
             >
               회원탈퇴
+            </Text>
+          </View>
+        </Pressable>
+        <Pressable
+          onPress={async () => {
+            await removeUser();
+            const user: any = getUser();
+            await dispatch(delete_S(user));
+            await navigation.navigate('Home');
+          }}
+        >
+          <View
+            style={{
+              ...styles.button,
+              width: 0.9 * SCREEN_WIDTH,
+              backgroundColor: '#e4c86c',
+              borderWidth: 0,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginLeft: 0,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: '600',
+                letterSpacing: 5,
+                color: '#fff',
+              }}
+            >
+              {' '}
+              로그아웃
             </Text>
           </View>
         </Pressable>
