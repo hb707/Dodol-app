@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-import { View, Dimensions, Button } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import { useDispatch } from 'react-redux';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
 import NavBar from '../Components/NavBar/NavBar';
 import Carousel from '../Components/carousel/Carousel';
-import { backUrl } from '../types';
 
 // Async Storage
 const STORAGE_KEY = '@capsule_item';
@@ -57,20 +55,6 @@ function MainScreen({ navigation }: Props) {
     loadCapsules();
   }, [dispatch]);
 
-  // axios 통신 확인용
-  const onPress = async () => {
-    try {
-      const response = await axios.post(`${backUrl}/api/memory/create`, {
-        c_idx: 1,
-        m_content: 'gg',
-        m_author: 1,
-      });
-      console.log('success : ', response.data);
-    } catch (e) {
-      console.log('fail : ', e);
-    }
-  };
-
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <View style={{ flex: 12, justifyContent: 'center' }}>
@@ -82,7 +66,6 @@ function MainScreen({ navigation }: Props) {
           pageWidth={screenWidth - (16 + 36) * 2}
         />
       </View>
-      <Button title="axios" onPress={onPress} />
       <NavBar style={{ flex: 1 }} navigation={navigation} />
     </View>
   );

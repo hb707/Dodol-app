@@ -2,6 +2,7 @@ import { StyleSheet, View, Pressable } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React from 'react';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,7 +37,17 @@ const styles = StyleSheet.create({
   },
 });
 
-function NavBar({ navigation }) {
+type RootStackParamList = {
+  Home: undefined;
+  Feed: { sort: 'latest' | 'top' } | undefined;
+  List: undefined;
+  CreateCapsule: undefined;
+  Profile: undefined;
+};
+
+type Props = NativeStackScreenProps<RootStackParamList>;
+
+function NavBar({ navigation }: Props) {
   return (
     <View style={styles.container}>
       <Pressable

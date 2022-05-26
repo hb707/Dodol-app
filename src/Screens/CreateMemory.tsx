@@ -11,7 +11,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useDispatch } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ImgPicker from '../Components/imagePicker/ImagePicker';
-import { create } from '../Reducers/memory';
+import { mCreate } from '../Reducers/memory';
 import { IPayload } from '../Sagas/memorySaga';
 import Preview from '../Components/imagePicker/Preview';
 
@@ -72,7 +72,7 @@ function CreateMemoryScreen({ navigation }: Props) {
       m_author: 1,
       memoryImg: image,
     };
-    dispatch(create(payload));
+    dispatch(mCreate(payload));
     navigation.navigate('MemoryList', { cIdx: 1 });
   };
 

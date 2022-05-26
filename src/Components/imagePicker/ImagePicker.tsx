@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -11,6 +11,7 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import { Fontisto } from '@expo/vector-icons';
 
+type OnChangeImg = (payload: string[]) => void;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   container: {
@@ -57,23 +58,26 @@ const styles = StyleSheet.create({
   },
 });
 
-const imageOptions = {
+interface ImageOptions {
+  mediaTypes: ImagePicker.MediaTypeOptions;
+  allowsEditing: boolean;
+  aspect: [number, number];
+  quality: number;
+}
+
+const imageOptions: ImageOptions = {
   mediaTypes: ImagePicker.MediaTypeOptions.Images,
   allowsEditing: true,
   aspect: [4, 3],
   quality: 1,
 };
 
-function ImgPicker({ onChangeImg }) {
-  // const initialValue = './73bf92ba5c10596abbf4449fbba4165c.jpg'
-
-  const [image, setImage] = useState([]);
-  const status = ImagePicker.useCameraPermissions();
+function ImgPicker({ onChangeImg }: { onChangeImg: OnChangeImg }) {
+  type IImageState = string[];
+  const [image, setImage] = useState<IImageState>([]);
 
   const pickImage = async () => {
-    const img = await ImagePicker.launchImageLibraryAsync({
-      imageOptions,
-    });
+    const img = await ImagePicker.launchImageLibraryAsync(imageOptions);
     if (!img.cancelled) {
       const newArr = [...image];
       if (newArr.length < 4) newArr.push(img.uri);
