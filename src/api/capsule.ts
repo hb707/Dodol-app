@@ -1,6 +1,6 @@
 import FormData from 'form-data';
 import axios from 'axios';
-import { backUrl, IState, IUser } from '../types';
+import { backUrl, IState } from '../types';
 
 export interface IPayload {
   c_generator: object;
@@ -37,10 +37,9 @@ export const createAPI = async (payload: IPayload) => {
     c_openAt: cOpenAt,
     c_collaborator: cCollaborator,
   } = payload;
+  console.log('name', cName, c_title);
 
-  const dummy = Date.now();
-  console.log(dummy);
-
+  const dummy = '2023-02-02';
   const formData: IFormData = new FormData();
 
   // formData.append('c_thumb', {
@@ -62,10 +61,9 @@ export const createAPI = async (payload: IPayload) => {
         'content-type': 'multipart/form-data',
       },
     });
-    console.log('백에서 응답받음', response.data);
     if (response.data.result === 'fail') throw new Error('에러');
   } catch (error) {
-    console.log('위치 확인', error);
+    console.log(response.data.error);
   }
   return response.data;
 };

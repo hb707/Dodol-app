@@ -28,6 +28,7 @@ async function createAPI(payload: IPayload) {
     memoryImg,
   } = payload;
 
+  console.log(c_idx);
   const formData: IFormData = new FormData();
 
   memoryImg.forEach(v => {
