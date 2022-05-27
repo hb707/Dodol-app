@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import user from './USERS';
+import user from './user';
 import capsule from './capsule';
 import memory from './memory';
 
