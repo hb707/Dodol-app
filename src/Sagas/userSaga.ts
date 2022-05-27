@@ -1,7 +1,6 @@
-import { put, takeLatest, takeLatest, call, put } from 'redux-saga/effects';
+import { put, takeLatest, call } from 'redux-saga/effects';
 import { AxiosResponse } from 'axios';
-import { getUser, getUser, removeUser } from '../Storages/storage';
-import { READ_R, READ_S, READ_F } from '../Reducers/USERS';
+import { getUser, removeUser } from '../Storages/storage';
 import { READ_R, READ_S, READ_F } from '../Reducers/user';
 import profileActions, { ProfileActionType } from '../actions/userProfile';
 import { updateAPI, quitAPI } from '../api/userProfile';
