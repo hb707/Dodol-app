@@ -55,11 +55,34 @@ function memory(
   state: IMemoryState = initialState,
   action: MemoryAction,
 ): IMemoryState {
+  const newData = [...state.data];
   switch (action.type) {
     case mCREATE:
       return {
         ...state,
         loading: true,
+      };
+
+    // memory create
+    case 'memory/CREATE_REQUEST':
+      return {
+        ...state,
+        loading: true,
+        error: false,
+      };
+
+    case 'memory/CREATE_SUCCESS':
+      newData.push(action.payload);
+      return {
+        ...state,
+        data: newData,
+        loading: false,
+      };
+    case 'memory/CREATE_FAILURE':
+      return {
+        ...state,
+        error: true,
+        loading: false,
       };
 
     // memory read

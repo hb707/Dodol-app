@@ -89,6 +89,7 @@ function* memoryCREATE(action: IAction) {
     if (response.result === 'success') {
       yield put({
         type: 'memory/CREATE_SUCCESS',
+        payload: response.data,
       });
     } else {
       // failure reducer 실행 : 서버 에러
