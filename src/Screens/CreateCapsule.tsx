@@ -6,18 +6,22 @@ import {
   TextInput,
   View,
   Pressable,
+  Button,
 } from 'react-native';
 // import Location from '../Location/Location';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useDispatch, useSelector } from 'react-redux';
 import ThumbPicker from './ThumbPicker';
 import NavBar from '../Components/NavBar/NavBar';
+import { create_R } from '../Reducers/capsule';
+import { getUser } from '../Storages/storage';
+import { IState } from '../types';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    paddingTop: '35%',
   },
   horizontalContainer: {
     flex: 1,
@@ -33,18 +37,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    width: '80%',
+    width: '70%',
     borderBottomWidth: 1,
     borderColor: 'black',
     fontSize: 20,
     margin: '5%',
   },
+  submit: {
+    backgroundColor: 'red',
+    width: 100,
+    height: 100,
+  },
   navBar: {
     flex: 0.1,
-  },
-  test: {
-    flex: 1,
-    fontSize: 200,
   },
 });
 
@@ -59,7 +64,25 @@ type Props = NativeStackScreenProps<RootStackParamList>;
 function CreateCapsuleScreen({ navigation, route }: Props) {
   const [cName, setcName] = useState();
   const [cDesc, setcDesc] = useState();
-  const [clocation, setcLocation] = useState();
+  const [cLocation, setcLocation] = useState();
+  const [cCollaborator, setcCollaborator] = useState();
+  const [cOpenAt, setOpenAt] = useState();
+
+  let capsule;
+  const dispatch = useDispatch();
+
+  const SubmitHandler = async () => {
+    const cGenerator: object = await getUser();
+    capsule = {
+      cGenerator,
+      cName,
+      cDesc,
+      cLocation,
+      cCollaborator,
+      cOpenAt,
+    };
+    dispatch(create_R(capsule));
+  };
 
   return (
     <View style={styles.container}>
@@ -96,18 +119,37 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
           <Pressable style={styles.inputBox}>
             <TextInput
               style={styles.input}
-              onChangeText={setcDesc}
-              value={cDesc}
+              onChangeText={setcLocation}
+              value={cLocation}
               placeholder="위치"
             />
             <MaterialCommunityIcons name="draw" size={24} color="black" />
           </Pressable>
-        </View>
-        <View style={styles.page}>
-          <Text style={styles.test}>hey</Text>
-        </View>
-        <View style={styles.page}>
-          <Text>hey</Text>
+          <Pressable style={styles.inputBox}>
+            <TextInput
+              style={styles.input}
+              onChangeText={setcCollaborator}
+              value={cCollaborator}
+              placeholder="파트너"
+            />
+            <MaterialCommunityIcons name="draw" size={24} color="black" />
+          </Pressable>
+          <Pressable style={styles.inputBox}>
+            <TextInput
+              style={styles.input}
+              onChangeText={setOpenAt}
+              value={cOpenAt}
+              placeholder="오픈날짜"
+            />
+            <MaterialCommunityIcons name="draw" size={24} color="black" />
+          </Pressable>
+          <View>
+            <Button
+              title="제출"
+              style={styles.submit}
+              onPress={SubmitHandler}
+            />
+          </View>
         </View>
       </ScrollView>
       <View style={styles.navBar}>

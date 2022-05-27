@@ -18,12 +18,12 @@ export interface Iuser {
 }
 
 export interface ICapsule {
-  tc: {
+  capsule: {
     c_idx: number;
     c_generator: string;
     c_title: string;
     c_content: string;
-    c_thunb: string;
+    c_thumb: string;
     c_createdAt: Date;
     c_openAt: Date;
     c_location: string;
@@ -32,6 +32,7 @@ export interface ICapsule {
   loading: boolean;
   error: {
     msg: string | null;
+    status: boolean;
   };
 }
 
