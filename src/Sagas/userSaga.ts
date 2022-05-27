@@ -4,10 +4,11 @@ import { getUser } from '../Storages/storage';
 import { READ_R, READ_S, READ_F } from '../Reducers/USERS';
 import { AxiosResponse } from 'axios';
 import { takeLatest, call, put } from 'redux-saga/effects';
-import { getUser } from '../Storages/storage';
+import { getUser, removeUser } from '../Storages/storage';
 import { READ_R, READ_S, READ_F } from '../Reducers/user';
 import profileActions, { ProfileActionType } from '../actions/userProfile';
-import { updateAPI } from '../api/userProfile';
+import { updateAPI, quitAPI } from '../api/userProfile';
+import quitAction, { QuitActionType } from '../actions/userQuit';
 
 const user = getUser();
 
@@ -36,9 +37,25 @@ function* aliasUPDATE(action: ProfileActionType) {
   }
 }
 
+function* userQUIT(action: QuitActionType) {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const response: AxiosResponse<any> = yield call(quitAPI, action.payload);
+    if (response.data.result === 'success') {
+      yield removeUser();
+      yield put(quitAction.success(response.data.data));
+    } else {
+      yield put(quitAction.failure(response.data.error));
+    }
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 function* watchUser() {
   yield takeLatest(READ_R, userREAD);
   yield takeLatest(profileActions.REQUEST, aliasUPDATE);
+  yield takeLatest(quitAction.REQUEST, userQUIT);
 }
 
 export default watchUser;

@@ -1,4 +1,5 @@
 import { IUser, Iuser } from '../types';
+import quitAction from '../actions/userQuit';
 
 export const CREATE_S = 'USER/CREATE_SUCCESS' as const;
 export const READ_R = 'USER/READ_REQUEST' as const;
@@ -58,6 +59,7 @@ function user(state: IUser = initialState, action: UserAction): IUser {
         ...state,
         loading: true,
       };
+
     case READ_S:
       return {
         ...state,
@@ -69,6 +71,7 @@ function user(state: IUser = initialState, action: UserAction): IUser {
         },
         loading: false,
       };
+
     case READ_F:
       return {
         ...state,
@@ -77,8 +80,37 @@ function user(state: IUser = initialState, action: UserAction): IUser {
           msg: '로그인 정보 없음',
         },
       };
+
     case DELETE_S:
       return initialState;
+
+    case quitAction.REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case quitAction.SUCCESS:
+      return {
+        ...state,
+        isLogin: false,
+        loading: false,
+        me: {
+          u_idx: null,
+          u_id: null,
+          u_alias: null,
+        },
+      };
+
+    case quitAction.FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: {
+          msg: '탈퇴 실패',
+        },
+      };
+
     default:
       return {
         ...state,
