@@ -1,3 +1,7 @@
+
+import { put, takeLatest } from 'redux-saga/effects';
+import { getUser } from '../Storages/storage';
+import { READ_R, READ_S, READ_F } from '../Reducers/USERS';
 import { AxiosResponse } from 'axios';
 import { takeLatest, call, put } from 'redux-saga/effects';
 import { getUser } from '../Storages/storage';
@@ -16,6 +20,7 @@ function* userREAD() {
     yield put({ type: READ_F });
   }
 }
+
 
 function* aliasUPDATE(action: ProfileActionType) {
   try {

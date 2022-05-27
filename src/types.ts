@@ -11,6 +11,7 @@ export interface IUser {
   };
 }
 
+
 export interface Iuser {
   u_idx: number;
   u_id: string;

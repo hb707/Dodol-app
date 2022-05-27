@@ -8,6 +8,7 @@ import logo from '../../assets/Home/dodol.png';
 import backImage from '../../assets/Home/jar.png';
 import loginBtn from '../../assets/Home/kakao_login_medium_wide.png';
 
+
 const styles = StyleSheet.create({
   background: {
     flex: 1,
