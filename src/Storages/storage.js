@@ -1,14 +1,17 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { create_S } from '../Reducers/user';
 
-export const storeUser = async value => {
+export const storeUser = async (value, navigation) => {
   if (value.result === 'success') {
     try {
       const storeData = await AsyncStorage.setItem(
         'user',
         JSON.stringify(value.data),
       );
+      console.log('스토리이에 유저 정보 저장 성공');
+      navigation.navigate('Home', { isLogin: true });
     } catch (e) {
-      console.log(e);
+      console.log(e, '스토어 에러');
     }
   } else {
     console.log('카카오 로그인 정보 가져오기 실패');
@@ -25,21 +28,11 @@ export const getUser = async () => {
   return JSON.parse(user);
 };
 
-export const removeUser = async () => {
+export const removeUser = async navigation => {
   try {
     await AsyncStorage.removeItem('user');
-    console.log('done');
-    getUser();
+    console.log('removed');
   } catch (e) {
     console.log(e.message);
   }
 };
-
-// switch (storageKey) {
-//   case 'user':
-//     const value = JSON.stringify(value.data)
-//     break;
-
-//   default:
-//     break;
-// }

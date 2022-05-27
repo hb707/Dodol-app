@@ -4,8 +4,9 @@ import { getUser } from '../Storages/storage';
 import { READ_R, READ_S, READ_F } from '../Reducers/USERS';
 import { AxiosResponse } from 'axios';
 import { takeLatest, call, put } from 'redux-saga/effects';
+import { getUser } from '../Storages/storage';
+import { READ_R, READ_S, READ_F } from '../Reducers/user';
 import profileActions, { ProfileActionType } from '../actions/userProfile';
-import { IUser } from '../types';
 import { updateAPI } from '../api/userProfile';
 
 const user = getUser();
@@ -17,7 +18,8 @@ function* userREAD() {
   } catch (e) {
     console.log(e);
     yield put({ type: READ_F });
-
+  }
+}
 
 
 function* aliasUPDATE(action: ProfileActionType) {

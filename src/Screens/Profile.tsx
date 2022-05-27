@@ -9,9 +9,12 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { createGlobalStyle } from 'styled-components';
+import { delete_S } from '../Reducers/user';
 import NavBar from '../Components/NavBar/NavBar';
 import profileActions from '../actions/userProfile';
 import { IState } from '../types';
+import { getUser, removeUser } from '../Storages/storage';
 
 type RootStackParamList = {
   Home: undefined;
@@ -59,7 +62,6 @@ function ProfileScreen({ navigation, route }: Props) {
   const input: React.RefObject<TextInput> = useRef(null);
 
   const dispatch = useDispatch();
-
   useEffect(() => {
     if (firstRender) return;
 
@@ -104,12 +106,12 @@ function ProfileScreen({ navigation, route }: Props) {
                 maxLength={20}
                 onChangeText={text => setValue(text)}
               >
-                {userState.me.u_alias || 'test'}
+                {userState.me.u_alias}
               </TextInput>
             </View>
           ) : (
             <View style={styles.text}>
-              <Text>{userState.me.u_alias || 'test'}</Text>
+              <Text>{userState.me.u_alias}</Text>
             </View>
           )}
           <Pressable onPress={changeAlias}>
@@ -178,6 +180,37 @@ function ProfileScreen({ navigation, route }: Props) {
               }}
             >
               회원탈퇴
+            </Text>
+          </View>
+        </Pressable>
+        <Pressable
+          onPress={async () => {
+            await removeUser();
+            const user: any = getUser();
+            dispatch(delete_S(user));
+          }}
+        >
+          <View
+            style={{
+              ...styles.button,
+              width: 0.9 * SCREEN_WIDTH,
+              backgroundColor: '#e4c86c',
+              borderWidth: 0,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginLeft: 0,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: '600',
+                letterSpacing: 5,
+                color: '#fff',
+              }}
+            >
+              {' '}
+              로그아웃
             </Text>
           </View>
         </Pressable>
