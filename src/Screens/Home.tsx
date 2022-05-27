@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Pressable, StyleSheet, Image } from 'react-native';
-import type { NativeStackScreenProps } from 'react-navigation/native-stack';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useDispatch } from 'react-redux';
 import { getUser } from '../Storages/storage';
 import { read_S } from '../Reducers/user';
@@ -42,11 +42,18 @@ type RootStackParamList = {
 type Props = NativeStackScreenProps<RootStackParamList>;
 
 function HomeScreen({ navigation, route }: Props) {
+  const dispatch = useDispatch();
+
   const sendUser = async () => {
-    const dispatch = useDispatch();
     const user = await getUser();
-    dispatch(read_S(user));
+    if (user) {
+      dispatch(read_S(user));
+    }
   };
+
+  useEffect(() => {
+    sendUser();
+  }, []);
 
   if (route.params) {
     sendUser();
