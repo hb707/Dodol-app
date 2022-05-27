@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import { View, Dimensions, Button } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import { useDispatch } from 'react-redux';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
 import NavBar from '../Components/NavBar/NavBar';
 import Carousel from '../Components/carousel/Carousel';
 
@@ -42,7 +41,7 @@ const PAGES = [
   },
 ];
 
-function HomeScreen({ navigation }: Props) {
+function MainScreen({ navigation }: Props) {
   const dispatch = useDispatch();
 
   // async storage
@@ -50,26 +49,11 @@ function HomeScreen({ navigation }: Props) {
     // 왜 useEffect안에서 함수를 만들고 dependency에는 dispatch 함수를 넣어줘야하는지?????????🤯
     const loadCapsules = async () => {
       const item = await AsyncStorage.getItem(STORAGE_KEY);
-      console.log(item, 'item');
-      console.log('homescreen first render');
       // if (item) dispatch({ type: 'capsule/READ', item });
     };
 
     loadCapsules();
   }, [dispatch]);
-
-  // axios 통신 확인용
-  const onPress = async () => {
-    try {
-      const response = await axios.post(
-        `http://localhost:4000/api/capsule/list`,
-        { u_idx: 1 },
-      );
-      console.log(response);
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -82,10 +66,9 @@ function HomeScreen({ navigation }: Props) {
           pageWidth={screenWidth - (16 + 36) * 2}
         />
       </View>
-      <Button title="axiosㄱㄱ: home.tsx에서 코드변경가능" onPress={onPress} />
       <NavBar style={{ flex: 1 }} navigation={navigation} />
     </View>
   );
 }
 
-export default HomeScreen;
+export default MainScreen;

@@ -11,7 +11,6 @@ export interface IUser {
   };
 }
 
-
 export interface Iuser {
   u_idx: number;
   u_id: string;
@@ -36,19 +35,26 @@ export interface ICapsule {
   };
 }
 
+// ❗️ IMemory fixed : User가 null인 데이터 디비에서 삭제 후 ? 지워주기
 export interface IMemory {
+  m_idx: number;
+  m_content: string;
+  m_author: number | null;
   c_idx: number;
-  memoryList: {
-    m_idx: number;
-    m_autor: string;
-    content: string;
-    img: string[];
-    music: string;
-  }[];
-  loading: boolean;
-  error: {
-    msg: string | null;
+  User: {
+    u_alias: string;
   };
+  MemoryMusic: {
+    link: string | null;
+  };
+  MemoryImgs: {
+    img: string;
+  }[];
+}
+
+export interface IMemoryCreateResponse {
+  result: string;
+  data: null;
 }
 
 export interface IState {

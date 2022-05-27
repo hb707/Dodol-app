@@ -15,7 +15,6 @@ type RootStackParamList = {
 
 type Props = NativeStackScreenProps<RootStackParamList>;
 
-
 const REST_API_KEY = '07e2741dea7ed6e8b2ba90e09024f231';
 const REDIRECT_URI = 'http://43.200.42.181/api/user/login';
 

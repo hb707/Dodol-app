@@ -1,26 +1,30 @@
+import React, { useState } from 'react';
 import {
   View,
   Text,
   TextInput,
   StyleSheet,
   Dimensions,
-  Button,
   Pressable,
 } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useState } from 'react';
-import { Ionicons } from '@expo/vector-icons';
-import * as ImagePicker from 'expo-image-picker';
+import { useDispatch } from 'react-redux';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import ImgPicker from '../Components/imagePicker/ImagePicker';
+import { mCreate } from '../Reducers/memory';
+import { IPayload } from '../Sagas/memorySaga';
+import Preview from '../Components/imagePicker/Preview';
 
 type RootStackParamList = {
   Home: undefined;
   Profile: { userId: string };
   Feed: { sort: 'latest' | 'top' } | undefined;
+  MemoryList: { cIdx: 1 };
 };
 
 type Props = NativeStackScreenProps<RootStackParamList>;
 
-const { width: SCREEN_WIDTH, height } = Dimensions.get('window');
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     width: 0.9 * SCREEN_WIDTH,
@@ -33,58 +37,73 @@ const styles = StyleSheet.create({
     borderColor: '#aeaeae',
   },
   input: {
-    width: 0.9 * SCREEN_WIDTH,
+    width: SCREEN_WIDTH,
     paddingVertical: 10,
     paddingHorizontal: 20,
     fontSize: 18,
-    borderBottomColor: '#aeaeae',
-    borderBottomWidth: 1,
+  },
+  contentContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  submitBtn: {
+    flex: 1,
+    backgroundColor: '#F5D042',
+    padding: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
-function CreateMemoryScreen({ navigation, route }: Props) {
-  const [text, setText] = useState('');
-  const [image, setImage] = useState(null);
+function CreateMemoryScreen({ navigation }: Props) {
+  const [content, setContent] = useState('');
+  const [image, setImage] = useState<string[]>([]);
 
-  const pickImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    console.log(result);
-    if (!result.cancelled) {
-      setImage(result.uri);
-    }
+  const dispatch = useDispatch();
+
+  const onChangeContent = (payload: string) => setContent(payload);
+  const onChangeImg = (payload: string[]) => setImage(payload);
+
+  // axios 통신 확인용
+  const handleSubmit = async () => {
+    const payload: IPayload = {
+      c_idx: 1,
+      m_content: content,
+      m_author: 1,
+      memoryImg: image,
+    };
+    dispatch(mCreate(payload));
+    navigation.navigate('MemoryList', { cIdx: 1 });
   };
-  const onChangeText = (payload: string) => setText(payload);
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <View style={{ flex: 12, justifyContent: 'center' }}>
-        <View style={{ flex: 3, justifyContent: 'center' }}>
-          <Text>사진</Text>
-          <Pressable style={styles.cameraBtn}>
-            <Ionicons name="camera" size={24} color="black" />
-          </Pressable>
+    <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <View style={{ flex: 1, justifyContent: 'center' }} />
+        <Preview image={image} style={{ flex: 5 }} />
+        <View style={{ flex: 3 }}>
+          <ImgPicker onChangeImg={onChangeImg} />
         </View>
         <TextInput
-          value={text}
-          onChangeText={onChangeText}
-          style={{ ...styles.input, flex: 1 }}
-          placeholder="제목"
-        />
-        <TextInput
-          value={text}
-          onChangeText={onChangeText}
-          style={{ ...styles.input, flex: 8 }}
+          value={content}
+          onChangeText={onChangeContent}
+          style={{
+            ...styles.input,
+            flex: 6,
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 300,
+          }}
           placeholder="타임캡슐에 남기고 싶은 내용을 작성해주세요."
           textAlignVertical="top"
           textAlign="left"
+          multiline
         />
+        <Pressable onPress={handleSubmit} style={styles.submitBtn}>
+          <Text>제출</Text>
+        </Pressable>
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 }
 

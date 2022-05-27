@@ -1,65 +1,85 @@
 import { IMemory } from '../types';
+import { IPayload } from '../Sagas/memorySaga';
 
 // 1. 액션
-export const CREATE = 'memory/CREATE_REQUEST' as const;
-export const READ = 'memory/READ_REQUEST' as const;
+export const mCREATE = 'memory/CREATE_REQUEST' as const;
+export const mREAD = 'memory/READ_REQUEST' as const;
 
 // 2. 액션함수
-export const create = (payload: string) => ({
+export const mCreate = (payload: IPayload) => ({
   type: 'memory/CREATE_REQUEST',
   payload,
 });
-export const read = (payload: { u_idx: number }) => ({
+export const mRead = (payload: { c_idx: number }) => ({
   type: 'memory/READ_REQUEST',
   payload,
 });
 
 // 3. 액션타입
-export type MemoryAction = ReturnType<typeof create> | ReturnType<typeof read>;
+export type MemoryAction =
+  | ReturnType<typeof mCreate>
+  | ReturnType<typeof mRead>;
 
 // 4. state 초기값 -- 백엔드 api 확인 후 수정🔥
-const initialState: IMemory = {
-  c_idx: 1,
-  memoryList: [
+interface IMemoryState {
+  data: IMemory[];
+  loading: boolean;
+  error: boolean;
+}
+const initialState: IMemoryState = {
+  data: [
     {
-      m_idx: 1,
-      m_autor: 'hb',
-      content: 'memory content 111111',
-      img: ['defaultImg'],
-      music: 'link',
+      m_idx: 0,
+      m_content: '',
+      m_author: 0,
+      c_idx: 0,
+      User: {
+        u_alias: '',
+      },
+      MemoryMusic: {
+        link: null,
+      },
+      MemoryImgs: [
+        {
+          img: '',
+        },
+      ],
     },
   ],
   loading: false,
-  error: {
-    msg: '',
-  },
+  error: false,
 };
 
 // 5. 리듀서
-function memory(state: IMemory = initialState, action: MemoryAction): IMemory {
+function memory(
+  state: IMemoryState = initialState,
+  action: MemoryAction,
+): IMemoryState {
   switch (action.type) {
-    case CREATE:
-      console.log('request 실행');
+    case mCREATE:
       return {
         ...state,
         loading: true,
-        error: {
-          msg: null,
-        },
       };
-    case 'COMMENT/READ_SUCCESS':
-      console.log('성공');
+
+    // memory read
+    case 'memory/READ_REQUEST':
       return {
         ...state,
+        loading: true,
+        error: false,
+      };
+
+    case 'memory/READ_SUCCESS':
+      return {
+        ...state,
+        data: action.payload,
         loading: false,
       };
-    case 'COMMENT/READ_FAILURE':
-      console.log('실패');
+    case 'memory/READ_FAILURE':
       return {
         ...state,
-        error: {
-          msg: 'api접속에러같음',
-        },
+        error: true,
         loading: false,
       };
 
