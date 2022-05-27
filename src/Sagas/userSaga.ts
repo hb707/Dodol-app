@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { takeLatest, call, put } from 'redux-saga/effects';
-import { getUser } from '../Storages/storage';
+import { getUser, removeUser } from '../Storages/storage';
 import { READ_R, READ_S, READ_F } from '../Reducers/user';
 import profileActions, { ProfileActionType } from '../actions/userProfile';
 import { updateAPI, quitAPI } from '../api/userProfile';
@@ -37,6 +37,7 @@ function* userQUIT(action: QuitActionType) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response: AxiosResponse<any> = yield call(quitAPI, action.payload);
     if (response.data.result === 'success') {
+      yield removeUser();
       yield put(quitAction.success(response.data.data));
     } else {
       yield put(quitAction.failure(response.data.error));
