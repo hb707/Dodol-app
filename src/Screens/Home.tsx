@@ -33,12 +33,16 @@ const styles = StyleSheet.create({
   jar: {
     top: screen.width * 0.05,
     flex: 0.3,
-
     aspectRatio: 0.58,
   },
-
+  btnBox: {
+    bottom: screen.width * 0.1,
+    flex: 0.1,
+    width: 300,
+    position: 'relative',
+  },
   loginBtn: {
-    bottom: screen.height * 0.1,
+    position: 'absolute',
   },
 });
 
@@ -77,7 +81,7 @@ function HomeScreen({ navigation, route }: Props) {
         DoDol과 함께
       </Text>
       <Image style={styles.jar} source={JarImage} resizeMode="cover" />
-      <Pressable onPress={requestLogin}>
+      <Pressable onPress={requestLogin} style={styles.btnBox}>
         <Image source={loginBtn} style={styles.loginBtn} />
       </Pressable>
     </View>
