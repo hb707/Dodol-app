@@ -1,15 +1,20 @@
 export interface IUser {
   isLogin: boolean;
   me: {
-    u_idx: number;
-    u_id: string;
-    u_alias: string;
-    u_code: number;
+    u_idx: number | null;
+    u_id: string | null;
+    u_alias: string | null;
   };
   loading: boolean;
   error: {
     msg: string | null;
   };
+}
+
+export interface Iuser {
+  u_idx: number;
+  u_id: string;
+  u_alias: string;
 }
 
 export interface ICapsule {
@@ -58,4 +63,4 @@ export interface IState {
   memory: IMemory;
 }
 
-export const backUrl = ' http://43.200.42.181';
+export const backUrl = 'http://43.200.42.181';

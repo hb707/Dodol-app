@@ -24,6 +24,7 @@
     "project": "./tsconfig.json"
   },
   "rules": {
+    "react-hooks/exhaustive-deps": "off",
     "import/no-unresolved": 0,
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [
@@ -58,6 +59,9 @@
       "error"
     ],
     "default-param-last": "off", // 리듀서 작성시 state와 action 인자 작성순서를 반대로 해줘야 에러가 없어지는데 그러면 리듀서가 제대로 동작안함
-    "react/no-array-index-key": "off"
+    "react/no-array-index-key": "off",
+    "no-underscore-dangle": "off",
+    "camelcase": "off",
+    "react-hooks/rules-of-hooks": "off"
   }
 }

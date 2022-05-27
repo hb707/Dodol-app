@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -6,8 +6,6 @@ import {
   TextInput,
   View,
   Pressable,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
 } from 'react-native';
 // import Location from '../Location/Location';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
