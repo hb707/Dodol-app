@@ -1,36 +1,48 @@
-import React, { useEffect } from 'react';
-import { View, Pressable, StyleSheet, Image } from 'react-native';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { useState } from 'react';
+import {
+  View,
+  Pressable,
+  StyleSheet,
+  Image,
+  Dimensions,
+  Text,
+} from 'react-native';
+import type { NativeStackScreenProps } from 'react-navigation/native-stack';
 import { useDispatch } from 'react-redux';
 import { getUser } from '../Storages/storage';
 import { read_S } from '../Reducers/user';
-import logo from '../../assets/Home/dodol.png';
-import backImage from '../../assets/Home/jar.png';
+import JarImage from '../../assets/Home/dodol.png';
 import loginBtn from '../../assets/Home/kakao_login_medium_wide.png';
+
+const screen = Dimensions.get('screen');
+const { fontScale } = screen;
 
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    justifyContent: 'center',
+    height: screen.height * 0.5,
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
-  jarBox: {
-    top: 30,
-    flex: 0.5,
+  line: {
+    flex: 0.3,
+    top: screen.width * 0.3,
+    left: screen.width * -0.2,
+    fontSize: fontScale * 35,
   },
   jar: {
-    width: 220,
-    height: 380,
+    top: screen.width * 0.05,
+    flex: 0.3,
+    aspectRatio: 0.58,
   },
-  logo: {
-    width: 120,
-    height: 140,
-    position: 'absolute',
-    top: 170,
-    left: 50,
+  btnBox: {
+    bottom: screen.width * 0.1,
+    flex: 0.1,
+    width: 300,
+    position: 'relative',
   },
   loginBtn: {
-    bottom: -50,
+    position: 'absolute',
   },
 });
 
@@ -42,18 +54,11 @@ type RootStackParamList = {
 type Props = NativeStackScreenProps<RootStackParamList>;
 
 function HomeScreen({ navigation, route }: Props) {
-  const dispatch = useDispatch();
-
   const sendUser = async () => {
+    const dispatch = useDispatch();
     const user = await getUser();
-    if (user) {
-      dispatch(read_S(user));
-    }
+    dispatch(read_S(user));
   };
-
-  useEffect(() => {
-    sendUser();
-  }, []);
 
   if (route.params) {
     sendUser();
@@ -65,11 +70,18 @@ function HomeScreen({ navigation, route }: Props) {
 
   return (
     <View style={styles.background}>
-      <View style={styles.jarBox}>
-        <Image style={styles.jar} source={backImage} />
-        <Image source={logo} style={styles.logo} />
-      </View>
-      <Pressable onPress={requestLogin}>
+      <Text style={styles.line}>
+        오래도록
+        {'\n'}
+        기억하고 싶은
+        {'\n'}
+        소중한 추억
+        {'\n'}
+        {'\n'}
+        DoDol과 함께
+      </Text>
+      <Image style={styles.jar} source={JarImage} resizeMode="cover" />
+      <Pressable onPress={requestLogin} style={styles.btnBox}>
         <Image source={loginBtn} style={styles.loginBtn} />
       </Pressable>
     </View>
