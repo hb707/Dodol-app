@@ -1,5 +1,6 @@
 import { IUser, Iuser } from '../types';
 import quitAction from '../actions/userQuit';
+import profileActions, { ProfileActionType } from '../actions/userProfile';
 
 export const CREATE_S = 'USER/CREATE_SUCCESS' as const;
 export const READ_R = 'USER/READ_REQUEST' as const;
@@ -108,6 +109,31 @@ function user(state: IUser = initialState, action: UserAction): IUser {
         loading: false,
         error: {
           msg: '탈퇴 실패',
+        },
+      };
+
+    case profileActions.REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: {
+          msg: null,
+        },
+      };
+
+    case profileActions.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        me: action.payload,
+      };
+
+    case profileActions.FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: {
+          msg: 'api접속에러같음',
         },
       };
 

@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { createGlobalStyle } from 'styled-components';
 import { delete_S } from '../Reducers/user';
 import NavBar from '../Components/NavBar/NavBar';
 import profileActions from '../actions/userProfile';

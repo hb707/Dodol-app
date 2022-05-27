@@ -53,7 +53,7 @@ function NavBar({ navigation }: Props) {
       <Pressable
         style={styles.btn}
         onPress={() => {
-          navigation.navigate('Home');
+          navigation.navigate('Main');
         }}
       >
         <MaterialCommunityIcons name="bottle-tonic" size={28} color="gray" />
