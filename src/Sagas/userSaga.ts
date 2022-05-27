@@ -1,8 +1,24 @@
+
+import { put, takeLatest } from 'redux-saga/effects';
+import { getUser } from '../Storages/storage';
+import { READ_R, READ_S, READ_F } from '../Reducers/USERS';
 import { AxiosResponse } from 'axios';
 import { takeLatest, call, put } from 'redux-saga/effects';
 import profileActions, { ProfileActionType } from '../actions/userProfile';
 import { IUser } from '../types';
 import { updateAPI } from '../api/userProfile';
+
+const user = getUser();
+
+function* userREAD() {
+  try {
+    if (!user) throw new Error('로그인 정보 없음');
+    yield put({ type: READ_S });
+  } catch (e) {
+    console.log(e);
+    yield put({ type: READ_F });
+
+
 
 function* aliasUPDATE(action: ProfileActionType) {
   try {
@@ -19,6 +35,7 @@ function* aliasUPDATE(action: ProfileActionType) {
 }
 
 function* watchUser() {
+  yield takeLatest(READ_R, userREAD);
   yield takeLatest(profileActions.REQUEST, aliasUPDATE);
 }
 

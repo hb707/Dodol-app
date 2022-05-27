@@ -11,6 +11,24 @@ export interface IUser {
   };
 }
 
+export interface ReadS {
+  u_idx: number;
+  u_id: string;
+  u_alias: string;
+}
+
+export interface ReadR {
+  u_idx: number;
+  u_id: string;
+  u_alias: string;
+}
+
+export interface ReadF {
+  u_idx: number;
+  u_id: string;
+  u_alias: string;
+}
+
 export interface ICapsule {
   tc: {
     c_idx: number;
@@ -50,4 +68,4 @@ export interface IState {
   memory: IMemory;
 }
 
-export const backUrl = 'http://localhost:4000';
+export const backUrl = 'http://43.200.42.181';

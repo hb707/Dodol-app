@@ -1,3 +1,4 @@
+import React from 'react';
 import { StyleSheet, View, Pressable } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
