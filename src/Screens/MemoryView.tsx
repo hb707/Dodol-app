@@ -144,20 +144,20 @@ function MemoryViewScreen({ navigation, route }: Props) {
                       <Pressable onPress={toggleView}>
                         <View
                           style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
                             padding: 10,
                             backgroundColor: '#ffffff',
                             borderRadius: 10,
                             marginLeft: 20,
                           }}
                         >
-                          <Text>
-                            영상
-                            <Ionicons
-                              name={playerView ? 'caret-up' : 'caret-down'}
-                              size={12}
-                              color="black"
-                            />
-                          </Text>
+                          <Text>영상</Text>
+                          <Ionicons
+                            name={playerView ? 'caret-up' : 'caret-down'}
+                            size={12}
+                            color="black"
+                          />
                         </View>
                       </Pressable>
                     </>
@@ -166,7 +166,7 @@ function MemoryViewScreen({ navigation, route }: Props) {
                   )}
                 </View>
               </View>
-              {data.MemoryMusic.link && (
+              {data.MemoryMusic.link ? (
                 <View style={{ opacity: 1 }}>
                   <YoutubePlayer
                     height={playerView ? 300 : 0}
@@ -175,6 +175,8 @@ function MemoryViewScreen({ navigation, route }: Props) {
                     onChangeState={onStateChange}
                   />
                 </View>
+              ) : (
+                <View />
               )}
               <ScrollView horizontal pagingEnabled>
                 {item()}
