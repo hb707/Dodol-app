@@ -1,0 +1,6 @@
+const YOUTUBE_KEY_LIST = {
+  YOUTUBE_ANDROID_KEY: 'AIzaSyDsDj7CoO5zvRHyHMcBdlngbEay6OJnGcA',
+  YOUTUBE_IOS_KEY: 'AIzaSyBx2crkvFB_udJm9z8V0z7SS8cnB8eVYaA',
+};
+
+export default YOUTUBE_KEY_LIST;

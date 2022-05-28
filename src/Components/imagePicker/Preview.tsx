@@ -30,7 +30,7 @@ function Preview({ image, style }: { image: string[]; style: any }) {
       horizontal
       pagingEnabled
       showsHorizontalScrollIndicator={false}
-      style={{ height: 250, ...style }}
+      style={{ height: SCREEN_WIDTH, ...style }}
     >
       {image.length !== 0 ? (
         item()
