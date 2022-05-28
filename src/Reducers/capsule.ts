@@ -33,7 +33,7 @@ export const read_R = (payload: ReadPayloadAttribute) => ({
   payload,
 });
 
-export const read_S = (payload: Capsule) => ({
+export const read_S = (payload: Capsule[]) => ({
   type: READ_S,
   payload,
 });
@@ -71,11 +71,16 @@ function capsule(state: ICapsule = initialState, action: CapsuleAction) {
       return {
         ...state,
         loading: true,
+        error: {
+          msg: '',
+          status: false,
+        },
       };
 
     case READ_S:
       return {
         ...state,
+        capsule: action.payload,
         loading: false,
       };
 

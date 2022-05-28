@@ -36,3 +36,21 @@ export const removeUser = async navigation => {
     console.log(e.message);
   }
 };
+
+export const storeCapsule = async value => {
+  try {
+    await AsyncStorage.setItem('@capsule_item', JSON.stringify(value));
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getDataFromStorage = async key => {
+  try {
+    const data = await JSON.parse(await AsyncStorage.getItem(key));
+    return data;
+  } catch (e) {
+    console.log(e);
+    return e;
+  }
+};

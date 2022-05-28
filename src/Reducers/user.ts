@@ -93,7 +93,6 @@ function user(state: IUser = initialState, action: UserAction): IUser {
       };
 
     case quitAction.SUCCESS:
-      removeUser();
       return {
         ...state,
         isLogin: false,

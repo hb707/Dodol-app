@@ -18,15 +18,15 @@ export interface Iuser {
 }
 
 export interface Capsule {
-  c_idx: number;
-  c_generator: string;
-  c_title: string;
-  c_content: string;
-  c_thumb: string;
-  c_createdAt: Date;
-  c_openAt: Date;
-  c_location: string;
-  isOpened: boolean;
+  c_idx: number | null;
+  c_generator: string | null;
+  c_title: string | null;
+  c_content: string | null;
+  c_thumb: string | null;
+  c_createdAt: Date | null;
+  c_openAt: Date | null;
+  c_location: string | null;
+  isOpened: boolean | null;
   c_collaborator: string[];
 }
 
