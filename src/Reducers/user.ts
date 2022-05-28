@@ -1,6 +1,7 @@
 import { IUser, Iuser } from '../types';
 import quitAction from '../actions/userQuit';
 import profileActions, { ProfileActionType } from '../actions/userProfile';
+import { removeUser } from '../Storages/storage';
 
 export const CREATE_S = 'USER/CREATE_SUCCESS' as const;
 export const READ_R = 'USER/READ_REQUEST' as const;
@@ -92,6 +93,7 @@ function user(state: IUser = initialState, action: UserAction): IUser {
       };
 
     case quitAction.SUCCESS:
+      removeUser();
       return {
         ...state,
         isLogin: false,
