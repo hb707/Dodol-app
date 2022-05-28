@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Dimensions } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import NavBar from '../Components/NavBar/NavBar';
 import Carousel from '../Components/carousel/Carousel';
+import { IState } from '../types';
 
 // Async Storage
 const STORAGE_KEY = '@capsule_item';
@@ -42,18 +42,16 @@ const PAGES = [
 ];
 
 function MainScreen({ navigation }: Props) {
+  const {
+    me: { u_idx },
+  } = useSelector((state: IState) => state.user);
+
   const dispatch = useDispatch();
+  const [isLoading, setisLoading] = useState();
 
-  // async storage
   useEffect(() => {
-    // 왜 useEffect안에서 함수를 만들고 dependency에는 dispatch 함수를 넣어줘야하는지?????????🤯
-    const loadCapsules = async () => {
-      const item = await AsyncStorage.getItem(STORAGE_KEY);
-      // if (item) dispatch({ type: 'capsule/READ', item });
-    };
-
-    loadCapsules();
-  }, [dispatch]);
+    console.log('test');
+  }, []);
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
