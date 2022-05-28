@@ -43,7 +43,7 @@ const imageOptions = {
 function ThumbPicker() {
   // const initialValue = './73bf92ba5c10596abbf4449fbba4165c.jpg'
 
-  const [image, setImage] = useState();
+  const [imageUrl, setImageUrl] = useState();
   const status = ImagePicker.useCameraPermissions();
 
   const GetPermission = async () => {
@@ -52,14 +52,14 @@ function ThumbPicker() {
     }
     const img = await ImagePicker.launchCameraAsync({ imageOptions });
     if (!img.cancelled) {
-      setImage(img.uri);
+      setImageUrl(img.uri);
     }
   };
 
   const PickImage = async () => {
     const img = await ImagePicker.launchImageLibraryAsync({ imageOptions });
     if (!img.cancelled) {
-      setImage(img.uri);
+      setImageUrl(img.uri);
     }
   };
   return (
@@ -74,7 +74,7 @@ function ThumbPicker() {
           <Fontisto name="camera" size={24} color="black" />
         </Pressable>
       </View>
-      {image && <Image source={{ uri: image }} style={styles.img} />}
+      {imageUrl && <Image source={{ uri: imageUrl }} style={styles.img} />}
     </View>
   );
 }
