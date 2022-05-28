@@ -1,6 +1,11 @@
-import { call, takeLatest } from 'redux-saga/effects';
-import axios, { AxiosPromise } from 'axios';
-import { READ_R, CREATE_R } from '../Reducers/capsule';
+import { call, takeLatest, put } from 'redux-saga/effects';
+import axios, { AxiosPromise, AxiosResponse } from 'axios';
+import {
+  READ_R,
+  read_S,
+  CREATE_R,
+  ReadActionAttribute,
+} from '../Reducers/capsule';
 import { ICapsule } from '../types';
 import { createAPI, readAPI } from '../api/capsule';
 
@@ -17,8 +22,18 @@ interface IAction {
   payload: ICapsule[];
 }
 
-function* capsuleREAD(action: IAction) {
-  const response = yield call(readAPI);
+function* capsuleREAD(action: ReadActionAttribute) {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const response: AxiosResponse<any> = yield call(readAPI);
+    if (response.data.result === 'success') {
+      yield put(read_S(response.data.data));
+      console.log(response.data.data);
+    } else {
+    }
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 function* capsuleCREATE(action: IAction) {

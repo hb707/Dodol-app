@@ -5,6 +5,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import NavBar from '../Components/NavBar/NavBar';
 import Carousel from '../Components/carousel/Carousel';
 import { IState } from '../types';
+import * as capsuleAction from '../Reducers/capsule';
 
 // Async Storage
 const STORAGE_KEY = '@capsule_item';
@@ -42,15 +43,13 @@ const PAGES = [
 ];
 
 function MainScreen({ navigation }: Props) {
-  const {
-    me: { u_idx },
-  } = useSelector((state: IState) => state.user);
-
   const dispatch = useDispatch();
-  const [isLoading, setisLoading] = useState();
+  const [isLoading, setisLoading] = useState(true);
 
   useEffect(() => {
-    console.log('test');
+    if (isLoading) {
+      dispatch({ type: capsuleAction.READ_R });
+    }
   }, []);
 
   return (

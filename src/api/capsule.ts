@@ -1,5 +1,5 @@
 import FormData from 'form-data';
-import axios from 'axios';
+import axios, { AxiosPromise } from 'axios';
 import { backUrl, IState } from '../types';
 import { getUser } from '../Storages/storage';
 
@@ -31,13 +31,10 @@ export const readAPI = async () => {
   const { u_idx } = await getUser();
   try {
     const response = await axios.post(`${backUrl}/api/capsule/list`, { u_idx });
-    if (!response.data) {
-      throw new Error('데이터 없음');
-    } else {
-      console.log('잘 가져옴');
-    }
+    return response;
   } catch (error) {
     console.log('에러');
+    return error;
   }
 };
 
