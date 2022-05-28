@@ -23,37 +23,39 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.5,
     borderTopColor: '#aeaeae',
     borderTopWidth: 0.5,
-    paddingLeft: 20,
+    // paddingLeft: 20,
     backgroundColor: 'blue',
   },
   thumbButton: {
-    width: 100,
-    height: 70,
-    margin: 15,
+    width: 80,
+    height: 80,
+    margin: 12,
+    marginLeft: 0,
     borderWidth: 2,
     borderRadius: 15,
     borderColor: '#aeaeae',
     padding: '2%',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.1)',
   },
   img: {
-    width: 100,
-    height: 70,
-    margin: 15,
+    width: 80,
+    height: 80,
+    margin: 10,
     borderRadius: 15,
   },
   text: {
-    paddingTop: 10,
-    paddingLeft: 20,
-    borderTopColor: '#aeaeae',
-    borderTopWidth: 1,
+    fontSize: 16,
+    // paddingHorizontal: 20,
+    fontWeight: '700',
+    marginTop: 20,
   },
   delBtn: {
     position: 'absolute',
     top: 5,
-    left: 100,
-    backgroundColor: '#ffffff',
+    left: 80,
+    backgroundColor: 'rgba(255,255,255,0.7)',
     borderRadius: 13,
   },
 });
@@ -68,7 +70,7 @@ interface ImageOptions {
 const imageOptions: ImageOptions = {
   mediaTypes: ImagePicker.MediaTypeOptions.Images,
   allowsEditing: true,
-  aspect: [4, 3],
+  aspect: [3, 3],
   quality: 1,
 };
 
@@ -96,13 +98,7 @@ function ImgPicker({ onChangeImg }: { onChangeImg: OnChangeImg }) {
   return (
     <>
       <Text style={styles.text}>이미지 {image.length}/4</Text>
-      <ScrollView
-        horizontal
-        style={{
-          borderBottomColor: '#aeaeae',
-          borderBottomWidth: 1,
-        }}
-      >
+      <ScrollView horizontal>
         {image.length < 4 && (
           <Pressable onPress={pickImage} style={styles.thumbButton}>
             {/* <Text>사진</Text> */}
@@ -110,7 +106,7 @@ function ImgPicker({ onChangeImg }: { onChangeImg: OnChangeImg }) {
           </Pressable>
         )}
         {image[0] && (
-          <View style={{ position: 'relative' }}>
+          <View>
             <Image source={{ uri: image[0] }} style={styles.img} />
             <Pressable style={styles.delBtn} onPress={() => deleteImage(0)}>
               <Fontisto name="close" size={24} color="black" />
