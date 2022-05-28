@@ -1,5 +1,5 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
-import axios, { AxiosPromise } from 'axios';
+import axios, { AxiosPromise, AxiosResponse } from 'axios';
 import FormData from 'form-data';
 import { backUrl, IMemory } from '../types';
 import { mCREATE, mREAD } from '../Reducers/memory';
@@ -10,6 +10,7 @@ export interface IPayload {
   m_content: string;
   m_author: number;
   memoryImg: string[];
+  music: string;
 }
 
 interface IFormData extends FormData {
@@ -17,19 +18,21 @@ interface IFormData extends FormData {
   c_idx?: number;
   m_content?: string;
   m_author?: number;
+  music?: string;
 }
 
 // axios 함수 : 제너레이터함수 사용하지 않아서 따로 구분함
-async function createAPI(payload: IPayload) {
+async function createAPI(payload: IPayload): Promise<AxiosResponse<IRes>> {
   const {
     c_idx: cIdx,
     m_author: mAuthor,
     m_content: mContent,
     memoryImg,
+    music,
   } = payload;
 
+  // create formData
   const formData: IFormData = new FormData();
-
   memoryImg.forEach(v => {
     const name = v.split('/');
     const fileName = name[name.length - 1];
@@ -39,10 +42,10 @@ async function createAPI(payload: IPayload) {
       uri: v,
     });
   });
-
   formData.append('c_idx', cIdx);
   formData.append('m_content', mContent);
   formData.append('m_author', mAuthor);
+  formData.append('music', music);
 
   try {
     const response = await axios.post(

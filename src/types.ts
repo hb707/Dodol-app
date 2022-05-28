@@ -18,12 +18,12 @@ export interface Iuser {
 }
 
 export interface ICapsule {
-  tc: {
+  capsule: {
     c_idx: number;
     c_generator: string;
     c_title: string;
     c_content: string;
-    c_thunb: string;
+    c_thumb: string;
     c_createdAt: Date;
     c_openAt: Date;
     c_location: string;
@@ -32,10 +32,10 @@ export interface ICapsule {
   loading: boolean;
   error: {
     msg: string | null;
+    status: boolean;
   };
 }
 
-// ❗️ IMemory fixed : User가 null인 데이터 디비에서 삭제 후 ? 지워주기
 export interface IMemory {
   m_idx: number;
   m_content: string;
@@ -52,6 +52,12 @@ export interface IMemory {
   }[];
 }
 
+interface IMemoryState {
+  data: IMemory[];
+  loading: boolean;
+  error: boolean;
+}
+
 export interface IMemoryCreateResponse {
   result: string;
   data: null;
@@ -60,7 +66,7 @@ export interface IMemoryCreateResponse {
 export interface IState {
   user: IUser;
   capsule: ICapsule;
-  memory: IMemory;
+  memory: IMemoryState;
 }
 
 export const backUrl = 'http://43.200.42.181';
