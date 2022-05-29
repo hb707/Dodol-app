@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
+import { Capsule } from '../../types';
 import LastPage from './LastPage';
 import Page from './Page';
 
@@ -9,7 +10,7 @@ interface Icarousel {
   navigation: any;
   gap: number;
   offset: number;
-  pages: any[];
+  pages: Capsule[];
   pageWidth: number;
 }
 
@@ -63,7 +64,7 @@ function Carousel({ navigation, pages, pageWidth, gap, offset }: Icarousel) {
         data={pages}
         decelerationRate="fast"
         horizontal
-        keyExtractor={(item: any) => `page__${item.color}`}
+        keyExtractor={(item: any) => `page__${item.c_idx}`}
         onScroll={onScroll}
         pagingEnabled
         renderItem={renderItem}

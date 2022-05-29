@@ -1,8 +1,11 @@
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Asset } from 'expo-asset';
 import NavBar from '../Components/NavBar/NavBar';
 import Carousel from '../Components/carousel/Carousel';
 import { IState } from '../types';
@@ -46,15 +49,25 @@ const PAGES = [
 
 function MainScreen({ navigation }: Props) {
   const dispatch = useDispatch();
-  const [isLoading, setisLoading] = useState(true);
   const capsuleState = useSelector((state: IState) => state.capsule);
+  const [isLoading, setisLoading] = useState(true);
+
+  const thumbs = () =>
+    capsuleState.capsule.map(v => {
+      if (v.c_thumb !== null && v.c_thumb !== '')
+        return Image.prefetch(`http://43.200.42.181/upload/${v.c_thumb}`);
+    });
+
+  const getImg = async () => {
+    await Promise.all(thumbs());
+  };
 
   useEffect(() => {
-    (async function useEffectCb() {
-      if (isLoading) {
-        dispatch({ type: capsuleAction.READ_R });
-        await storeCapsule(capsuleState);
-      }
+    (async function tmp() {
+      dispatch({ type: capsuleAction.READ_R });
+      await storeCapsule(capsuleState);
+      await getImg();
+      setisLoading(false);
     })();
   }, []);
 
@@ -65,7 +78,7 @@ function MainScreen({ navigation }: Props) {
           navigation={navigation}
           gap={16}
           offset={36}
-          pages={PAGES}
+          pages={capsuleState.capsule}
           pageWidth={screenWidth - (16 + 36) * 2}
         />
       </View>
