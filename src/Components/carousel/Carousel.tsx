@@ -15,8 +15,8 @@ interface Icarousel {
 }
 
 const Container = styled.View`
-  margin-top: 70px;
-  height: 80%;
+  margin-top: 10px;
+  height: 84%;
   justify-content: center;
   align-items: center;
 `;
@@ -33,7 +33,7 @@ const Indicator = styled.View<{ focused: boolean }>`
 const IndicatorWrapper = styled.View`
   flex-direction: row;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 20px;
 `;
 
 function Carousel({ navigation, pages, pageWidth, gap, offset }: Icarousel) {
@@ -43,7 +43,10 @@ function Carousel({ navigation, pages, pageWidth, gap, offset }: Icarousel) {
     <Page
       navigation={navigation}
       item={item}
-      style={{ width: pageWidth, marginHorizontal: gap / 2 }}
+      style={{
+        width: pageWidth,
+        marginHorizontal: gap / 2,
+      }}
     />
   );
 
