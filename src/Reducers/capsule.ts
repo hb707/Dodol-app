@@ -12,6 +12,7 @@ export interface IPayload {
   cLocation: string;
   cCollaborator: object[];
   cOpenAt: Date;
+  cThumb: string;
 }
 
 export const create_R = (payload: IPayload) => ({
@@ -79,7 +80,7 @@ function capsule(state: ICapsule = initialState, action: CapsuleAction) {
             c_generator: action.payload.cGenerator,
             c_title: action.payload.cName,
             c_content: action.payload.cDesc,
-            c_thumb: '1',
+            c_thumb: action.payload.cThumb,
             c_location: action.payload.cLocation,
             c_collaborator: [action.payload.cCollaborator],
             c_openAt: action.payload.cOpenAt,

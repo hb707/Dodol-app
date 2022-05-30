@@ -30,29 +30,34 @@ interface IFormData extends FormData {
 export const readAPI = async () => {
   const { u_idx } = await getUser();
   try {
-    const res_collaborator = await axios.post(`${backUrl}/api/capsule/list`, {
-      u_idx,
-    });
-
     // 캡슐 리스트 가져오기
-    const res_capList = await axios.post(`${backUrl}/api/capsule/list`, {
+    // 조건 1 유저 인덱스 일치
+    // 조건 2 기오픈된 캡슐
+    const response = await axios.post(`${backUrl}/api/capsule/list`, {
       u_idx,
     });
-    if (!res_capList.data) {
+    const capsuleList = response.data;
+
+    if (!capsuleList) {
       throw new Error('데이터 없음');
     } else {
-      console.log('시작');
-      console.log(res_capList.data.data[30]);
+      const hatchedCapsule = await capsuleList.data.map(v => {
+        if (v.isOpened !== false) {
+          return v;
+        }
+        return console.log('열린 캡슐이 없음2');
+      });
+      await console.log(hatchedCapsule);
     }
   } catch (error) {
-    console.log('에러');
+    console.log(error);
   }
 };
 
 export const createAPI = async (payload: IPayload) => {
   const c_generator = payload.cGenerator.u_idx;
   const {
-    // c_thumb: { },
+    cThumb: c_thumb,
     cName: c_title,
     cDesc: c_content,
     cLocation: c_location,
@@ -78,6 +83,8 @@ export const createAPI = async (payload: IPayload) => {
     5,
   ]);
   formData.append('c_openAt', dummy);
+  formData.append('c_thumb', c_thumb);
+
   let response;
   try {
     // console.log(formData)

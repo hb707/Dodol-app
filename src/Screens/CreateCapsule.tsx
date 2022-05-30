@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ThumbPicker from './ThumbPicker';
 import NavBar from '../Components/NavBar/NavBar';
 import { create_R } from '../Reducers/capsule';
-import { getUser } from '../Storages/storage';
+import { getUser, getThumb } from '../Storages/storage';
 import { IState } from '../types';
 
 const styles = StyleSheet.create({
@@ -73,6 +73,7 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
 
   const SubmitHandler = async () => {
     const cGenerator: object = await getUser();
+    const cThumb = await getThumb();
     capsule = {
       cGenerator,
       cName,
@@ -80,6 +81,7 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
       cLocation,
       cCollaborator,
       cOpenAt,
+      cThumb,
     };
     dispatch(create_R(capsule));
   };

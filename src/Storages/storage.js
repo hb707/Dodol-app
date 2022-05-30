@@ -8,7 +8,6 @@ export const storeUser = async (value, navigation) => {
         'user',
         JSON.stringify(value.data),
       );
-      console.log('스토리이에 유저 정보 저장 성공');
       navigation.navigate('Home', { isLogin: true });
     } catch (e) {
       console.log(e, '스토어 에러');
@@ -35,4 +34,51 @@ export const removeUser = async navigation => {
   } catch (e) {
     console.log(e.message);
   }
+};
+
+export const storeCapsule = async (value) => {
+  try {
+    await AsyncStorage.setItem(
+      '@capsule_item',
+      JSON.stringify(value)
+    );
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+// export const getCapsule = async () => {
+//   try {
+//     const data = await JSON.parse(await AsyncStorage.getItem('@capsule_item'));
+//     return data;
+//   } catch (e) {
+//     console.log(e);
+//     return e;
+//   }
+// };
+
+export const storeThumb = async (value) => {
+  try {
+    const storeData = await AsyncStorage.setItem(
+      'thumbUrl',
+      JSON.stringify(value),
+    );
+    console.log('thumb 스토리지에 저장');
+    // navigation.navigate('Home', { isLogin: true });
+  } catch (e) {
+    console.log(e, '스토어 에러');
+  }
+};
+
+export const getThumb = async (value) => {
+  let thumbUrl;
+  try {
+    thumbUrl = await AsyncStorage.getItem(
+      'thumbUrl',
+    );
+    // navigation.navigate('Home', { isLogin: true });
+  } catch (e) {
+    console.log(e, 'getThumb 에러');
+  }
+  return JSON.parse(`${thumbUrl}`);
 };
