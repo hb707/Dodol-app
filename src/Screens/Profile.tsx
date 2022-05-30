@@ -89,6 +89,7 @@ function ProfileScreen({ navigation, route }: Props) {
 
   const quitUser = () => {
     const { u_idx } = userState.me;
+    removeUser();
     dispatch(quitAction.request({ u_idx }));
   };
 

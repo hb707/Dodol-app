@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { ICapsule } from '../types';
+import { ICapsule, Capsule } from '../types';
 
 export const CREATE_R = 'capsule/CREATE_REQUEST' as const;
 export const READ_R = 'capsule/READ_REQUEST' as const;
@@ -15,17 +15,26 @@ export interface IPayload {
   cThumb: string;
 }
 
+export interface ReadPayloadAttribute {
+  u_idx: null | number;
+}
+
+export interface ReadActionAttribute {
+  type: string;
+  payload: ReadPayloadAttribute;
+}
+
 export const create_R = (payload: IPayload) => ({
   type: CREATE_R,
   payload,
 });
 
-export const read_R = (payload: IPayload) => ({
+export const read_R = (payload: ReadPayloadAttribute) => ({
   type: READ_R,
   payload,
 });
 
-export const read_S = (payload: IPayload) => ({
+export const read_S = (payload: Capsule[]) => ({
   type: READ_S,
   payload,
 });
@@ -42,6 +51,7 @@ const initialState: ICapsule = {
       c_createdAt: new Date(),
       c_openAt: new Date(),
       c_collaborator: [],
+      isOpened: false,
     },
   ],
   loading: false,
@@ -62,12 +72,19 @@ function capsule(state: ICapsule = initialState, action: CapsuleAction) {
       return {
         ...state,
         loading: true,
+        error: {
+          msg: '',
+          status: false,
+        },
       };
+
     case READ_S:
       return {
         ...state,
+        capsule: action.payload,
         loading: false,
       };
+
     case CREATE_R:
       console.log('디스패치 여기로 옴?');
       return {
@@ -88,6 +105,7 @@ function capsule(state: ICapsule = initialState, action: CapsuleAction) {
         ],
         loading: true,
       };
+
     default:
       return { ...state };
   }

@@ -6,6 +6,7 @@ import {
   Image,
   Pressable,
   ImageBackground,
+  StyleSheet,
 } from 'react-native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RouteProp } from '@react-navigation/native';
@@ -39,6 +40,44 @@ type Props = {
   route: MemoryListScreenRouteProp;
   navigation: MemoryListScreenNavigationProp;
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  titleView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 20,
+  },
+  musicPlayBtn: {
+    padding: 10,
+    backgroundColor: '#ffffff',
+    borderRadius: 10,
+  },
+  musicViewBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    backgroundColor: '#ffffff',
+    borderRadius: 10,
+    marginLeft: 20,
+  },
+  picIdx: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    paddingVertical: 7,
+    paddingHorizontal: 14,
+    margin: 10,
+    color: '#ffffff',
+    borderRadius: 20,
+  },
+});
 
 function MemoryViewScreen({ navigation, route }: Props) {
   const [playing, setPlaying] = useState(true);
@@ -76,19 +115,7 @@ function MemoryViewScreen({ navigation, route }: Props) {
           source={{ uri: `http://43.200.42.181/upload/${v}` }}
           style={{ width: '100%', height: '100%' }}
         />
-        <Text
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            paddingVertical: 7,
-            paddingHorizontal: 14,
-            margin: 10,
-            color: '#ffffff',
-            borderRadius: 20,
-          }}
-        >
+        <Text style={styles.picIdx}>
           {i + 1}/{imgArr.length}
         </Text>
       </View>
@@ -96,44 +123,25 @@ function MemoryViewScreen({ navigation, route }: Props) {
 
   return (
     <>
-      <View
-        style={{
-          flex: 12,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
+      <View style={styles.container}>
         <ImageBackground
           source={backgroundImg}
           style={{ width: '100%', height: '100%' }}
         >
           <ScrollView style={{ height: '100%' }}>
             <View style={{ flex: 3, width: SCREEN_WIDTH }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: 20,
-                }}
-              >
+              <View style={styles.titleView}>
                 <View>
                   <Text style={{ fontSize: 20 }}>{data.User.u_alias}</Text>
                   <Text style={{ fontSize: 14, color: 'gray' }}>
-                    @ 2022. 05.28
+                    @ 2022. 05.28 - 캡슐날짜 prop으로 받기
                   </Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                   {data.MemoryMusic.link ? (
                     <>
                       <Pressable onPress={togglePlaying}>
-                        <View
-                          style={{
-                            padding: 10,
-                            backgroundColor: '#ffffff',
-                            borderRadius: 10,
-                          }}
-                        >
+                        <View style={styles.musicPlayBtn}>
                           <Ionicons
                             name={playing ? 'md-pause' : 'play'}
                             size={18}
@@ -142,16 +150,7 @@ function MemoryViewScreen({ navigation, route }: Props) {
                         </View>
                       </Pressable>
                       <Pressable onPress={toggleView}>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            padding: 10,
-                            backgroundColor: '#ffffff',
-                            borderRadius: 10,
-                            marginLeft: 20,
-                          }}
-                        >
+                        <View style={styles.musicViewBtn}>
                           <Text>영상</Text>
                           <Ionicons
                             name={playerView ? 'caret-up' : 'caret-down'}

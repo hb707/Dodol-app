@@ -36,17 +36,24 @@ export const removeUser = async navigation => {
   }
 };
 
+<<<<<<< HEAD
 export const storeCapsule = async (value) => {
   try {
     await AsyncStorage.setItem(
       '@capsule_item',
       JSON.stringify(value)
     );
+=======
+export const storeCapsule = async value => {
+  try {
+    await AsyncStorage.setItem('@capsule_item', JSON.stringify(value));
+>>>>>>> 17d73f830f12bf52f130f5a6ccf8d776bfdb5f6d
   } catch (e) {
     console.log(e);
   }
 };
 
+<<<<<<< HEAD
 // export const getCapsule = async () => {
 //   try {
 //     const data = await JSON.parse(await AsyncStorage.getItem('@capsule_item'));
@@ -82,3 +89,14 @@ export const getThumb = async (value) => {
   }
   return JSON.parse(`${thumbUrl}`);
 };
+=======
+export const getDataFromStorage = async key => {
+  try {
+    const data = await JSON.parse(await AsyncStorage.getItem(key));
+    return data;
+  } catch (e) {
+    console.log(e);
+    return e;
+  }
+};
+>>>>>>> 17d73f830f12bf52f130f5a6ccf8d776bfdb5f6d

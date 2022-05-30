@@ -1,5 +1,5 @@
 import FormData from 'form-data';
-import axios from 'axios';
+import axios, { AxiosPromise } from 'axios';
 import { backUrl, IState } from '../types';
 import { getUser } from '../Storages/storage';
 

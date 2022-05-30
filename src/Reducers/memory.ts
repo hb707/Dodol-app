@@ -73,6 +73,7 @@ function memory(
 
     case 'memory/CREATE_SUCCESS':
       newData.push(action.payload);
+      console.log(newData);
       return {
         ...state,
         data: newData,

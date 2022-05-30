@@ -37,7 +37,6 @@ function* userQUIT(action: QuitActionType) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response: AxiosResponse<any> = yield call(quitAPI, action.payload);
     if (response.data.result === 'success') {
-      yield removeUser();
       yield put(quitAction.success(response.data.data));
     } else {
       yield put(quitAction.failure(response.data.error));

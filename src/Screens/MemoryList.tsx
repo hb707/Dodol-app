@@ -12,11 +12,13 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { AntDesign } from '@expo/vector-icons';
 import NavBar from '../Components/NavBar/NavBar';
 import { mRead } from '../Reducers/memory';
 import defaultPic from '../../assets/background.jpeg';
 import { IState, IMemory } from '../types';
 import backgroundImg from '../../assets/paper.jpeg';
+import polaroid from '../../assets/polaroid.png';
 
 type RootStackParamList = {
   Home: undefined;
@@ -45,16 +47,12 @@ function MemoryListScreen({ navigation, route }: Props) {
   const dispatch = useDispatch();
   // const capsule = useSelector(state => state.capsule);
   const memory = useSelector((state: IState) => state.memory);
-  const onPressIn = () => {
-    setIsPress(true);
-  };
-  const onPressOut = () => {
-    setIsPress(false);
-  };
 
   useEffect(() => {
     dispatch(mRead({ c_idx: cIdx }));
   }, [dispatch, cIdx]);
+
+  console.log(memory);
 
   const item = () =>
     memory.data.map((v: IMemory) => (
@@ -64,83 +62,82 @@ function MemoryListScreen({ navigation, route }: Props) {
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
+          marginBottom: 50,
+          width: 350,
+          height: 420
         }}
         key={v.m_idx}
         onPress={() => {
           navigation.navigate('MemoryView', { data: v });
         }}
-        onPressIn={onPressIn}
-        onPressOut={onPressOut}
       >
-        <View
-          style={{
-            width: SCREEN_WIDTH * 0.9,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'rgba(255,255,255,0.6)',
-            marginVertical: 20,
-            borderRadius: 20,
-            position: 'relative',
-            bottom: isPress ? 10 : 0,
-          }}
+        <ImageBackground
+          source={polaroid}
+          style={{ width: '100%', height: '100%' }}
         >
-          <Text
-            style={{
-              paddingBottom: 10,
-              fontSize: 15,
-              fontWeight: 'bold',
-              marginVertical: 20,
-            }}
-          >
-            🌴{' '}
-            {v.User.u_alias.length > 8
-              ? `${v.User.u_alias.substring(0, 9)}...`
-              : v.User.u_alias}
-            님이 작성한 추억
-          </Text>
-
-          <Image
-            source={
-              v.MemoryImgs[0]
-                ? {
-                  uri: `http://43.200.42.181/upload/${v.MemoryImgs[0].img}`,
-                }
-                : defaultPic
-            }
-            style={{
-              width: 0.65 * SCREEN_WIDTH,
-              height: 0.65 * SCREEN_WIDTH,
-              borderRadius: 10,
-              // marginBottom: 20
-            }}
-          />
           <View
             style={{
-              width: '100%',
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: 'rgba(0,0,0,0.8)',
-              borderBottomLeftRadius: 20,
-              borderBottomRightRadius: 20,
-              paddingVertical: 20,
-              marginTop: 20,
+              width: SCREEN_WIDTH * 0.9,
+              // justifyContent: 'center',
+              // alignItems: 'center',
+              // backgroundColor: 'red',
+              marginLeft: 28,
+              marginTop: 27,
+              borderRadius: 20,
+              position: 'relative',
+              bottom: isPress ? 10 : 0,
             }}
           >
-            <Text
+
+
+            <Image
+              source={
+                v.MemoryImgs[0]
+                  ? {
+                    uri: `http://43.200.42.181/upload/${v.MemoryImgs[0].img}`,
+                  }
+                  : defaultPic
+              }
               style={{
-                width: 0.65 * SCREEN_WIDTH,
-                // marginTop: 20,
-                fontSize: 16,
-                color: '#ffffff',
+                width: 300,
+                height: 310,
+                // borderRadius: 10,
+                // marginBottom: 20
+              }}
+            />
+            <View
+              style={{
+                width: '100%',
+                marginTop: 10,
+                marginLeft: 10
               }}
             >
-              💬{'  '}
-              {v.m_content.length > 30
-                ? `${v.m_content.substring(0, 31)}...`
-                : v.m_content}
-            </Text>
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontWeight: 'bold',
+                  marginBottom: 10
+                }}
+              >
+                {v.User.u_alias.length > 8
+                  ? `${v.User.u_alias.substring(0, 9)}...`
+                  : v.User.u_alias}
+              </Text>
+              <Text
+                style={{
+                  width: 0.65 * SCREEN_WIDTH,
+                  fontSize: 16,
+                  color: '#333',
+                }}
+              >
+                💬{'  '}
+                {v.m_content.length > 30
+                  ? `${v.m_content.substring(0, 31)}...`
+                  : v.m_content}
+              </Text>
+            </View>
           </View>
-        </View>
+        </ImageBackground>
       </Pressable>
     ));
 
@@ -151,7 +148,7 @@ function MemoryListScreen({ navigation, route }: Props) {
           source={backgroundImg}
           style={{ width: '100%', height: '100%' }}
         >
-          <ScrollView contentContainerStyle={{ width: SCREEN_WIDTH }}>
+          <ScrollView contentContainerStyle={{ width: SCREEN_WIDTH, alignItems: 'center' }}>
             <View
               style={{
                 height: 200,
@@ -160,6 +157,7 @@ function MemoryListScreen({ navigation, route }: Props) {
                 padding: 20,
                 backgroundColor: '#ffffff',
                 justifyContent: 'space-between',
+                marginBottom: 30
               }}
             >
               <Text>캡슐인포</Text>
@@ -167,21 +165,29 @@ function MemoryListScreen({ navigation, route }: Props) {
                 onPress={() => {
                   navigation.navigate('CreateMemory');
                 }}
+                style={{ flexDirection: 'row' }}
               >
-                <Text
+
+                <View
                   style={{
                     width: '100%',
                     height: 50,
                     backgroundColor: 'rgba(0,0,0,0.5)',
                     borderRadius: 25,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}
+                >
+                  <AntDesign name="pluscircle" size={16} color="#ffffff" />
+                  <Text style={{
                     fontSize: 16,
                     textAlign: 'center',
                     textAlignVertical: 'center',
                     color: '#ffffff',
-                  }}
-                >
-                  추억을 남겨보세요!
-                </Text>
+                    marginLeft: 10
+                  }}>캡슐 속에 담을 글쓰기</Text>
+                </View>
               </Pressable>
             </View>
             {memory.data.length !== 0 ? (
