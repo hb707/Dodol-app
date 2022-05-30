@@ -56,7 +56,6 @@ function Carousel({ navigation, pages, pageWidth, gap, offset }: Icarousel) {
     );
     setPage(newPage);
   };
-
   return (
     <Container>
       <FlatList

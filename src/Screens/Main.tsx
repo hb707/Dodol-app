@@ -25,28 +25,6 @@ type RootStackParamList = {
 type Props = NativeStackScreenProps<RootStackParamList>;
 
 const screenWidth = Math.round(Dimensions.get('window').width);
-const PAGES = [
-  {
-    num: 1,
-    color: '#cecece',
-  },
-  {
-    num: 2,
-    color: '#D0E6A5',
-  },
-  {
-    num: 3,
-    color: '#FFDD94',
-  },
-  {
-    num: 4,
-    color: '#FA897B',
-  },
-  {
-    num: 5,
-    color: '#CCABD8',
-  },
-];
 
 function MainScreen({ navigation }: Props) {
   const dispatch = useDispatch();
