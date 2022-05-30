@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     borderColor: '#aeaeae',
     backgroundColor: 'rgba(0,0,0,0.1)',
     borderRadius: 15,
+    marginBottom: 20,
   },
   contentContainer: {
     alignItems: 'center',
@@ -61,7 +62,6 @@ const styles = StyleSheet.create({
     padding: 15,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 40,
   },
   title: {
     fontSize: 16,
@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginTop: 20,
     marginBottom: 15,
+    marginLeft: '6%',
   },
 });
 
@@ -91,6 +92,7 @@ function CreateMemoryScreen({ navigation }: Props) {
       memoryImg: image,
       music,
     };
+    console.log('컴포넌트 페이로드', payload);
     dispatch(mCreate(payload));
     navigation.navigate('MemoryList', { cIdx: 1 });
   };
@@ -103,8 +105,14 @@ function CreateMemoryScreen({ navigation }: Props) {
       >
         <View style={{ flex: 1, justifyContent: 'center' }}>
           <View style={{ flex: 1, justifyContent: 'center' }} />
+          <Text
+            style={{ textAlign: 'center', fontSize: 20, marginVertical: 24 }}
+          >
+            캡슐에 담을 글을 써주세요
+          </Text>
           {image.length !== 0 && <Preview image={image} style={{ flex: 5 }} />}
-          <View style={{ flex: 3 }}>
+
+          <View style={{ flex: 3, marginLeft: '5%' }}>
             <ImgPicker onChangeImg={onChangeImg} />
           </View>
 

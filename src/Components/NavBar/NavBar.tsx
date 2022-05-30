@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Pressable } from 'react-native';
+import { StyleSheet, View, Pressable, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     height: 100,
-    backgroundColor: '#000000',
+    backgroundColor: '#ffffff',
   },
   btn: {
     flex: 1,
@@ -35,11 +35,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     borderRadius: 30,
   },
+  navTitle: {
+    fontSize: 10,
+    color: 'gray',
+  },
 });
 
 type RootStackParamList = {
   Home: undefined;
   Feed: { sort: 'latest' | 'top' } | undefined;
+  Main: undefined;
   List: undefined;
   CreateCapsule: undefined;
   Profile: undefined;
@@ -56,7 +61,8 @@ function NavBar({ navigation }: Props) {
           navigation.navigate('Main');
         }}
       >
-        <MaterialCommunityIcons name="bottle-tonic" size={28} color="gray" />
+        <MaterialCommunityIcons name="home" size={28} color="gray" />
+        <Text style={{ fontSize: 12 }}>홈</Text>
       </Pressable>
       <Pressable
         style={styles.btn}
@@ -65,6 +71,7 @@ function NavBar({ navigation }: Props) {
         }}
       >
         <Ionicons name="md-menu" size={28} color="gray" />
+        <Text style={{ fontSize: 12 }}>캡슐목록</Text>
       </Pressable>
       <Pressable
         style={styles.btn}
@@ -73,6 +80,7 @@ function NavBar({ navigation }: Props) {
         }}
       >
         <Ionicons name="add-circle" size={28} color="gray" />
+        <Text style={{ fontSize: 12 }}>추가</Text>
       </Pressable>
       <Pressable
         style={styles.btn}
@@ -81,6 +89,7 @@ function NavBar({ navigation }: Props) {
         }}
       >
         <Ionicons name="person" size={28} color="gray" />
+        <Text style={{ fontSize: 12 }}>프로필</Text>
       </Pressable>
     </View>
   );
