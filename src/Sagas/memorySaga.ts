@@ -47,6 +47,7 @@ async function createAPI(payload: IPayload): Promise<AxiosResponse<IRes>> {
   formData.append('m_author', mAuthor);
   formData.append('music', music);
 
+  console.log('api : ', formData);
   try {
     const response = await axios.post(
       `${backUrl}/api/memory/create`,
@@ -88,7 +89,9 @@ interface IRes extends AxiosPromise {
 // middleware함수 : 통신 실행 후 성공/실패 나눠서 리듀서 실행
 function* memoryCREATE(action: IAction) {
   try {
+    console.log('request : saga 실행');
     const response: IRes = yield call(createAPI, action.payload);
+    console.log(response);
     if (response.result === 'success') {
       yield put({
         type: 'memory/CREATE_SUCCESS',
