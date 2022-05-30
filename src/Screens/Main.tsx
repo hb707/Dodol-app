@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react';
-import { View, Dimensions } from 'react-native';
-import { useDispatch } from 'react-redux';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, Dimensions } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import NavBar from '../Components/NavBar/NavBar';
 import Carousel from '../Components/carousel/Carousel';
+import { IState } from '../types';
+import * as capsuleAction from '../Reducers/capsule';
+import { storeCapsule, getDataFromStorage } from '../Storages/storage';
 
 // Async Storage
 const STORAGE_KEY = '@capsule_item';
@@ -43,16 +46,17 @@ const PAGES = [
 
 function MainScreen({ navigation }: Props) {
   const dispatch = useDispatch();
+  const [isLoading, setisLoading] = useState(true);
+  const capsuleState = useSelector((state: IState) => state.capsule);
 
-  // async storage
   useEffect(() => {
-    const loadCapsules = async () => {
-      const item = await AsyncStorage.getItem(STORAGE_KEY);
-      // if (item) dispatch({ type: 'capsule/READ', item });
-    };
-
-    loadCapsules();
-  }, [dispatch]);
+    (async function useEffectCb() {
+      if (isLoading) {
+        dispatch({ type: capsuleAction.READ_R });
+        await storeCapsule(capsuleState);
+      }
+    })();
+  }, []);
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
