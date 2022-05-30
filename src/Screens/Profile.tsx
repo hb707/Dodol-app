@@ -8,7 +8,9 @@ import {
   Pressable,
   Alert,
 } from 'react-native';
+import * as Clipboard from 'expo-clipboard';
 import { useDispatch, useSelector } from 'react-redux';
+import { Feather } from '@expo/vector-icons';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { delete_S } from '../Reducers/user';
 import NavBar from '../Components/NavBar/NavBar';
@@ -58,6 +60,7 @@ function ProfileScreen({ navigation, route }: Props) {
   const userState = useSelector((state: IState) => state.user);
   const [firstRender, setFirstRender] = useState(true);
   const [isEditting, setIsEditting] = useState(false);
+  const [copyAlert, setCopyAlert] = useState('');
   const [value, setValue] = useState('test');
 
   const input: React.RefObject<TextInput> = useRef(null);
@@ -106,9 +109,49 @@ function ProfileScreen({ navigation, route }: Props) {
     );
   };
 
+  const copyUserCode = async () => {
+    const userCode = userState.me.u_id as string;
+    await Clipboard.setStringAsync(userCode);
+    setCopyAlert('회원코드가 복사 되었습니다.');
+    setTimeout(() => {
+      setCopyAlert('');
+    }, 2000);
+  };
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <View style={{ flex: 12, justifyContent: 'center' }}>
+        <Pressable onPress={copyUserCode}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              borderWidth: 2,
+              borderColor: '#aeaeae',
+              paddingVertical: 20,
+              paddingHorizontal: 15,
+              borderRadius: 15,
+              marginBottom: '5%',
+            }}
+          >
+            <Text style={{ fontSize: 16 }}>회원코드</Text>
+            <Text style={{ fontSize: 16, fontWeight: '600' }}>
+              {userState.me.u_id}
+            </Text>
+            <Feather name="copy" size={24} color="black" />
+          </View>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 30,
+            }}
+          >
+            {copyAlert !== '' && <Text>{copyAlert}</Text>}
+          </View>
+        </Pressable>
+
         <View style={styles.container}>
           <Text
             style={{
