@@ -48,7 +48,7 @@ function* capsuleREAD(action: ReadActionAttribute) {
         tmp.c_content = v.c_content;
         tmp.c_thumb = v.c_thumb;
         tmp.c_createdAt = v.c_createdAt;
-        tmp.c_openAt = v.c_opneat;
+        tmp.c_openAt = v.c_openAt;
         tmp.c_location = v.c_location;
         tmp.isOpened = v.isOpened;
         if (v.Collaborators.length !== 0) {

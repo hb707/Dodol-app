@@ -23,7 +23,7 @@ function Route() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerShown: true,
+          headerShown: false,
           headerBackTitleVisible: false,
           headerTransparent: false,
           headerTitleAlign: 'center',
