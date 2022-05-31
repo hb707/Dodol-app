@@ -2,7 +2,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable global-require */
 import React, { useEffect, useState } from 'react';
-import { Text } from 'react-native';
 import { Asset } from 'expo-asset';
 import Loading from './src/Components/loading/loading';
 import Route from './src/Components/Route/Route';
