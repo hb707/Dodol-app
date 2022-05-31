@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -12,6 +12,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useDispatch } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import ImgPicker from '../Components/imagePicker/ImagePicker';
 import { mCreate } from '../Reducers/memory';
 import { IPayload } from '../Sagas/memorySaga';
@@ -24,10 +25,11 @@ type RootStackParamList = {
   Home: undefined;
   Profile: { userId: string };
   Feed: { sort: 'latest' | 'top' } | undefined;
-  MemoryList: { cIdx: 1 };
+  CreateMemory: { cIdx: number };
+  MemoryList: { cIdx: number };
 };
 
-type Props = NativeStackScreenProps<RootStackParamList>;
+type Props = NativeStackScreenProps<RootStackParamList, 'CreateMemory'>;
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -65,7 +67,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    // paddingHorizontal: 20,
     fontWeight: '700',
     marginTop: 20,
     marginBottom: 15,
@@ -73,10 +74,12 @@ const styles = StyleSheet.create({
   },
 });
 
-function CreateMemoryScreen({ navigation }: Props) {
+function CreateMemoryScreen({ navigation, route }: Props) {
+  const { cIdx } = route.params;
   const [content, setContent] = useState('');
   const [image, setImage] = useState<string[]>([]);
   const [music, setMusic] = useState('');
+  const [uIdx, setUIdx] = useState<number>(-1);
 
   const dispatch = useDispatch();
 
@@ -86,16 +89,28 @@ function CreateMemoryScreen({ navigation }: Props) {
 
   const handleSubmit = async () => {
     const payload: IPayload = {
-      c_idx: 1,
+      c_idx: cIdx,
       m_content: content,
-      m_author: 1,
+      m_author: uIdx,
       memoryImg: image,
       music,
     };
-    console.log('컴포넌트 페이로드', payload);
+
     dispatch(mCreate(payload));
-    navigation.navigate('MemoryList', { cIdx: 1 });
+    navigation.navigate('MemoryList', { cIdx });
   };
+
+  const getUser = async () => {
+    const userItem = await AsyncStorage.getItem('user');
+    if (userItem) {
+      const { u_idx }: { u_idx: number } = JSON.parse(userItem);
+      setUIdx(u_idx);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
@@ -147,6 +162,11 @@ function CreateMemoryScreen({ navigation }: Props) {
       </ImageBackground>
     </KeyboardAwareScrollView>
   );
+  // return (
+  //   <View>
+  //     <Text>왜????</Text>
+  //   </View>
+  // );
 }
 
 export default CreateMemoryScreen;
