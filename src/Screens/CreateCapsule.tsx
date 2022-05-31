@@ -7,16 +7,21 @@ import {
   View,
   Pressable,
   Button,
+  Modal,
+  Dimensions,
 } from 'react-native';
 // import Location from '../Location/Location';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import ThumbPicker from './ThumbPicker';
 import NavBar from '../Components/NavBar/NavBar';
 import { create_R } from '../Reducers/capsule';
 import { getUser } from '../Storages/storage';
 import { IState } from '../types';
+import CollaboratorScreen from './Collaborator';
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
@@ -57,6 +62,9 @@ type RootStackParamList = {
   Home: undefined;
   Profile: { userId: string };
   Feed: { sort: 'latest' | 'top' } | undefined;
+  Collaborator: {
+    onChangeCollaborator: (payload: number[]) => void;
+  };
 };
 
 type Props = NativeStackScreenProps<RootStackParamList>;
@@ -65,8 +73,9 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
   const [cName, setcName] = useState();
   const [cDesc, setcDesc] = useState();
   const [cLocation, setcLocation] = useState();
-  const [cCollaborator, setcCollaborator] = useState();
+  const [cCollaborator, setcCollaborator] = useState([]);
   const [cOpenAt, setOpenAt] = useState();
+  const [modalVisible, setModalVisible] = useState(false);
 
   let capsule;
   const dispatch = useDispatch();
@@ -82,6 +91,10 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
       cOpenAt,
     };
     dispatch(create_R(capsule));
+  };
+
+  const onChangeCollaborator = (payload: number[]) => {
+    setcCollaborator(payload);
   };
 
   return (
@@ -125,14 +138,34 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
             />
             <MaterialCommunityIcons name="draw" size={24} color="black" />
           </Pressable>
-          <Pressable style={styles.inputBox}>
-            <TextInput
-              style={styles.input}
-              onChangeText={setcCollaborator}
-              value={cCollaborator}
-              placeholder="파트너"
+          <Modal animationType="slide" transparent visible={modalVisible}>
+            <CollaboratorScreen
+              onChangeCollaborator={onChangeCollaborator}
+              setModalVisible={setModalVisible}
+              collaboList={cCollaborator}
             />
-            <MaterialCommunityIcons name="draw" size={24} color="black" />
+          </Modal>
+          <Pressable
+            style={{
+              ...styles.inputBox,
+              backgroundColor: 'rgba(0,0,0,0.3)',
+              width: '70%',
+              borderWidth: 2,
+              borderColor: '#333333',
+              paddingVertical: 7,
+              borderRadius: 10,
+              marginLeft: SCREEN_WIDTH * 0.15,
+            }}
+            onPress={() => {
+              setModalVisible(true);
+            }}
+          >
+            <Ionicons name="people-sharp" size={24} color="black" />
+            <Text style={{ marginLeft: 30 }}>
+              {cCollaborator.length === 0
+                ? '친구추가'
+                : `${cCollaborator.length}명`}
+            </Text>
           </Pressable>
           <Pressable style={styles.inputBox}>
             <TextInput
