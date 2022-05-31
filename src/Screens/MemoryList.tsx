@@ -7,6 +7,8 @@ import {
   Image,
   Pressable,
   ImageBackground,
+  Platform,
+  Modal
 } from 'react-native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
@@ -45,15 +47,34 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 function MemoryListScreen({ navigation, route }: Props) {
   const { cIdx } = route.params;
   const [isPress, setIsPress] = useState<boolean>(false);
+  const [cItem, setCItem] = useState<IItem>({})
+  const [modalVisible, setModalVisible] = useState(false)
+
   const dispatch = useDispatch();
   // const capsule = useSelector(state => state.capsule);
   const memory = useSelector((state: IState) => state.memory);
+
+
+  interface IItem {
+    c_collaborator: string[];
+    c_content: string;
+    c_generator: number;
+    c_idx: number;
+    c_location: string | null;
+    c_openAt: string;
+    c_thumb: string | null;
+    c_title: string;
+    isOpened: boolean;
+  }
 
   const getCapsuleItem = async () => {
     const capsuleList = await AsyncStorage.getItem('@capsule_item');
     if (capsuleList) {
       const { capsule } = JSON.parse(capsuleList);
-      console.log(capsule)
+      // console.log(capsule)
+      const item = capsule.filter(v => v.c_idx === cIdx)[0]
+      console.log(item)
+      setCItem(item)
     }
   };
 
@@ -97,8 +118,8 @@ function MemoryListScreen({ navigation, route }: Props) {
               source={
                 v.MemoryImgs[0]
                   ? {
-                      uri: `http://43.200.42.181/upload/${v.MemoryImgs[0].img}`,
-                    }
+                    uri: `http://43.200.42.181/upload/${v.MemoryImgs[0].img}`,
+                  }
                   : defaultPic
               }
               style={{
@@ -157,47 +178,72 @@ function MemoryListScreen({ navigation, route }: Props) {
           >
             <View
               style={{
-                height: 200,
+                // height: 200,
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: SCREEN_WIDTH,
                 borderBottomRightRadius: 20,
                 borderBottomLeftRadius: 20,
-                padding: 20,
-                backgroundColor: '#ffffff',
+                padding: 30,
+                paddingTop: 50,
+                backgroundColor: 'rgb(229,229,229)',
                 justifyContent: 'space-between',
                 marginBottom: 30,
+                ...Platform.select({
+                  ios: {
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 10,
+                      height: 10,
+                    },
+                    shadowOpacity: 0.5,
+                    shadowRadius: 10,
+                  },
+                  android: {
+                    elevation: 10,
+                  },
+                }),
               }}
             >
-              <Text>캡슐인포{cIdx}</Text>
-              <Pressable
-                onPress={() => {
-                  navigation.navigate('CreateMemory', { cIdx });
-                }}
-                style={{ flexDirection: 'row' }}
-              >
-                <View
+              <View>
+                <Text style={{ fontSize: 20 }}>{cItem.c_title}</Text>
+                <Text>{cItem.c_openAt && cItem.c_openAt.substring(0, 10)}에 개봉된 캡슐입니다! </Text>
+                <Text style={{ paddingVertical: 10, width: SCREEN_WIDTH * 0.5 }}>{cItem.c_content}</Text>
+                <Text>{cItem.c_collaborator ? cItem.c_collaborator.length : 1}명</Text>
+              </View>
+              <Pressable onPress={() => { setModalVisible(!modalVisible) }}>
+                <Image
+                  source={
+                    cItem.c_thumb
+                      ? {
+                        uri: `http://43.200.42.181/upload/${v.MemoryImgs[0].img}`,
+                      }
+                      : defaultPic
+                  }
                   style={{
-                    width: '100%',
-                    height: 50,
-                    backgroundColor: 'rgba(0,0,0,0.5)',
-                    borderRadius: 25,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    width: SCREEN_WIDTH * 0.25,
+                    height: SCREEN_WIDTH * 0.25,
                   }}
-                >
-                  <AntDesign name="pluscircle" size={16} color="#ffffff" />
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      textAlign: 'center',
-                      textAlignVertical: 'center',
-                      color: '#ffffff',
-                      marginLeft: 10,
-                    }}
-                  >
-                    캡슐 속에 담을 글쓰기
-                  </Text>
-                </View>
+                />
               </Pressable>
+              <Modal animationType="fade" transparent visible={modalVisible}>
+                <Pressable onPress={() => { setModalVisible(false) }} style={{ flex: 1, justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.8)' }}>
+                  <Image
+                    source={
+                      cItem.c_thumb
+                        ? {
+                          uri: `http://43.200.42.181/upload/${cItem.c_thumb}`,
+                        }
+                        : defaultPic
+                    }
+                    style={{
+                      width: SCREEN_WIDTH,
+                      height: SCREEN_WIDTH,
+                    }}
+                  />
+                </Pressable>
+              </Modal>
+
             </View>
             {memory.data.length !== 0 ? (
               item()
@@ -210,7 +256,7 @@ function MemoryListScreen({ navigation, route }: Props) {
         </ImageBackground>
       </View>
       <NavBar style={{ flex: 1 }} navigation={navigation} />
-    </View>
+    </View >
   );
 }
 
