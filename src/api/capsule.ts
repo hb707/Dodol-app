@@ -2,6 +2,7 @@ import FormData from 'form-data';
 import axios, { AxiosPromise } from 'axios';
 import { backUrl, IState } from '../types';
 import { getUser } from '../Storages/storage';
+import { CapsuleIdx } from '../Sagas/capsuleSaga';
 
 export interface IPayload {
   c_generator: object;
@@ -85,4 +86,9 @@ export const createAPI = async (payload: IPayload) => {
     console.log(response.data.error);
   }
   return response.data;
+};
+
+export const openAPI = async (payload: CapsuleIdx) => {
+  const response = await axios.post(`${backUrl}/api/capsule/open`, payload);
+  return response;
 };

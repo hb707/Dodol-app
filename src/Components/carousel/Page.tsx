@@ -49,11 +49,15 @@ function Page({ navigation, item, style }: Ipage) {
         justifyContent: 'center',
       }}
       onPress={() => {
-        navigation.navigate('MemoryList', { cIdx: item.c_idx });
+        if (item.isOpened) {
+          navigation.navigate('MemoryList', { cIdx: item.c_idx });
+        } else {
+          navigation.navigate('OpenCapsule', { cIdx: item.c_idx });
+        }
       }}
     >
       <BlurView
-        intensity={60}
+        intensity={30}
         tint="light"
         style={{
           width: 0.72 * SCREEN_WIDTH,

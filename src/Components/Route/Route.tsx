@@ -14,6 +14,7 @@ import MemoryView from '../../Screens/MemoryView';
 import CreateMemory from '../../Screens/CreateMemory';
 import Login from '../../Screens/Login';
 import Main from '../../Screens/Main';
+import OpenCapsule from '../../Screens/OpenCapsule';
 
 const Stack = createNativeStackNavigator();
 
@@ -45,6 +46,7 @@ function Route() {
             <Stack.Screen name="MemoryList" component={MemoryList} />
             <Stack.Screen name="MemoryView" component={MemoryView} />
             <Stack.Screen name="CreateMemory" component={CreateMemory} />
+            <Stack.Screen name="OpenCapsule" component={OpenCapsule} />
           </>
         )}
       </Stack.Navigator>

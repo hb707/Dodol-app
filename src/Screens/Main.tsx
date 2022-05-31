@@ -3,13 +3,13 @@
 /* eslint-disable consistent-return */
 /* eslint-disable array-callback-return */
 import React, { useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, Dimensions, Image, ImageBackground } from 'react-native';
+
 import { useDispatch, useSelector } from 'react-redux';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import NavBar from '../Components/NavBar/NavBar';
 import Carousel from '../Components/carousel/Carousel';
-import { IState } from '../types';
+import { Capsule, ICapsule, IState } from '../types';
 import * as capsuleAction from '../Reducers/capsule';
 import { storeCapsule } from '../Storages/storage';
 
@@ -27,6 +27,8 @@ type Props = NativeStackScreenProps<RootStackParamList>;
 const screenWidth = Math.round(Dimensions.get('window').width);
 
 function MainScreen({ navigation }: Props) {
+  const [saveGlobal, setSaveGlobal] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch();
   const capsuleState = useSelector((state: IState) => state.capsule);
   const thumbs = () =>
@@ -34,14 +36,20 @@ function MainScreen({ navigation }: Props) {
       if (v.c_thumb !== null && v.c_thumb !== '')
         return Image.prefetch(`http://43.200.42.181/upload/${v.c_thumb}`);
     });
-  useEffect(() => {
-    (async function tmp() {
-      dispatch({ type: capsuleAction.READ_R });
-      await storeCapsule(capsuleState);
-      await Promise.all([...thumbs()]);
-    })();
-  }, []);
 
+  const storeAndLoad = async () => {
+    await storeCapsule(capsuleState);
+    await Promise.all([...thumbs()]);
+  };
+  useEffect(() => {
+    if (!saveGlobal) {
+      dispatch({ type: capsuleAction.READ_R });
+      setSaveGlobal(true);
+    } else {
+      storeAndLoad();
+    }
+  }, [saveGlobal]);
+  storeAndLoad();
   return (
     <ImageBackground
       source={require('../../assets/dodol_bg_list.jpg')}
