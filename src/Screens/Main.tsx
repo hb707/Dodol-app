@@ -11,7 +11,7 @@ import NavBar from '../Components/NavBar/NavBar';
 import Carousel from '../Components/carousel/Carousel';
 import { Capsule, ICapsule, IState } from '../types';
 import * as capsuleAction from '../Reducers/capsule';
-import { storeCapsule } from '../Storages/storage';
+import { getThumb, storeCapsule } from '../Storages/storage';
 
 // Async Storage
 const STORAGE_KEY = '@capsule_item';

@@ -8,7 +8,6 @@ export const storeUser = async (value, navigation) => {
         'user',
         JSON.stringify(value.data),
       );
-      console.log('스토리이에 유저 정보 저장 성공');
       navigation.navigate('Home', { isLogin: true });
     } catch (e) {
       console.log(e, '스토어 에러');
@@ -41,16 +40,52 @@ export const storeCapsule = async value => {
   try {
     await AsyncStorage.setItem('@capsule_item', JSON.stringify(value));
   } catch (e) {
-    console.log(e);
+    console.log(e, 'storeCapsule 에러');
   }
 };
+
+// export const getCapsule = async () => {
+//   try {
+//     const data = await JSON.parse(await AsyncStorage.getItem('@capsule_item'));
+//     return data;
+//   } catch (e) {
+//     console.log(e);
+//     return e;
+//   }
+// };
+
+export const storeThumb = async value => {
+  try {
+    const storeData = await AsyncStorage.setItem(
+      'thumbUrl',
+      JSON.stringify(value),
+    );
+    console.log('thumb 스토리지에 저장');
+    // navigation.navigate('Home', { isLogin: true });
+  } catch (e) {
+    console.log(e, 'storeThumb 에러');
+  }
+};
+
+export const getThumb = async value => {
+  let thumbUrl;
+  try {
+    thumbUrl = await AsyncStorage.getItem('thumbUrl');
+    // navigation.navigate('Home', { isLogin: true });
+  } catch (e) {
+    console.log(e, 'getThumb 에러');
+  }
+  return JSON.parse(`${thumbUrl}`);
+};
+
+// 썸네일 지우는 코드
 
 export const getDataFromStorage = async key => {
   try {
     const data = await JSON.parse(await AsyncStorage.getItem(key));
     return data;
   } catch (e) {
-    console.log(e);
+    console.log(e, 'getDataFromStorage 에러');
     return e;
   }
 };

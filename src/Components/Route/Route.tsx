@@ -14,6 +14,7 @@ import MemoryView from '../../Screens/MemoryView';
 import CreateMemory from '../../Screens/CreateMemory';
 import Login from '../../Screens/Login';
 import Main from '../../Screens/Main';
+import CLocation from '../../Screens/CLocation';
 import OpenCapsule from '../../Screens/OpenCapsule';
 
 const Stack = createNativeStackNavigator();
@@ -42,6 +43,7 @@ function Route() {
             <Stack.Screen name="Main" component={Main} />
             <Stack.Screen name="List" component={CapsuleList} />
             <Stack.Screen name="CreateCapsule" component={CreateCapsule} />
+            <Stack.Screen name="Location" component={CLocation} />
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="MemoryList" component={MemoryList} />
             <Stack.Screen name="MemoryView" component={MemoryView} />
