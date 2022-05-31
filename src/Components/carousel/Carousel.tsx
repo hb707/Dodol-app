@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
+import { Capsule } from '../../types';
 import LastPage from './LastPage';
 import Page from './Page';
 
@@ -9,13 +10,13 @@ interface Icarousel {
   navigation: any;
   gap: number;
   offset: number;
-  pages: any[];
+  pages: Capsule[];
   pageWidth: number;
 }
 
 const Container = styled.View`
-  margin-top: 70px;
-  height: 80%;
+  margin-top: 10px;
+  height: 84%;
   justify-content: center;
   align-items: center;
 `;
@@ -32,7 +33,7 @@ const Indicator = styled.View<{ focused: boolean }>`
 const IndicatorWrapper = styled.View`
   flex-direction: row;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 20px;
 `;
 
 function Carousel({ navigation, pages, pageWidth, gap, offset }: Icarousel) {
@@ -42,7 +43,10 @@ function Carousel({ navigation, pages, pageWidth, gap, offset }: Icarousel) {
     <Page
       navigation={navigation}
       item={item}
-      style={{ width: pageWidth, marginHorizontal: gap / 2 }}
+      style={{
+        width: pageWidth,
+        marginHorizontal: gap / 2,
+      }}
     />
   );
 
@@ -52,7 +56,6 @@ function Carousel({ navigation, pages, pageWidth, gap, offset }: Icarousel) {
     );
     setPage(newPage);
   };
-
   return (
     <Container>
       <FlatList
@@ -63,7 +66,7 @@ function Carousel({ navigation, pages, pageWidth, gap, offset }: Icarousel) {
         data={pages}
         decelerationRate="fast"
         horizontal
-        keyExtractor={(item: any) => `page__${item.color}`}
+        keyExtractor={(item: any) => `page__${item.c_idx}`}
         onScroll={onScroll}
         pagingEnabled
         renderItem={renderItem}

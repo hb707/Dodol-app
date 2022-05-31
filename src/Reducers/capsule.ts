@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import capsuleOpenActions from '../actions/capsuleOpen';
 import { ICapsule, Capsule } from '../types';
 
 export const CREATE_R = 'capsule/CREATE_REQUEST' as const;
@@ -12,6 +13,7 @@ export interface IPayload {
   cLocation: string;
   cCollaborator: object[];
   cOpenAt: Date;
+  cThumb: string;
 }
 
 export interface ReadPayloadAttribute {
@@ -96,7 +98,7 @@ function capsule(state: ICapsule = initialState, action: CapsuleAction) {
             c_generator: action.payload.cGenerator,
             c_title: action.payload.cName,
             c_content: action.payload.cDesc,
-            c_thumb: '1',
+            c_thumb: action.payload.cThumb,
             c_location: action.payload.cLocation,
             c_collaborator: [action.payload.cCollaborator],
             c_openAt: action.payload.cOpenAt,
@@ -105,8 +107,14 @@ function capsule(state: ICapsule = initialState, action: CapsuleAction) {
         loading: true,
       };
 
+    case capsuleOpenActions.REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
     default:
-      return { ...state };
+      return state;
   }
 }
 

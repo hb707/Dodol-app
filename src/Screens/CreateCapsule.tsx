@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -9,19 +9,22 @@ import {
   Button,
   Modal,
   Dimensions,
+
 } from 'react-native';
-// import Location from '../Location/Location';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import ThumbPicker from './ThumbPicker';
+import ModalLocation from './CLocation';
 import NavBar from '../Components/NavBar/NavBar';
 import { create_R } from '../Reducers/capsule';
-import { getUser } from '../Storages/storage';
-import { IState } from '../types';
+import { getUser, getThumb } from '../Storages/storage';
+import { IState, backUrl } from '../types';
 import CollaboratorScreen from './Collaborator';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
+
 
 const styles = StyleSheet.create({
   container: {
@@ -48,6 +51,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     margin: '5%',
   },
+
   submit: {
     backgroundColor: 'red',
     width: 100,
@@ -69,26 +73,36 @@ type RootStackParamList = {
 
 type Props = NativeStackScreenProps<RootStackParamList>;
 
+const REST_API_KEY = '07e2741dea7ed6e8b2ba90e09024f231';
+// const REDIRECT_URI = 'http://43.200.42.181/api/user/login';
+
+const userAgent =
+  'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1';
+const INJECTED_JAVASCRIPT = `window.ReactNativeWebView.postMessage('message from webView')`;
+
 function CreateCapsuleScreen({ navigation, route }: Props) {
   const [cName, setcName] = useState();
   const [cDesc, setcDesc] = useState();
   const [cLocation, setcLocation] = useState();
   const [cCollaborator, setcCollaborator] = useState([]);
   const [cOpenAt, setOpenAt] = useState();
-  const [modalVisible, setModalVisible] = useState(false);
+  const [cModalVisible, setCModalVisible] = useState(false);
+  const [lModalVisible, setLModalVisible] = useState(false);
 
   let capsule;
   const dispatch = useDispatch();
 
   const SubmitHandler = async () => {
     const cGenerator: object = await getUser();
+    const cThumb = await getThumb();
     capsule = {
       cGenerator,
       cName,
       cDesc,
-      cLocation,
+      // cLocation,
       cCollaborator,
       cOpenAt,
+      cThumb,
     };
     dispatch(create_R(capsule));
   };
@@ -129,19 +143,27 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
 
           <ThumbPicker />
 
-          <Pressable style={styles.inputBox}>
-            <TextInput
-              style={styles.input}
-              onChangeText={setcLocation}
-              value={cLocation}
-              placeholder="위치"
-            />
-            <MaterialCommunityIcons name="draw" size={24} color="black" />
-          </Pressable>
-          <Modal animationType="slide" transparent visible={modalVisible}>
+
+          <Button
+            title="위치 검색"
+            // style={styles.inputBox}
+            onPress={() => {
+              setLModalVisible(!lModalVisible);
+            }}
+          />
+          <Modal
+            animationType="slide"
+            transparent
+            visible={lModalVisible}
+            // onRequestClose={console.log('닫힘')}
+          >
+            <ModalLocation setModalVisible={setLModalVisible} />
+          </Modal>
+
+          <Modal animationType="slide" transparent visible={cModalVisible}>
             <CollaboratorScreen
               onChangeCollaborator={onChangeCollaborator}
-              setModalVisible={setModalVisible}
+              setModalVisible={setCModalVisible}
               collaboList={cCollaborator}
             />
           </Modal>
@@ -157,7 +179,7 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
               marginLeft: SCREEN_WIDTH * 0.15,
             }}
             onPress={() => {
-              setModalVisible(true);
+              setCModalVisible(true);
             }}
           >
             <Ionicons name="people-sharp" size={24} color="black" />
@@ -176,6 +198,7 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
             />
             <MaterialCommunityIcons name="draw" size={24} color="black" />
           </Pressable>
+
           <View>
             <Button
               title="제출"

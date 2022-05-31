@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Button, Image, Pressable } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Fontisto } from '@expo/vector-icons';
+import { getThumb, storeThumb } from '../Storages/storage';
 
 const styles = StyleSheet.create({
   container: {
@@ -41,8 +42,6 @@ const imageOptions = {
 };
 
 function ThumbPicker() {
-  // const initialValue = './73bf92ba5c10596abbf4449fbba4165c.jpg'
-
   const [imageUrl, setImageUrl] = useState();
   const status = ImagePicker.useCameraPermissions();
 
@@ -53,6 +52,7 @@ function ThumbPicker() {
     const img = await ImagePicker.launchCameraAsync({ imageOptions });
     if (!img.cancelled) {
       setImageUrl(img.uri);
+      storeThumb(img.uri);
     }
   };
 
@@ -60,6 +60,7 @@ function ThumbPicker() {
     const img = await ImagePicker.launchImageLibraryAsync({ imageOptions });
     if (!img.cancelled) {
       setImageUrl(img.uri);
+      storeThumb(img.uri);
     }
   };
   return (

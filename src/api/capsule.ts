@@ -2,6 +2,7 @@ import FormData from 'form-data';
 import axios, { AxiosPromise } from 'axios';
 import { backUrl, IState } from '../types';
 import { getUser } from '../Storages/storage';
+import { CapsuleIdx } from '../Sagas/capsuleSaga';
 
 export interface IPayload {
   c_generator: object;
@@ -30,7 +31,9 @@ interface IFormData extends FormData {
 export const readAPI = async () => {
   const { u_idx } = await getUser();
   try {
-    const response = await axios.post(`${backUrl}/api/capsule/list`, { u_idx });
+    const response = await axios.post(`${backUrl}/api/capsule/list`, {
+      u_idx,
+    });
     return response;
   } catch (error) {
     console.log('에러');
@@ -41,7 +44,7 @@ export const readAPI = async () => {
 export const createAPI = async (payload: IPayload) => {
   const c_generator = payload.cGenerator.u_idx;
   const {
-    // c_thumb: { },
+    cThumb: c_thumb,
     cName: c_title,
     cDesc: c_content,
     cLocation: c_location,
@@ -49,7 +52,7 @@ export const createAPI = async (payload: IPayload) => {
     cCollaborator: c_collaborator,
   } = payload;
 
-  const dummy = '2023-02-02';
+  const dummy = new Date('2023-02-02');
   const formData: IFormData = new FormData();
 
   // formData.append('c_thumb', {
@@ -67,6 +70,8 @@ export const createAPI = async (payload: IPayload) => {
     5,
   ]);
   formData.append('c_openAt', dummy);
+  formData.append('c_thumb', c_thumb);
+
   let response;
   try {
     // console.log(formData)
@@ -79,10 +84,15 @@ export const createAPI = async (payload: IPayload) => {
         'content-type': 'multipart/form-data',
       },
     });
-    console.log(response.data);
+    console.log(response);
     if (response.data.result === 'fail') throw new Error('에러');
   } catch (error) {
     console.log(response.data.error);
   }
   return response.data;
+};
+
+export const openAPI = async (payload: CapsuleIdx) => {
+  const response = await axios.post(`${backUrl}/api/capsule/open`, payload);
+  return response;
 };
