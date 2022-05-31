@@ -42,15 +42,15 @@ export const readAPI = async () => {
       throw new Error('데이터 없음');
     } else {
       const hatchedCapsule = await capsuleList.data.map(v => {
-        if (v.isOpened !== false) {
+        // false 로 바꿔줘야 함
+        if (v.isOpened !== true) {
           return v;
         }
         return console.log('열린 캡슐이 없음2');
       });
-      await console.log(hatchedCapsule);
     }
   } catch (error) {
-    console.log(error);
+    console.log(error, 'api capsule 에러');
   }
 };
 
@@ -65,7 +65,7 @@ export const createAPI = async (payload: IPayload) => {
     cCollaborator: c_collaborator,
   } = payload;
 
-  const dummy = '2023-02-02';
+  const dummy = new Date('2023-02-02');
   const formData: IFormData = new FormData();
 
   // formData.append('c_thumb', {
@@ -97,7 +97,7 @@ export const createAPI = async (payload: IPayload) => {
         'content-type': 'multipart/form-data',
       },
     });
-    console.log(response.data);
+    console.log(response);
     if (response.data.result === 'fail') throw new Error('에러');
   } catch (error) {
     console.log(response.data.error);

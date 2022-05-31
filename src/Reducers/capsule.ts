@@ -107,7 +107,7 @@ function capsule(state: ICapsule = initialState, action: CapsuleAction) {
       };
 
     default:
-      return { ...state };
+      return state;
   }
 }
 
