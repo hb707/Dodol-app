@@ -72,7 +72,7 @@ function MemoryListScreen({ navigation, route }: Props) {
           alignItems: 'center',
           marginBottom: 50,
           width: 350,
-          height: 420
+          height: 420,
         }}
         key={v.m_idx}
         onPress={() => {
@@ -93,14 +93,12 @@ function MemoryListScreen({ navigation, route }: Props) {
               bottom: isPress ? 10 : 0,
             }}
           >
-
-
             <Image
               source={
                 v.MemoryImgs[0]
                   ? {
-                    uri: `http://43.200.42.181/upload/${v.MemoryImgs[0].img}`,
-                  }
+                      uri: `http://43.200.42.181/upload/${v.MemoryImgs[0].img}`,
+                    }
                   : defaultPic
               }
               style={{
@@ -112,14 +110,14 @@ function MemoryListScreen({ navigation, route }: Props) {
               style={{
                 width: '100%',
                 marginTop: 10,
-                marginLeft: 10
+                marginLeft: 10,
               }}
             >
               <Text
                 style={{
                   fontSize: 15,
                   fontWeight: 'bold',
-                  marginBottom: 10
+                  marginBottom: 10,
                 }}
               >
                 {v.User.u_alias.length > 8
@@ -151,7 +149,12 @@ function MemoryListScreen({ navigation, route }: Props) {
           source={backgroundImg}
           style={{ width: '100%', height: '100%' }}
         >
-          <ScrollView contentContainerStyle={{ width: SCREEN_WIDTH, alignItems: 'center' }}>
+          <ScrollView
+            contentContainerStyle={{
+              width: SCREEN_WIDTH,
+              alignItems: 'center',
+            }}
+          >
             <View
               style={{
                 height: 200,
@@ -160,7 +163,7 @@ function MemoryListScreen({ navigation, route }: Props) {
                 padding: 20,
                 backgroundColor: '#ffffff',
                 justifyContent: 'space-between',
-                marginBottom: 30
+                marginBottom: 30,
               }}
             >
               <Text>캡슐인포{cIdx}</Text>
@@ -170,7 +173,6 @@ function MemoryListScreen({ navigation, route }: Props) {
                 }}
                 style={{ flexDirection: 'row' }}
               >
-
                 <View
                   style={{
                     width: '100%',
@@ -179,17 +181,21 @@ function MemoryListScreen({ navigation, route }: Props) {
                     borderRadius: 25,
                     flexDirection: 'row',
                     justifyContent: 'center',
-                    alignItems: 'center'
+                    alignItems: 'center',
                   }}
                 >
                   <AntDesign name="pluscircle" size={16} color="#ffffff" />
-                  <Text style={{
-                    fontSize: 16,
-                    textAlign: 'center',
-                    textAlignVertical: 'center',
-                    color: '#ffffff',
-                    marginLeft: 10
-                  }}>캡슐 속에 담을 글쓰기</Text>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      textAlign: 'center',
+                      textAlignVertical: 'center',
+                      color: '#ffffff',
+                      marginLeft: 10,
+                    }}
+                  >
+                    캡슐 속에 담을 글쓰기
+                  </Text>
                 </View>
               </Pressable>
             </View>

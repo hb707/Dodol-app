@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import capsuleOpenActions from '../actions/capsuleOpen';
 import { ICapsule, Capsule } from '../types';
 
 export const CREATE_R = 'capsule/CREATE_REQUEST' as const;
@@ -102,6 +103,12 @@ function capsule(state: ICapsule = initialState, action: CapsuleAction) {
             c_openAt: action.payload.cOpenAt,
           },
         ],
+        loading: true,
+      };
+
+    case capsuleOpenActions.REQUEST:
+      return {
+        ...state,
         loading: true,
       };
 

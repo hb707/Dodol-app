@@ -15,7 +15,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { delete_S } from '../Reducers/user';
 import NavBar from '../Components/NavBar/NavBar';
 import profileActions from '../actions/userProfile';
-import { IState } from '../types';
+import { IState, IUser } from '../types';
 import { getUser, removeUser } from '../Storages/storage';
 import quitAction from '../actions/userQuit';
 
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function ProfileScreen({ navigation, route }: Props) {
+function ProfileScreen({ navigation }: Props) {
   const userState = useSelector((state: IState) => state.user);
   const [firstRender, setFirstRender] = useState(true);
   const [isEditting, setIsEditting] = useState(false);
