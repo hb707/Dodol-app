@@ -13,6 +13,7 @@ import { RouteProp } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import NavBar from '../Components/NavBar/NavBar';
 import { mRead } from '../Reducers/memory';
 import defaultPic from '../../assets/background.jpeg';
@@ -24,7 +25,7 @@ type RootStackParamList = {
   Home: undefined;
   Profile: { userId: string };
   Feed: { sort: 'latest' | 'top' } | undefined;
-  CreateMemory: undefined;
+  CreateMemory: { cIdx: number };
   MemoryList: { cIdx: number };
   MemoryView: { data: IMemory };
 };
@@ -48,11 +49,18 @@ function MemoryListScreen({ navigation, route }: Props) {
   // const capsule = useSelector(state => state.capsule);
   const memory = useSelector((state: IState) => state.memory);
 
+  const getCapsuleItem = async () => {
+    const capsuleList = await AsyncStorage.getItem('@capsule_item');
+    if (capsuleList) {
+      const { capsule } = JSON.parse(capsuleList);
+      console.log(capsule)
+    }
+  };
+
   useEffect(() => {
     dispatch(mRead({ c_idx: cIdx }));
+    getCapsuleItem()
   }, [dispatch, cIdx]);
-
-  console.log(memory);
 
   const item = () =>
     memory.data.map((v: IMemory) => (
@@ -78,9 +86,6 @@ function MemoryListScreen({ navigation, route }: Props) {
           <View
             style={{
               width: SCREEN_WIDTH * 0.9,
-              // justifyContent: 'center',
-              // alignItems: 'center',
-              // backgroundColor: 'red',
               marginLeft: 28,
               marginTop: 27,
               borderRadius: 20,
@@ -101,8 +106,6 @@ function MemoryListScreen({ navigation, route }: Props) {
               style={{
                 width: 300,
                 height: 310,
-                // borderRadius: 10,
-                // marginBottom: 20
               }}
             />
             <View
@@ -160,10 +163,10 @@ function MemoryListScreen({ navigation, route }: Props) {
                 marginBottom: 30
               }}
             >
-              <Text>캡슐인포</Text>
+              <Text>캡슐인포{cIdx}</Text>
               <Pressable
                 onPress={() => {
-                  navigation.navigate('CreateMemory');
+                  navigation.navigate('CreateMemory', { cIdx });
                 }}
                 style={{ flexDirection: 'row' }}
               >
