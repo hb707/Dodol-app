@@ -31,27 +31,13 @@ interface IFormData extends FormData {
 export const readAPI = async () => {
   const { u_idx } = await getUser();
   try {
-    // 캡슐 리스트 가져오기
-    // 조건 1 유저 인덱스 일치
-    // 조건 2 기오픈된 캡슐
     const response = await axios.post(`${backUrl}/api/capsule/list`, {
       u_idx,
     });
-    const capsuleList = response.data;
-
-    if (!capsuleList) {
-      throw new Error('데이터 없음');
-    } else {
-      const hatchedCapsule = await capsuleList.data.map(v => {
-        // false 로 바꿔줘야 함
-        if (v.isOpened !== true) {
-          return v;
-        }
-        return console.log('열린 캡슐이 없음2');
-      });
-    }
+    return response;
   } catch (error) {
-    console.log(error, 'api capsule 에러');
+    console.log('에러');
+    return error;
   }
 };
 
