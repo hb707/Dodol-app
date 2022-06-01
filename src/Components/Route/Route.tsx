@@ -14,6 +14,7 @@ import MemoryView from '../../Screens/MemoryView';
 import CreateMemory from '../../Screens/CreateMemory';
 import Login from '../../Screens/Login';
 import Main from '../../Screens/Main';
+import Collaborator from '../../Screens/Collaborator';
 import CLocation from '../../Screens/CLocation';
 import OpenCapsule from '../../Screens/OpenCapsule';
 
@@ -48,6 +49,7 @@ function Route() {
             <Stack.Screen name="MemoryList" component={MemoryList} />
             <Stack.Screen name="MemoryView" component={MemoryView} />
             <Stack.Screen name="CreateMemory" component={CreateMemory} />
+            <Stack.Screen name="Collaborator" component={Collaborator} />
             <Stack.Screen name="OpenCapsule" component={OpenCapsule} />
           </>
         )}

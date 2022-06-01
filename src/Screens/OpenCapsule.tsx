@@ -114,6 +114,8 @@ function OpenCapsule({ navigation, route }: Props) {
 
   const checkLocation = async () => {
     try {
+      await Location.requestForegroundPermissionsAsync();
+
       const {
         coords: { latitude: lat1, longitude: lng1 },
       } = await Location.getCurrentPositionAsync();
