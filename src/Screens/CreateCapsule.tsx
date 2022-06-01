@@ -18,7 +18,7 @@ import ThumbPicker from './ThumbPicker';
 import ModalLocation from './CLocation';
 import NavBar from '../Components/NavBar/NavBar';
 import { create_R } from '../Reducers/capsule';
-import { getUser, getThumb } from '../Storages/storage';
+import { getUser, getThumb, getSpot } from '../Storages/storage';
 import { IState, backUrl } from '../types';
 import CollaboratorScreen from './Collaborator';
 
@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
   },
   page: {
     width: '100%',
+    padding: 100,
   },
   inputBox: {
     flex: 1,
@@ -81,27 +82,33 @@ const INJECTED_JAVASCRIPT = `window.ReactNativeWebView.postMessage('message from
 function CreateCapsuleScreen({ navigation, route }: Props) {
   const [cName, setcName] = useState();
   const [cDesc, setcDesc] = useState();
-  const [cLocation, setcLocation] = useState();
   const [cCollaborator, setcCollaborator] = useState([]);
-  const [cOpenAt, setOpenAt] = useState();
+  const [cYear, setYear] = useState();
+  const [cMonth, setMonth] = useState();
+  const [cDay, setDay] = useState();
   const [cModalVisible, setCModalVisible] = useState(false);
   const [lModalVisible, setLModalVisible] = useState(false);
 
+  // console.log(new Date(`${cYear}-${cMonth}-${cDay}`))
   let capsule;
   const dispatch = useDispatch();
 
   const SubmitHandler = async () => {
     const cGenerator: object = await getUser();
     const cThumb = await getThumb();
+    const cLocation = await getSpot();
+
+    const cOpenAt = new Date(`${cYear}-${cMonth}-${cDay}`);
     capsule = {
       cGenerator,
       cName,
       cDesc,
-      // cLocation,
+      cLocation,
       cCollaborator,
       cOpenAt,
       cThumb,
     };
+    console.log(capsule);
     dispatch(create_R(capsule));
   };
 
@@ -189,9 +196,21 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
           <Pressable style={styles.inputBox}>
             <TextInput
               style={styles.input}
-              onChangeText={setOpenAt}
-              value={cOpenAt}
-              placeholder="오픈날짜"
+              onChangeText={setYear}
+              value={cYear}
+              placeholder="YYYY"
+            />
+            <TextInput
+              style={styles.input}
+              onChangeText={setMonth}
+              value={cMonth}
+              placeholder="MM"
+            />
+            <TextInput
+              style={styles.input}
+              onChangeText={setDay}
+              value={cDay}
+              placeholder="DD"
             />
             <MaterialCommunityIcons name="draw" size={24} color="black" />
           </Pressable>

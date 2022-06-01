@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, View, Text, StyleSheet, TextInput, Button } from 'react-native';
 import axios from 'axios';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import { backUrl } from '../types';
+import { storeSpot } from '../Storages/storage';
 
 const styles = StyleSheet.create({
   container: {
@@ -33,24 +34,35 @@ const styles = StyleSheet.create({
 const REST_API_KEY = '07e2741dea7ed6e8b2ba90e09024f231';
 
 function ModalLocation({ setModalVisible }) {
-  const [cSearchLocation, setcSearchLocation] = useState();
-  const [spot, setSpot] = useState();
+  const initialRegion = {
+    longitude: Number(126.9334126801552),
+    latitude: Number(37.54421644102267),
+    latitudeDelta: Number(0.1857534755372825),
+    longitudeDelta: Number(0.2738749137452601),
+  };
+  const [searchLocation, setSearchLocation] = useState();
+  // const [searchedSpot, setSearchedSpot] = useState();
+  const [cSpot, setcSpot] = useState(initialRegion);
 
+  // useEffect(storeSpot(cSpot), [cSpot])
+
+  // 검색 후 나온 배열 중 첫번째 배열의 long / lati 값이 들어감
   const searchedSpot = [];
-  function showLocation(arr) {
-    arr.map(v => searchedSpot.push({ x: v.x, y: v.y }));
-    setSpot({
-      longitude: Number(searchedSpot[0].x),
-      latitude: Number(searchedSpot[0].y),
+  async function showLocation(arr) {
+    await arr.map(v => searchedSpot.push({ x: v.x, y: v.y }));
+    setcSpot({
+      longitude: Number(searchedSpot[0].y),
+      latitude: Number(searchedSpot[0].x),
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
     });
   }
 
+  // 검색 시 시 실행됨
   const requestLocation = async () => {
     try {
       const options = {
-        location: cSearchLocation,
+        location: searchLocation,
         headers: {
           Authorization: `KakaoAK ${REST_API_KEY} `,
         },
@@ -75,16 +87,25 @@ function ModalLocation({ setModalVisible }) {
     <View style={styles.container}>
       <TextInput
         style={styles.inputBox}
-        onChangeText={setcSearchLocation}
-        value={cSearchLocation}
+        onChangeText={setSearchLocation}
+        value={searchLocation}
         placeholder="위치를 입력해주세요"
       />
       <Button title="검색" onPress={requestLocation} />
       <View style={styles.mapBox}>
         <MapView
           style={{ flex: 1 }}
-          initialRegion={spot}
-          onRegionChange={setSpot}
+          initialRegion={initialRegion}
+          onRegionChangeComplete={location => {
+            setcSpot(location);
+            storeSpot(cSpot);
+          }}
+        />
+        <Marker
+          draggable
+          coordinate={{ latitude: cSpot.latitude, longitude: cSpot.latitude }}
+          title="this is a marker"
+          description="this is a marker example"
         />
       </View>
       <Button style={styles.closeBtn} title="close" onPress={closeModal} />

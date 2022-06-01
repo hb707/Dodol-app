@@ -32,7 +32,6 @@ function* capsuleREAD(action: ReadActionAttribute) {
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response: AxiosResponse<any> = yield call(readAPI);
-    console.log(response);
     if (response.data.result === 'success') {
       const payload: Capsule[] = [];
       const { data } = response.data;
@@ -63,9 +62,7 @@ function* capsuleREAD(action: ReadActionAttribute) {
         }
         payload.push(tmp);
       });
-      console.log('1');
       yield put(read_S(payload));
-      console.log('2');
     } else {
     }
   } catch (e) {

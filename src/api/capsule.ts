@@ -84,7 +84,6 @@ export const createAPI = async (payload: IPayload) => {
         'content-type': 'multipart/form-data',
       },
     });
-    console.log(response);
     if (response.data.result === 'fail') throw new Error('에러');
   } catch (error) {
     console.log(response.data.error);

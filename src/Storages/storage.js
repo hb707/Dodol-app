@@ -78,7 +78,23 @@ export const getThumb = async value => {
   return JSON.parse(`${thumbUrl}`);
 };
 
-// 썸네일 지우는 코드
+export const storeSpot = async value => {
+  try {
+    const storeData = await AsyncStorage.setItem('spot', JSON.stringify(value));
+  } catch (e) {
+    console.log(e, '스토어 스팟 에러');
+  }
+};
+
+export const getSpot = async value => {
+  let spot;
+  try {
+    spot = await AsyncStorage.getItem('spot');
+  } catch (e) {
+    console.log(e, 'getSpot 에러');
+  }
+  return JSON.parse(`${spot}`);
+};
 
 export const getDataFromStorage = async key => {
   try {

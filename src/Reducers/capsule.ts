@@ -87,7 +87,6 @@ function capsule(state: ICapsule = initialState, action: CapsuleAction) {
       };
 
     case CREATE_R:
-      console.log('디스패치 여기로 옴?');
       return {
         ...state,
         capsule: [
