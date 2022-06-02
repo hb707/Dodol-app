@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 7,
     width: 120,
-    backgroundColor: '#e4c86c',
     borderRadius: 10,
     alignItems: 'center',
   },
@@ -151,9 +150,9 @@ function CapsuleListScreen({ navigation }: Props) {
                 onPress={() => {
                   setOnlyOpened(!onlyOpened);
                 }}
-                style={styles.cngBtn}
+                style={{ ...styles.cngBtn, backgroundColor: (onlyOpened ? '#000000' : '#ffffff'), borderWidth: 3 }}
               >
-                <Text style={{ fontFamily: 'font1' }}>{onlyOpened ? '전체캡슐보기' : '열린캡슐만 보기'}</Text>
+                <Text style={{ fontFamily: 'font1', color: (!onlyOpened ? '#000000' : '#ffffff') }}>{onlyOpened ? '전체 캡슐 보기' : '열린 캡슐만 보기'}</Text>
               </Pressable>
             </LinearGradient>
           </View>
