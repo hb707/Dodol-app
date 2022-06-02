@@ -61,7 +61,11 @@ function MainScreen({ navigation }: Props) {
           pageWidth={screenWidth - (16 + 36) * 2}
         />
       </View>
-      <NavBar style={{ flex: 1 }} navigation={navigation} />
+      <NavBar
+        style={{ flex: 1 }}
+        navigation={navigation}
+        currentScreen="Main"
+      />
     </View>
   );
 }

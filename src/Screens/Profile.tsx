@@ -283,7 +283,11 @@ function ProfileScreen({ navigation }: Props) {
           </View>
         </Pressable>
       </View>
-      <NavBar style={{ flex: 1 }} navigation={navigation} />
+      <NavBar
+        style={{ flex: 1 }}
+        navigation={navigation}
+        currentScreen="Profile"
+      />
     </View>
   );
 }

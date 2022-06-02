@@ -160,7 +160,7 @@ function CapsuleListScreen({ navigation }: Props) {
           {item()}
         </ScrollView>
       </View>
-      <NavBar style={{ flex: 1 }} navigation={navigation} />
+      <NavBar style={{ flex: 1 }} navigation={navigation} currentScreen='List' />
     </View>
   );
 }

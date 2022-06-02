@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Pressable, Text, Image } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -63,7 +63,7 @@ type RootStackParamList = {
 
 type Props = NativeStackScreenProps<RootStackParamList>;
 
-function NavBar({ navigation }: Props) {
+function NavBar({ navigation, currentScreen }: Props) {
   return (
     <View style={styles.container}>
       <Pressable
@@ -72,7 +72,10 @@ function NavBar({ navigation }: Props) {
           navigation.navigate('Main');
         }}
       >
-        <Image source={homeIcon1} style={{ width: 24, height: 24 }} />
+        <Image
+          source={currentScreen === 'Main' ? homeIcon2 : homeIcon1}
+          style={{ width: 24, height: 24 }}
+        />
         <Text style={styles.textFont}>홈</Text>
       </Pressable>
       <Pressable
@@ -81,7 +84,10 @@ function NavBar({ navigation }: Props) {
           navigation.navigate('List');
         }}
       >
-        <Image source={listIcon1} style={{ width: 24, height: 24 }} />
+        <Image
+          source={currentScreen === 'List' ? listIcon2 : listIcon1}
+          style={{ width: 24, height: 24 }}
+        />
         <Text style={styles.textFont}>캡슐목록</Text>
       </Pressable>
       <Pressable
@@ -90,7 +96,10 @@ function NavBar({ navigation }: Props) {
           navigation.navigate('CreateCapsule');
         }}
       >
-        <Image source={addIcon1} style={{ width: 24, height: 24 }} />
+        <Image
+          source={currentScreen === 'Add' ? addIcon2 : addIcon1}
+          style={{ width: 24, height: 24 }}
+        />
         <Text style={styles.textFont}>추가</Text>
       </Pressable>
       <Pressable
@@ -99,7 +108,10 @@ function NavBar({ navigation }: Props) {
           navigation.navigate('Profile');
         }}
       >
-        <Image source={profileIcon1} style={{ width: 24, height: 24 }} />
+        <Image
+          source={currentScreen === 'Profile' ? profileIcon2 : profileIcon1}
+          style={{ width: 24, height: 24 }}
+        />
         <Text style={styles.textFont}>프로필</Text>
       </Pressable>
     </View>
