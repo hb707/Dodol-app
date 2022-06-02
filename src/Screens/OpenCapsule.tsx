@@ -19,6 +19,8 @@ import { getDataFromStorage, setDataToStorage } from '../Storages/storage';
 import capsuleThumbFrame from '../../assets/capsule_thumb_frame.png';
 import defaultThumb from '../../assets/default_capsule_thumbnail.png';
 import capsuleTitle from '../../assets/capsule_title_bg.png';
+import openDateLabel from '../../assets/openDateLabel.png';
+import openLocationLabel from '../../assets/openLocationLabel.png';
 import capsuleOpenActions from '../actions/capsuleOpen';
 import OpenLoading from '../Components/loading/openLoading';
 import OpenCapsuleAlert from '../Components/alert/openCapsuleAlert';
@@ -136,7 +138,9 @@ function OpenCapsule({ navigation, route }: Props) {
       const {
         coords: { latitude: lat1, longitude: lng1 },
       } = await Location.getCurrentPositionAsync();
-      return getDistanceFromLatLonInKm(lat1, lng1, 37.539498, 127.123333);
+      const c_location = thisCapsule.c_location as string;
+      const [lat2, lng2] = c_location.split(',');
+      return getDistanceFromLatLonInKm(lat1, lng1, Number(lat2), Number(lng2));
     } catch (e) {
       console.log(e);
       return 200;
@@ -151,7 +155,8 @@ function OpenCapsule({ navigation, route }: Props) {
       return;
     }
 
-    if ((await checkLocation()) > 100) {
+    const locationPass = await checkLocation();
+    if (locationPass > 100 || Number.isNaN(locationPass)) {
       setOpenCapsule('failure');
       setBtnText('캡슐을 묻은 위치로 이동해주세요');
       return;
@@ -190,7 +195,7 @@ function OpenCapsule({ navigation, route }: Props) {
       successJarPress();
     }
 
-    if (openCapsule === 'yet') {
+    if (openCapsule === 'yet' || openCapsule === 'failure') {
       if (!canWrite) {
         setErrors('이미 작성을 완료한 캡슐 입니다.');
         setTimeout(() => {
@@ -335,10 +340,10 @@ function OpenCapsule({ navigation, route }: Props) {
                 style={{
                   width: 0.55 * SCREEN_WIDTH,
                   height: 0.06 * SCREEN_HEIGHT,
-                  top: '72%',
+                  top: '110%',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  transform: [{ rotate: '4deg' }],
+                  transform: [{ rotate: '6deg' }],
                 }}
                 source={capsuleTitle}
                 resizeMode="contain"
@@ -347,6 +352,43 @@ function OpenCapsule({ navigation, route }: Props) {
                   style={{ fontSize: 0.06 * SCREEN_WIDTH, fontWeight: '700' }}
                 >
                   {thisCapsule.c_title}
+                </Text>
+              </ImageBackground>
+
+              <ImageBackground
+                style={{
+                  width: 0.55 * SCREEN_WIDTH,
+                  height: 0.06 * SCREEN_HEIGHT,
+                  top: '115%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  transform: [{ rotate: '-4deg' }],
+                }}
+                source={openDateLabel}
+                resizeMode="contain"
+              >
+                <Text
+                  style={{ fontSize: 0.06 * SCREEN_WIDTH, fontWeight: '700' }}
+                >
+                  {thisCapsule.c_location?.split(',')[3]}
+                </Text>
+              </ImageBackground>
+              <ImageBackground
+                style={{
+                  width: 0.6 * SCREEN_WIDTH,
+                  height: 0.06 * SCREEN_HEIGHT,
+                  top: '123%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  transform: [{ rotate: '6deg' }],
+                }}
+                source={openLocationLabel}
+                resizeMode="contain"
+              >
+                <Text
+                  style={{ fontSize: 0.06 * SCREEN_WIDTH, fontWeight: '700' }}
+                >
+                  {thisCapsule.c_openAt?.toString().split('T')[0]}
                 </Text>
               </ImageBackground>
             </ImageBackground>
