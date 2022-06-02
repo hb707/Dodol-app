@@ -20,6 +20,16 @@ function App() {
       require('./assets/capsule_date_bg.png'),
       require('./assets/polaroid.png'),
       require('./assets/paper.jpeg'),
+      require('./assets/capsule/openCapsule0.png'),
+      require('./assets/capsule/openCapsule1.png'),
+      require('./assets/capsule/openCapsule2.png'),
+      require('./assets/capsule/openCapsule3.png'),
+      require('./assets/capsule/openCapsule4.png'),
+      require('./assets/capsule/openCapsule5.png'),
+      require('./assets/capsule/openCapsule6.png'),
+      require('./assets/capsule/openCapsule7.png'),
+      require('./assets/capsule/openCapsule8.png'),
+      require('./assets/capsule/openCapsule9.png'),
     ]);
   };
 
