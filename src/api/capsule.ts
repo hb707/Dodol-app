@@ -71,7 +71,7 @@ export const createAPI = async (
   formData.append('c_content', c_content);
   formData.append(
     'c_location',
-    `${c_location.longitude},${c_location.latitude}`,
+    `${c_location.longitude},${c_location.latitude},${c_location.cAddress}`,
   );
   formData.append('collaborator', 5);
   formData.append('collaborator', 6);

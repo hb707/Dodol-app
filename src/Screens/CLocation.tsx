@@ -1,31 +1,60 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, View, Text, StyleSheet, TextInput, Button } from 'react-native';
+import {
+  Modal,
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Button,
+  Dimensions,
+  Image,
+} from 'react-native';
 import axios from 'axios';
 import MapView, { Marker } from 'react-native-maps';
 import { backUrl } from '../types';
 import { storeSpot } from '../Storages/storage';
+import marker from '../../assets/marker.png';
+
+const screen = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'yellow',
-    justifyContent: 'center',
-  },
-  inputBox: {
-    width: '70%',
-    borderBottomWidth: 1,
-    borderColor: 'black',
-    fontSize: 20,
-    margin: '5%',
+    backgroundColor: 'white',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignContent: 'center',
+    paddingTop: screen.height * 0.2,
   },
   mapBox: {
-    width: 350,
-    height: 300,
-    borderColor: 'red',
+    flex: 5,
+    width: screen.width * 0.9,
+    height: screen.height * 0.9,
     borderWidth: 2,
-    marginLeft: 30,
+    marginLeft: screen.width * 0.05,
+    position: 'relative',
+  },
+  marker: {
+    position: 'absolute',
+    width: screen.width * 0.1,
+    height: screen.width * 0.1,
+    top: '50%',
+    left: '50%',
+    transform: [{ translateX: -25 }, { translateY: -25 }],
+  },
+  addressBox: {
+    flex: 1,
+    width: screen.width * 0.7,
+    height: screen.height * 0.05,
+    marginLeft: screen.width * 0.15,
+    padding: screen.height * 0.05,
+  },
+  address: {
+    flex: 1,
+    fontSize: screen.fontScale * 20,
   },
   closeBtn: {
+    flex: 1,
     backgroundColor: 'white',
     fontSize: 100,
   },
@@ -38,6 +67,14 @@ export interface ILocation {
   latitude: number;
   latitudeDelta: number;
   longitudeDelta: number;
+  cAddress: string;
+}
+
+interface ILocationForParameter {
+  longitude: number;
+  latitude: number;
+  latitudeDelta: number;
+  longitudeDelta: number;
 }
 
 function ModalLocation({
@@ -46,45 +83,39 @@ function ModalLocation({
   setModalVisible: (flag: boolean) => void;
 }) {
   const initialRegion: ILocation = {
-    longitude: Number(126.9334126801552),
-    latitude: Number(37.54421644102267),
+    longitude: Number(127.00634649077266),
+    latitude: Number(37.563817018270434),
     latitudeDelta: Number(0.1857534755372825),
     longitudeDelta: Number(0.2738749137452601),
   };
-  const [searchLocation, setSearchLocation] = useState();
-  // const [searchedSpot, setSearchedSpot] = useState();
-  const [cSpot, setcSpot] = useState<ILocation>(initialRegion);
+  const [cSpot, setcSpot] = useState<ILocationForParameter>(initialRegion);
+  const [cAddress, setcAddress] = useState('퇴계로');
 
-  // useEffect(storeSpot(cSpot), [cSpot])
-
-  // 검색 후 나온 배열 중 첫번째 배열의 long / lati 값이 들어감
-  const searchedSpot: any[] = [];
-  async function showLocation(arr: any) {
-    await arr.map(v => searchedSpot.push({ x: v.x, y: v.y }));
-    setcSpot({
-      longitude: Number(searchedSpot[0].y),
-      latitude: Number(searchedSpot[0].x),
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    });
-  }
-
-  // 검색 시 시 실행됨
-  const requestLocation = async () => {
+  const getAdress = async () => {
     try {
       const options = {
-        location: searchLocation,
+        location: {
+          latitude: cSpot.latitude,
+          longitude: cSpot.longitude,
+        },
         headers: {
           Authorization: `KakaoAK ${REST_API_KEY} `,
         },
       };
+
       const response = await axios.post(
         `${backUrl}/api/location/list`,
         options,
       );
-      const locationList: any = response.data.documents;
+      const locationList: any = response.data;
+      const address = locationList.documents[0].address.address_name;
+      const roadAdress = locationList.documents[0].road_address;
 
-      showLocation(locationList);
+      if (roadAdress !== null && roadAdress.main_building_no !== null) {
+        setcAddress(`${roadAdress.road_name} ${roadAdress.main_building_no}`);
+      } else {
+        setcAddress(address);
+      }
     } catch (e) {
       console.log(e, '액시오스 에러');
     }
@@ -94,31 +125,25 @@ function ModalLocation({
     setModalVisible(false);
   };
 
+  useEffect(() => {
+    getAdress();
+  }, [cSpot]);
+
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.inputBox}
-        onChangeText={setSearchLocation}
-        value={searchLocation}
-        placeholder="위치를 입력해주세요"
-      />
-      <Button title="검색" onPress={requestLocation} />
       <View style={styles.mapBox}>
         <MapView
           style={{ flex: 1 }}
           initialRegion={cSpot}
-          onRegionChangeComplete={(location: ILocation) => {
+          onRegionChangeComplete={(location: ILocationForParameter) => {
             setcSpot(location);
-            storeSpot(cSpot);
-            console.log(cSpot);
+            storeSpot({ ...cSpot, cAddress });
           }}
         />
-        <Marker
-          draggable
-          coordinate={{ latitude: cSpot.latitude, longitude: cSpot.latitude }}
-          title="this is a marker"
-          description="this is a marker example"
-        />
+        <Image source={marker} style={styles.marker} resizeMode="contain" />
+      </View>
+      <View style={styles.addressBox}>
+        <Text style={styles.address}>{cAddress}</Text>
       </View>
       <Button style={styles.closeBtn} title="close" onPress={closeModal} />
     </View>
