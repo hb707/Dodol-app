@@ -22,6 +22,7 @@ type RootStackParamList = {
   Profile: { userId: string };
   Feed: { sort: 'latest' | 'top' } | undefined;
   MemoryList: { cIdx: number | null };
+  OpenCapsule: { cIdx: number | null };
 };
 
 type Props = NativeStackScreenProps<RootStackParamList>;
@@ -84,7 +85,10 @@ function CapsuleListScreen({ navigation }: Props) {
       <Pressable
         style={styles.itemContainer}
         onPress={() => {
-          navigation.navigate('MemoryList', { cIdx: v.c_idx });
+          // eslint-disable-next-line no-unused-expressions
+          v.isOpened
+            ? navigation.navigate('MemoryList', { cIdx: v.c_idx })
+            : navigation.navigate('OpenCapsule', { cIdx: v.c_idx })
         }}
         key={v.c_idx}
       >
@@ -122,7 +126,7 @@ function CapsuleListScreen({ navigation }: Props) {
             </Text>
           </View>
         </View>
-      </Pressable>
+      </Pressable >
     ));
 
   return (

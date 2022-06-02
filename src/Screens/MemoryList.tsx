@@ -144,98 +144,97 @@ function MemoryListScreen({ navigation, route }: Props) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <View style={{ flex: 12, justifyContent: 'center' }}>
-        <ImageBackground
-          source={backgroundImg}
-          style={{ width: '100%', height: '100%' }}
+
+        <ScrollView
+          contentContainerStyle={{
+            width: SCREEN_WIDTH,
+            alignItems: 'center',
+          }}
         >
-          <ScrollView
-            contentContainerStyle={{
-              width: SCREEN_WIDTH,
+          <View
+            style={{
+              // height: 200,
+              flexDirection: 'row',
               alignItems: 'center',
+              width: SCREEN_WIDTH,
+              borderBottomRightRadius: 20,
+              borderBottomLeftRadius: 20,
+              padding: 30,
+              paddingTop: 50,
+              backgroundColor: 'rgb(229,229,229)',
+              justifyContent: 'space-between',
+              marginBottom: 30,
+              ...Platform.select({
+                ios: {
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 10,
+                    height: 10,
+                  },
+                  shadowOpacity: 0.5,
+                  shadowRadius: 10,
+                },
+                android: {
+                  elevation: 10,
+                },
+              }),
             }}
           >
-            <View
-              style={{
-                // height: 200,
-                flexDirection: 'row',
-                alignItems: 'center',
-                width: SCREEN_WIDTH,
-                borderBottomRightRadius: 20,
-                borderBottomLeftRadius: 20,
-                padding: 30,
-                paddingTop: 50,
-                backgroundColor: 'rgb(229,229,229)',
-                justifyContent: 'space-between',
-                marginBottom: 30,
-                ...Platform.select({
-                  ios: {
-                    shadowColor: "#000",
-                    shadowOffset: {
-                      width: 10,
-                      height: 10,
-                    },
-                    shadowOpacity: 0.5,
-                    shadowRadius: 10,
-                  },
-                  android: {
-                    elevation: 10,
-                  },
-                }),
-              }}
-            >
-              <View>
-                <Text style={{ fontSize: 20 }}>{cItem.c_title}</Text>
-                <Text>{cItem.c_openAt && JSON.stringify(cItem.c_openAt).substring(1, 11)}</Text>
-                <Text style={{ paddingVertical: 10, width: SCREEN_WIDTH * 0.5 }}>{cItem.c_content}</Text>
-                <Text><Ionicons name="md-people" size={20} color="black" />{'  '}{cItem.c_collaborator ? cItem.c_collaborator.length + 1 : 1}명</Text>
-                <Text>나{cItem.c_collaborator.length !== 0 && `, ${writers}`}</Text>
+            <View>
+              <Text style={{ fontSize: 20 }}>{cItem.c_title}</Text>
+              <Text>{cItem.c_openAt && JSON.stringify(cItem.c_openAt).substring(1, 11)}</Text>
+              <Text style={{ paddingVertical: 10, width: SCREEN_WIDTH * 0.5 }}>{cItem.c_content}</Text>
+              <Text><Ionicons name="md-people" size={20} color="black" />{'  '}{cItem.c_collaborator ? cItem.c_collaborator.length + 1 : 1}명</Text>
+              <Text>나{cItem.c_collaborator.length !== 0 && `, ${writers}`}</Text>
 
-              </View>
-              <Pressable onPress={() => { setModalVisible(!modalVisible) }}>
+            </View>
+            <Pressable onPress={() => { setModalVisible(!modalVisible) }}>
+              <Image
+                source={
+                  cItem.c_thumb
+                    ? {
+                      uri: `http://43.200.42.181/upload/${cItem.c_thumb}`,
+                    }
+                    : defaultCapsuleThumbPic
+                }
+                style={{
+                  width: SCREEN_WIDTH * 0.3,
+                  height: SCREEN_WIDTH * 0.3,
+                  borderWidth: 5,
+                  borderColor: '#ffffff',
+                }}
+              />
+            </Pressable>
+            <Modal animationType="fade" transparent visible={modalVisible}>
+              <Pressable onPress={() => { setModalVisible(false) }} style={{ flex: 1, justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.8)' }}>
                 <Image
                   source={
                     cItem.c_thumb
                       ? {
-                        uri: `http://43.200.42.181/upload/${v.MemoryImgs[0].img}`,
+                        uri: `http://43.200.42.181/upload/${cItem.c_thumb}`,
                       }
                       : defaultCapsuleThumbPic
+
                   }
                   style={{
-                    width: SCREEN_WIDTH * 0.25,
-                    height: SCREEN_WIDTH * 0.25,
+                    width: SCREEN_WIDTH,
+                    height: SCREEN_WIDTH,
                   }}
                 />
               </Pressable>
-              <Modal animationType="fade" transparent visible={modalVisible}>
-                <Pressable onPress={() => { setModalVisible(false) }} style={{ flex: 1, justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.8)' }}>
-                  <Image
-                    source={
-                      cItem.c_thumb
-                        ? {
-                          uri: `http://43.200.42.181/upload/${cItem.c_thumb}`,
-                        }
-                        : defaultCapsuleThumbPic
+            </Modal>
 
-                    }
-                    style={{
-                      width: SCREEN_WIDTH,
-                      height: SCREEN_WIDTH,
-                    }}
-                  />
-                </Pressable>
-              </Modal>
+          </View>
 
+          {memory.data.length !== 0 ? (
+            item()
+          ) : (
+            <View>
+              <Text> </Text>
             </View>
+          )}
+        </ScrollView>
 
-            {memory.data.length !== 0 ? (
-              item()
-            ) : (
-              <View>
-                <Text> </Text>
-              </View>
-            )}
-          </ScrollView>
-        </ImageBackground>
       </View>
       <NavBar style={{ flex: 1 }} navigation={navigation} />
     </View >

@@ -125,74 +125,69 @@ function MemoryViewScreen({ navigation, route }: Props) {
   return (
     <>
       <View style={styles.container}>
-        <ImageBackground
-          source={backgroundImg}
-          style={{ width: '100%', height: '100%' }}
-        >
-          <ScrollView style={{ height: '100%' }}>
-            <View style={{ flex: 3, width: SCREEN_WIDTH }}>
-              <View style={styles.titleView}>
-                <View>
-                  <Text style={{ fontSize: 20 }}>{data.User.u_alias}</Text>
-                  <Text style={{ fontSize: 14, color: 'gray' }}>
-                    @ 2022. 05.28 - 캡슐날짜 prop으로 받기
-                  </Text>
-                </View>
-                <View style={{ flexDirection: 'row' }}>
-                  {data.MemoryMusic.link ? (
-                    <>
-                      <Pressable onPress={togglePlaying}>
-                        <View style={styles.musicPlayBtn}>
-                          <Ionicons
-                            name={playing ? 'md-pause' : 'play'}
-                            size={18}
-                            color="black"
-                          />
-                        </View>
-                      </Pressable>
-                      <Pressable onPress={toggleView}>
-                        <View style={styles.musicViewBtn}>
-                          <Text>영상</Text>
-                          <Ionicons
-                            name={playerView ? 'caret-up' : 'caret-down'}
-                            size={12}
-                            color="black"
-                          />
-                        </View>
-                      </Pressable>
-                    </>
-                  ) : (
-                    <View style={{ width: 30 }} />
-                  )}
-                </View>
+        <ScrollView style={{ height: '100%' }}>
+          <View style={{ flex: 3, width: SCREEN_WIDTH }}>
+            <View style={styles.titleView}>
+              <View>
+                <Text style={{ fontSize: 20 }}>{data.User.u_alias}</Text>
+                <Text style={{ fontSize: 14, color: 'gray' }}>
+                  @ 2022. 05.28 - 캡슐날짜 prop으로 받기
+                </Text>
               </View>
-              {data.MemoryMusic.link ? (
-                <View style={{ opacity: 1 }}>
-                  <YoutubePlayer
-                    height={playerView ? 300 : 0}
-                    play={playing}
-                    videoId={data.MemoryMusic.link}
-                    onChangeState={onStateChange}
-                  />
-                </View>
-              ) : (
-                <View />
-              )}
-              <ScrollView horizontal pagingEnabled>
-                {item()}
-              </ScrollView>
+              <View style={{ flexDirection: 'row' }}>
+                {data.MemoryMusic.link ? (
+                  <>
+                    <Pressable onPress={togglePlaying}>
+                      <View style={styles.musicPlayBtn}>
+                        <Ionicons
+                          name={playing ? 'md-pause' : 'play'}
+                          size={18}
+                          color="black"
+                        />
+                      </View>
+                    </Pressable>
+                    <Pressable onPress={toggleView}>
+                      <View style={styles.musicViewBtn}>
+                        <Text>영상</Text>
+                        <Ionicons
+                          name={playerView ? 'caret-up' : 'caret-down'}
+                          size={12}
+                          color="black"
+                        />
+                      </View>
+                    </Pressable>
+                  </>
+                ) : (
+                  <View style={{ width: 30 }} />
+                )}
+              </View>
             </View>
-            <ScrollView
-              style={{
-                flex: 1,
-                width: SCREEN_WIDTH,
-                padding: 20,
-              }}
-            >
-              <Text>{data.m_content}</Text>
+            {data.MemoryMusic.link ? (
+              <View style={{ opacity: 1 }}>
+                <YoutubePlayer
+                  height={playerView ? 300 : 0}
+                  play={playing}
+                  videoId={data.MemoryMusic.link}
+                  onChangeState={onStateChange}
+                />
+              </View>
+            ) : (
+              <View />
+            )}
+            <ScrollView horizontal pagingEnabled>
+              {item()}
             </ScrollView>
+          </View>
+          <ScrollView
+            style={{
+              flex: 1,
+              width: SCREEN_WIDTH,
+              padding: 20,
+            }}
+          >
+            <Text>{data.m_content}</Text>
           </ScrollView>
-        </ImageBackground>
+        </ScrollView>
       </View>
       <NavBar style={{ flex: 1 }} navigation={navigation} />
     </>

@@ -51,23 +51,18 @@ function MainScreen({ navigation }: Props) {
   }, [saveGlobal]);
   storeAndLoad();
   return (
-    <ImageBackground
-      source={require('../../assets/dodol_bg_list.jpg')}
-      style={{ width: '100%', height: '100%' }}
-    >
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <View style={{ flex: 12, justifyContent: 'center' }}>
-          <Carousel
-            navigation={navigation}
-            gap={16}
-            offset={36}
-            pages={capsuleState.capsule}
-            pageWidth={screenWidth - (16 + 36) * 2}
-          />
-        </View>
-        <NavBar style={{ flex: 1 }} navigation={navigation} />
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{ flex: 12, justifyContent: 'center' }}>
+        <Carousel
+          navigation={navigation}
+          gap={16}
+          offset={36}
+          pages={capsuleState.capsule}
+          pageWidth={screenWidth - (16 + 36) * 2}
+        />
       </View>
-    </ImageBackground>
+      <NavBar style={{ flex: 1 }} navigation={navigation} />
+    </View>
   );
 }
 
