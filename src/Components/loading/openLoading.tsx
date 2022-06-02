@@ -30,8 +30,12 @@ function OpenLoading() {
       }}
     >
       <View style={{ flexDirection: 'row' }}>
-        <Text style={{ color: 'white', fontSize: 30 }}>캡슐 오픈중</Text>
-        <Text style={{ color: 'white', fontSize: 30 }}>{dots[second % 4]}</Text>
+        <Text style={{ color: 'white', fontSize: 30, fontFamily: 'font1' }}>
+          캡슐 오픈중
+        </Text>
+        <Text style={{ color: 'white', fontSize: 30, fontFamily: 'font1' }}>
+          {dots[second % 4]}
+        </Text>
       </View>
     </View>
   );

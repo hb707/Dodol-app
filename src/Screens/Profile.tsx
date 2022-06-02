@@ -37,12 +37,14 @@ const styles = StyleSheet.create({
   text: {
     width: 0.4 * SCREEN_WIDTH,
     fontSize: 16,
+    fontFamily: 'font1',
     alignItems: 'center',
     justifyContent: 'center',
     lineHeight: 40,
     borderBottomColor: 'black',
     borderBottomWidth: 1,
     marginLeft: 0.05 * SCREEN_WIDTH,
+    letterSpacing: -1,
   },
   button: {
     width: 0.2 * SCREEN_WIDTH,
@@ -244,7 +246,7 @@ function ProfileScreen({ navigation }: Props) {
             <Text
               style={{
                 fontSize: 20,
-                fontWeight: '600',
+                fontFamily: 'font1',
                 letterSpacing: 5,
                 color: '#fff',
               }}
@@ -270,7 +272,7 @@ function ProfileScreen({ navigation }: Props) {
             <Text
               style={{
                 fontSize: 20,
-                fontWeight: '600',
+                fontFamily: 'font1',
                 letterSpacing: 5,
                 color: '#fff',
               }}

@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 10,
-    borderWidth: 1,
+    borderWidth: 3,
     borderColor: '#aeaeae',
   },
   input: {
@@ -29,10 +29,11 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     fontSize: 14,
-    borderWidth: 1,
-    borderColor: '#aeaeae',
-    backgroundColor: 'rgba(0,0,0,0.1)',
+    borderWidth: 3,
+    borderColor: '#000000',
+    // backgroundColor: 'rgba(0,0,0,0.1)',
     borderRadius: 15,
+    fontFamily: 'font1',
   },
   contentContainer: {
     alignItems: 'center',
@@ -40,11 +41,13 @@ const styles = StyleSheet.create({
   },
   submitBtn: {
     flex: 1,
-    backgroundColor: '#F5D042',
+    backgroundColor: 'orange',
     padding: 15,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 40,
+    borderWidth: 3,
+    borderColor: '#000000',
   },
   title: {
     fontSize: 16,
@@ -97,7 +100,7 @@ function SearchMusic({ onChangeMusic }: { onChangeMusic(v: string): void }) {
         style={{
           justifyContent: 'center',
           alignItems: 'center',
-          width: '100%',
+          width: SCREEN_WIDTH,
           position: 'relative',
         }}
       >
@@ -105,8 +108,7 @@ function SearchMusic({ onChangeMusic }: { onChangeMusic(v: string): void }) {
           style={{
             flexDirection: 'row',
             justifyContent: 'space-evenly',
-            width: SCREEN_WIDTH,
-            position: 'absolute',
+            width: SCREEN_WIDTH * 0.7,
             zIndex: 2,
             top: 0,
             left: 0,
@@ -139,7 +141,9 @@ function SearchMusic({ onChangeMusic }: { onChangeMusic(v: string): void }) {
               setSelected(true);
             }}
           >
-            <Text style={{ color: '#ffffff', fontSize: 20 }}>
+            <Text
+              style={{ color: '#ffffff', fontSize: 20, fontFamily: 'font1' }}
+            >
               {selected ? '이 노래가 맞아요!' : '선택'}
             </Text>
           </Pressable>
@@ -158,7 +162,14 @@ function SearchMusic({ onChangeMusic }: { onChangeMusic(v: string): void }) {
           </Pressable>
         </View>
 
-        <View style={{ alignItems: 'center' }}>
+        <View
+          style={{
+            alignItems: 'center',
+            position: 'absolute',
+            top: 0,
+            zIndex: 1,
+          }}
+        >
           <Image
             style={{
               width: 0.6 * SCREEN_WIDTH,
@@ -170,7 +181,7 @@ function SearchMusic({ onChangeMusic }: { onChangeMusic(v: string): void }) {
               uri: thumbnail,
             }}
           />
-          <Text style={{ fontSize: 16, fontWeight: '600' }}>{title}</Text>
+          <Text style={{ fontSize: 16, fontFamily: 'font1' }}>{title}</Text>
         </View>
       </View>
     );
@@ -206,7 +217,7 @@ function SearchMusic({ onChangeMusic }: { onChangeMusic(v: string): void }) {
               borderRadius: 10,
             }}
           >
-            <Text>검색</Text>
+            <Text style={{ fontFamily: 'font1', color: '#ffffff' }}>검색</Text>
           </View>
         </Pressable>
       </View>

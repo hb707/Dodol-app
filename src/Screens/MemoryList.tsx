@@ -114,8 +114,9 @@ function MemoryListScreen({ navigation, route }: Props) {
             >
               <Text
                 style={{
-                  fontSize: 15,
-                  fontWeight: 'bold',
+                  fontSize: 18,
+                  // fontWeight: 'bold',
+                  fontFamily: 'font1',
                   marginBottom: 10,
                 }}
               >
@@ -127,12 +128,13 @@ function MemoryListScreen({ navigation, route }: Props) {
                 style={{
                   width: 0.65 * SCREEN_WIDTH,
                   fontSize: 16,
+                  fontFamily: 'font1',
                   color: '#333',
                 }}
               >
                 💬{'  '}
-                {v.m_content.length > 30
-                  ? `${v.m_content.substring(0, 31)}...`
+                {v.m_content.length > 15
+                  ? `${v.m_content.substring(0, 16)}...`
                   : v.m_content}
               </Text>
             </View>
@@ -181,11 +183,13 @@ function MemoryListScreen({ navigation, route }: Props) {
             }}
           >
             <View>
-              <Text style={{ fontSize: 20 }}>{cItem.c_title}</Text>
-              <Text>{cItem.c_openAt && JSON.stringify(cItem.c_openAt).substring(1, 11)}</Text>
-              <Text style={{ paddingVertical: 10, width: SCREEN_WIDTH * 0.5 }}>{cItem.c_content}</Text>
-              <Text><Ionicons name="md-people" size={20} color="black" />{'  '}{cItem.c_collaborator ? cItem.c_collaborator.length + 1 : 1}명</Text>
-              <Text>나{cItem.c_collaborator.length !== 0 && `, ${writers}`}</Text>
+              <Text style={{ fontSize: 20, fontFamily: 'font1' }}>{cItem.c_title}</Text>
+              <Text style={{ fontSize: 12, fontFamily: 'font1', color: 'gray' }} >{cItem.c_openAt && JSON.stringify(cItem.c_openAt).substring(1, 11)}</Text>
+              <Text style={{ paddingVertical: 10, width: SCREEN_WIDTH * 0.5, fontSize: 16, fontFamily: 'font1' }}>{cItem.c_content}</Text>
+              <View style={{ fontSize: 12, fontFamily: 'font1', color: '#444', alignItems: 'center', flexDirection: 'row' }}>
+                <Ionicons name="md-people" size={20} color="#444" />
+                <Text style={{ fontFamily: 'font1' }}>{'  '}{cItem.c_collaborator ? cItem.c_collaborator.length + 1 : 1}명</Text>
+              </View>
 
             </View>
             <Pressable onPress={() => { setModalVisible(!modalVisible) }}>

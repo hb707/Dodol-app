@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
   test_text: {
     color: '#333',
     fontSize: 20,
-    fontWeight: '700',
+    fontWeight: 'normal',
+    fontFamily: 'font1',
     marginTop: 30,
   },
   cngBtn: {
@@ -103,8 +104,8 @@ function CapsuleListScreen({ navigation }: Props) {
           style={styles.img}
         />
         <View style={styles.textDiv}>
-          <Text style={{ fontSize: 18, fontWeight: '700' }}>{v.c_title}</Text>
-          <Text style={{ fontSize: 14, fontWeight: '400' }}>
+          <Text style={{ fontSize: 18, fontFamily: 'font1' }}>{v.c_title}</Text>
+          <Text style={{ fontSize: 14, fontFamily: 'font1' }}>
             {v.c_content && v.c_content.length > 40
               ? `${v.c_content.substring(0, 41)}...`
               : v.c_content}
@@ -117,11 +118,11 @@ function CapsuleListScreen({ navigation }: Props) {
           >
             <View style={{ flexDirection: 'row' }}>
               <Ionicons name="md-people" size={20} color="black" />
-              <Text style={{ marginLeft: 5 }}>
+              <Text style={{ marginLeft: 5, fontFamily: 'font1' }}>
                 {v.c_collaborator.length + 1}명
               </Text>
             </View>
-            <Text style={{ color: '#666' }}>
+            <Text style={{ color: '#666', fontFamily: 'font1' }}>
               {JSON.stringify(v.c_openAt).substring(1, 11)}
             </Text>
           </View>
@@ -145,14 +146,14 @@ function CapsuleListScreen({ navigation }: Props) {
               style={styles.container}
               colors={['#aeaeae', '#eee', '#ffffff']}
             >
-              <Text style={styles.test_text}>캡슐 리스트</Text>
+              <Text style={{ ...styles.test_text, fontFamily: 'font1', }}>캡슐 리스트</Text>
               <Pressable
                 onPress={() => {
                   setOnlyOpened(!onlyOpened);
                 }}
                 style={styles.cngBtn}
               >
-                <Text>{onlyOpened ? '전체캡슐보기' : '열린캡슐만 보기'}</Text>
+                <Text style={{ fontFamily: 'font1' }}>{onlyOpened ? '전체캡슐보기' : '열린캡슐만 보기'}</Text>
               </Pressable>
             </LinearGradient>
           </View>

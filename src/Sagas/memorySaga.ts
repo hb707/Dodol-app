@@ -88,6 +88,7 @@ interface IRes extends AxiosPromise {
 // middleware함수 : 통신 실행 후 성공/실패 나눠서 리듀서 실행
 function* memoryCREATE(action: IAction) {
   try {
+    console.log('사가', action.payload);
     const response: IRes = yield call(createAPI, action.payload);
     if (response.result === 'success') {
       yield put({
@@ -96,10 +97,12 @@ function* memoryCREATE(action: IAction) {
       });
     } else {
       // failure reducer 실행 : 서버 에러
+      console.log('서버에러');
       yield put({ type: 'memory/CREATE_FAILURE' });
     }
   } catch (e) {
     // failure reducer 실행 : axios 에러
+    console.log('axios에러');
     yield put({ type: 'memory/CREATE_FAILURE' });
   }
 }
