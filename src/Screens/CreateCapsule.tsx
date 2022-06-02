@@ -9,7 +9,6 @@ import {
   Button,
   Modal,
   Dimensions,
-
 } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
@@ -24,7 +23,6 @@ import { IState, backUrl } from '../types';
 import CollaboratorScreen from './Collaborator';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
-
 
 const styles = StyleSheet.create({
   container: {
@@ -142,7 +140,6 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
           </Pressable>
 
           <ThumbPicker />
-
 
           <Button
             title="위치 검색"

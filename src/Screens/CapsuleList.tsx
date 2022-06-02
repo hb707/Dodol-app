@@ -1,34 +1,159 @@
-import { View, Text, ScrollView } from 'react-native';
+/* eslint-disable prettier/prettier */
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  Dimensions,
+  Image,
+  Pressable,
+  StyleSheet,
+} from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import NavBar from '../Components/NavBar/NavBar';
-import { read_R } from '../Reducers/capsule';
-import { getThumb } from '../Storages/storage';
+import defaultPic from '../../assets/default_capsule_thumbnail.png';
+import { IState } from '../types';
 
 type RootStackParamList = {
   Home: undefined;
   Profile: { userId: string };
   Feed: { sort: 'latest' | 'top' } | undefined;
+  MemoryList: { cIdx: number | null };
 };
 
 type Props = NativeStackScreenProps<RootStackParamList>;
 
-function CapsuleListScreen({ navigation, route }: Props) {
-  const a = async () => {
-    const b = await getThumb();
-    console.log(b, 'main getThumb');
-  };
-  a();
+const screenWidth = Math.round(Dimensions.get('window').width);
+const styles = StyleSheet.create({
+  itemContainer: {
+    width: screenWidth,
+    borderBottomColor: '#aeaeae',
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 20,
+    backgroundColor: '#ffffff',
+  },
+  img: {
+    width: 0.3 * screenWidth,
+    height: 0.3 * screenWidth,
+    borderRadius: 10,
+    marginHorizontal: 20,
+  },
+  textDiv: {
+    width: 0.55 * screenWidth,
+    height: 0.3 * screenWidth,
+    justifyContent: 'space-between',
+  },
+  container: {
+    paddingVertical: 30,
+    backgroundColor: '#15106b',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  test_text: {
+    color: '#333',
+    fontSize: 20,
+    fontWeight: '700',
+    marginTop: 30,
+  },
+  cngBtn: {
+    flexDirection: 'row',
+    marginTop: 10,
+    justifyContent: 'center',
+    paddingVertical: 7,
+    width: 120,
+    backgroundColor: '#e4c86c',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+});
 
-  const dispatch = useDispatch();
-  dispatch(read_R(5));
+function CapsuleListScreen({ navigation }: Props) {
+  const [onlyOpened, setOnlyOpened] = useState<boolean>(true);
+  const capsuleList = useSelector((state: IState) => state.capsule.capsule);
+  const openedCapsuleList = capsuleList.filter(v => v.isOpened);
+  const list = onlyOpened ? openedCapsuleList : capsuleList;
+
+  const item = () =>
+    list.map(v => (
+      <Pressable
+        style={styles.itemContainer}
+        onPress={() => {
+          navigation.navigate('MemoryList', { cIdx: v.c_idx });
+        }}
+        key={v.c_idx}
+      >
+        <Image
+          source={
+            v.c_thumb
+              ? {
+                uri: `http://43.200.42.181/upload/${v.c_thumb}`,
+              }
+              : defaultPic
+          }
+          style={styles.img}
+        />
+        <View style={styles.textDiv}>
+          <Text style={{ fontSize: 18, fontWeight: '700' }}>{v.c_title}</Text>
+          <Text style={{ fontSize: 14, fontWeight: '400' }}>
+            {v.c_content && v.c_content.length > 40
+              ? `${v.c_content.substring(0, 41)}...`
+              : v.c_content}
+          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+          >
+            <View style={{ flexDirection: 'row' }}>
+              <Ionicons name="md-people" size={20} color="black" />
+              <Text style={{ marginLeft: 5 }}>
+                {v.c_collaborator.length + 1}명
+              </Text>
+            </View>
+            <Text style={{ color: '#666' }}>
+              {JSON.stringify(v.c_openAt).substring(1, 11)}
+            </Text>
+          </View>
+        </View>
+      </Pressable>
+    ));
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <View style={{ flex: 12, justifyContent: 'center' }}>
         <ScrollView>
-          <View />
+          <View
+            style={{
+              width: screenWidth,
+              backgroundColor: '#cecece',
+              borderBottomWidth: 1,
+              borderBottomColor: '#aeaeae',
+            }}
+          >
+            <LinearGradient
+              style={styles.container}
+              colors={['#aeaeae', '#eee', '#ffffff']}
+            >
+              <Text style={styles.test_text}>캡슐 리스트</Text>
+              <Pressable
+                onPress={() => {
+                  setOnlyOpened(!onlyOpened);
+                }}
+                style={styles.cngBtn}
+              >
+                <Text>{onlyOpened ? '전체캡슐보기' : '열린캡슐만 보기'}</Text>
+              </Pressable>
+            </LinearGradient>
+          </View>
+          {item()}
         </ScrollView>
-        <Text> 캡슐리스트 페이지 </Text>
       </View>
       <NavBar style={{ flex: 1 }} navigation={navigation} />
     </View>
