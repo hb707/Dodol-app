@@ -16,7 +16,6 @@ import NavBar from '../Components/NavBar/NavBar';
 import { IMemory, Capsule, IState } from '../types';
 import { getDataFromStorage, setDataToStorage } from '../Storages/storage';
 
-import jarPic from '../../assets/Home/jar.png';
 import capsuleThumbFrame from '../../assets/capsule_thumb_frame.png';
 import defaultThumb from '../../assets/default_capsule_thumbnail.png';
 import capsuleTitle from '../../assets/capsule_title_bg.png';
@@ -24,6 +23,17 @@ import capsuleOpenActions from '../actions/capsuleOpen';
 import OpenLoading from '../Components/loading/openLoading';
 import OpenCapsuleAlert from '../Components/alert/openCapsuleAlert';
 import { mRead } from '../Reducers/memory';
+
+import OpenCapsule0 from '../../assets/capsule/openCapsule0.png';
+import OpenCapsule1 from '../../assets/capsule/openCapsule1.png';
+import OpenCapsule2 from '../../assets/capsule/openCapsule2.png';
+import OpenCapsule3 from '../../assets/capsule/openCapsule3.png';
+import OpenCapsule4 from '../../assets/capsule/openCapsule4.png';
+import OpenCapsule5 from '../../assets/capsule/openCapsule5.png';
+import OpenCapsule6 from '../../assets/capsule/openCapsule6.png';
+import OpenCapsule7 from '../../assets/capsule/openCapsule7.png';
+import OpenCapsule8 from '../../assets/capsule/openCapsule8.png';
+import OpenCapsule9 from '../../assets/capsule/openCapsule9.png';
 
 type RootStackParamList = {
   Home: undefined;
@@ -84,6 +94,7 @@ function OpenCapsule({ navigation, route }: Props) {
   const [btnText, setBtnText] = useState('캡슐 오픈하기');
   const [alert, setAlert] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [jarImg, setJarImg] = useState(OpenCapsule0);
   const [thisCapsule, setThisCapusle] = useState<Capsule>({
     c_collaborator: [],
     c_content: null,
@@ -125,7 +136,7 @@ function OpenCapsule({ navigation, route }: Props) {
       const {
         coords: { latitude: lat1, longitude: lng1 },
       } = await Location.getCurrentPositionAsync();
-      return getDistanceFromLatLonInKm(lat1, lng1, 37.358346, 127.123829);
+      return getDistanceFromLatLonInKm(lat1, lng1, 37.539498, 127.123333);
     } catch (e) {
       console.log(e);
       return 200;
@@ -224,6 +235,39 @@ function OpenCapsule({ navigation, route }: Props) {
       checkMemoryWriter();
     }
   }, [memoryState]);
+
+  useEffect(() => {
+    if (pressCount === 0) {
+      return;
+    }
+    if (pressCount === 1) {
+      setJarImg(OpenCapsule1);
+    }
+    if (pressCount === 2) {
+      setJarImg(OpenCapsule2);
+    }
+    if (pressCount === 3) {
+      setJarImg(OpenCapsule3);
+    }
+    if (pressCount === 4) {
+      setJarImg(OpenCapsule4);
+    }
+    if (pressCount === 5) {
+      setJarImg(OpenCapsule5);
+    }
+    if (pressCount === 6) {
+      setJarImg(OpenCapsule6);
+    }
+    if (pressCount === 7) {
+      setJarImg(OpenCapsule7);
+    }
+    if (pressCount === 8) {
+      setJarImg(OpenCapsule8);
+    }
+    if (pressCount === 9) {
+      setJarImg(OpenCapsule9);
+    }
+  }, [pressCount]);
   return (
     <View
       style={{
@@ -245,7 +289,7 @@ function OpenCapsule({ navigation, route }: Props) {
             width: '100%',
             height: '80%',
             alignItems: 'center',
-            top: 0.12 * SCREEN_HEIGHT,
+            top: 0,
             position: 'relative',
           }}
           onPress={jarPress}
@@ -253,11 +297,11 @@ function OpenCapsule({ navigation, route }: Props) {
           <ImageBackground
             style={{
               width: '100%',
-              height: '90%',
+              height: '100%',
               alignItems: 'center',
               position: 'relative',
             }}
-            source={jarPic}
+            source={jarImg}
             resizeMode="contain"
           >
             <ImageBackground
@@ -267,7 +311,7 @@ function OpenCapsule({ navigation, route }: Props) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 position: 'absolute',
-                top: 0.25 * SCREEN_HEIGHT,
+                top: 0.3 * SCREEN_HEIGHT,
               }}
               source={capsuleThumbFrame}
               resizeMode="contain"
