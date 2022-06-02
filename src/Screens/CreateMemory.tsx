@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   contentContainer: {
+    width: SCREEN_WIDTH,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -118,7 +119,7 @@ function CreateMemoryScreen({ navigation, route }: Props) {
 
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
-      <View style={{ flex: 1, justifyContent: 'center' }}>
+      <View style={{ flex: 1, justifyContent: 'center', width: SCREEN_WIDTH }}>
         <View style={{ flex: 1, justifyContent: 'center' }} />
         <Text
           style={{
