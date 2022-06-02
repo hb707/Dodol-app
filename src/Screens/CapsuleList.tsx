@@ -69,15 +69,16 @@ function CapsuleListScreen({ navigation, route }: Props) {
       navigation.navigate('MemoryList', cIdx);
     };
 
-    return capsule.map(v => (
+    return capsule.map((v, k) => (
       <Pressable
+        key={k}
         style={styles.list}
         onPress={() => {
           getMemory(v);
         }}
       >
         <View style={styles.thumbBox}>
-          <Image source={v.c_thumb} style={styles.thumb} />
+          <Image source={{ uri: v.c_thumb }} style={styles.thumb} />
         </View>
         <View style={styles.descBox}>
           <Text>{v.c_title}</Text>

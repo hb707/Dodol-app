@@ -33,8 +33,19 @@ const styles = StyleSheet.create({
 
 const REST_API_KEY = '07e2741dea7ed6e8b2ba90e09024f231';
 
-function ModalLocation({ setModalVisible }) {
-  const initialRegion = {
+export interface ILocation {
+  longitude: number;
+  latitude: number;
+  latitudeDelta: number;
+  longitudeDelta: number;
+}
+
+function ModalLocation({
+  setModalVisible,
+}: {
+  setModalVisible: (flag: boolean) => void;
+}) {
+  const initialRegion: ILocation = {
     longitude: Number(126.9334126801552),
     latitude: Number(37.54421644102267),
     latitudeDelta: Number(0.1857534755372825),
@@ -42,13 +53,13 @@ function ModalLocation({ setModalVisible }) {
   };
   const [searchLocation, setSearchLocation] = useState();
   // const [searchedSpot, setSearchedSpot] = useState();
-  const [cSpot, setcSpot] = useState(initialRegion);
+  const [cSpot, setcSpot] = useState<ILocation>(initialRegion);
 
   // useEffect(storeSpot(cSpot), [cSpot])
 
   // 검색 후 나온 배열 중 첫번째 배열의 long / lati 값이 들어감
-  const searchedSpot = [];
-  async function showLocation(arr) {
+  const searchedSpot: any[] = [];
+  async function showLocation(arr: any) {
     await arr.map(v => searchedSpot.push({ x: v.x, y: v.y }));
     setcSpot({
       longitude: Number(searchedSpot[0].y),
@@ -71,7 +82,7 @@ function ModalLocation({ setModalVisible }) {
         `${backUrl}/api/location/list`,
         options,
       );
-      const locationList = response.data.documents;
+      const locationList: any = response.data.documents;
 
       showLocation(locationList);
     } catch (e) {
@@ -95,10 +106,11 @@ function ModalLocation({ setModalVisible }) {
       <View style={styles.mapBox}>
         <MapView
           style={{ flex: 1 }}
-          initialRegion={initialRegion}
-          onRegionChangeComplete={location => {
+          initialRegion={cSpot}
+          onRegionChangeComplete={(location: ILocation) => {
             setcSpot(location);
             storeSpot(cSpot);
+            console.log(cSpot);
           }}
         />
         <Marker

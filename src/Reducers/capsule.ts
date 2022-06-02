@@ -1,20 +1,14 @@
 import { useSelector } from 'react-redux';
 import capsuleOpenActions from '../actions/capsuleOpen';
+import { IPayload } from '../api/capsule';
 import { ICapsule, Capsule } from '../types';
 
 export const CREATE_R = 'capsule/CREATE_REQUEST' as const;
+export const CREATE_S = 'capsule/CREATE_SUCCESS' as const;
+export const CREATE_F = 'capsule/CREATE_FAIL' as const;
+
 export const READ_R = 'capsule/READ_REQUEST' as const;
 export const READ_S = 'capsule/READ_SUCCESS' as const;
-
-export interface IPayload {
-  cGenerator: object;
-  cName: string;
-  cDesc: string;
-  cLocation: string;
-  cCollaborator: object[];
-  cOpenAt: Date;
-  cThumb: string;
-}
 
 export interface ReadPayloadAttribute {
   u_idx: null | number;
@@ -27,6 +21,16 @@ export interface ReadActionAttribute {
 
 export const create_R = (payload: IPayload) => ({
   type: CREATE_R,
+  payload,
+});
+
+export const create_S = (payload: IPayload) => ({
+  type: CREATE_S,
+  payload,
+});
+
+export const create_F = (payload: IPayload) => ({
+  type: CREATE_F,
   payload,
 });
 
@@ -56,6 +60,7 @@ const initialState: ICapsule = {
     },
   ],
   loading: false,
+  success: false,
   error: {
     msg: '',
     status: false,
@@ -89,21 +94,38 @@ function capsule(state: ICapsule = initialState, action: CapsuleAction) {
     case CREATE_R:
       return {
         ...state,
+        loading: true,
+        success: false,
+      };
+    case CREATE_S: {
+      console.log('create_S');
+      console.log(action.payload);
+      return {
+        ...state,
         capsule: [
+          ...state.capsule,
           {
-            ...state.capsule,
-          },
-          {
-            c_generator: action.payload.cGenerator,
-            c_title: action.payload.cName,
-            c_content: action.payload.cDesc,
-            c_thumb: action.payload.cThumb,
-            c_location: action.payload.cLocation,
-            c_collaborator: [action.payload.cCollaborator],
-            c_openAt: action.payload.cOpenAt,
+            c_idx: action.payload.c_idx,
+            c_generator: action.payload.c_generator,
+            c_title: action.payload.c_title,
+            c_content: action.payload.c_content,
+            c_thumb: action.payload.c_thumb,
+            c_location: action.payload.c_location,
+            // c_collaborator: [action.payload.c_collaborator],
+            c_createdAt: action.payload.c_createdAt,
+            c_openAt: action.payload.c_openAt,
+            isOpened: action.payload.isOpend,
           },
         ],
-        loading: true,
+        loading: false,
+        success: true,
+      };
+    }
+    case CREATE_F:
+      return {
+        ...state,
+        loading: false,
+        success: false,
       };
 
     case capsuleOpenActions.REQUEST:

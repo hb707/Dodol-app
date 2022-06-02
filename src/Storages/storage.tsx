@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create_S } from '../Reducers/user';
+import { ILocation } from '../Screens/CLocation';
 
 export const storeUser = async (value, navigation) => {
   if (value.result === 'success') {
@@ -54,7 +55,7 @@ export const storeCapsule = async value => {
 //   }
 // };
 
-export const storeThumb = async value => {
+export const storeThumb = async (value: string): Promise<string | void> => {
   try {
     const storeData = await AsyncStorage.setItem(
       'thumbUrl',
@@ -67,33 +68,33 @@ export const storeThumb = async value => {
   }
 };
 
-export const getThumb = async value => {
-  let thumbUrl;
+export const getThumb = async (): Promise<string | null> => {
   try {
-    thumbUrl = await AsyncStorage.getItem('thumbUrl');
-    // navigation.navigate('Home', { isLogin: true });
+    const thumbUrl: string | null = await AsyncStorage.getItem('thumbUrl');
+    return thumbUrl;
   } catch (e) {
     console.log(e, 'getThumb 에러');
+    return null;
   }
-  return JSON.parse(`${thumbUrl}`);
 };
 
-export const storeSpot = async value => {
+export const storeSpot = async (value: ILocation): Promise<void> => {
   try {
-    const storeData = await AsyncStorage.setItem('spot', JSON.stringify(value));
+    await AsyncStorage.setItem('spot', JSON.stringify(value));
   } catch (e) {
     console.log(e, '스토어 스팟 에러');
   }
 };
 
-export const getSpot = async value => {
-  let spot;
+export const getSpot = async (): Promise<ILocation | null> => {
   try {
-    spot = await AsyncStorage.getItem('spot');
+    const spot: string | null = await AsyncStorage.getItem('spot');
+    if (spot === null) throw new Error();
+    return JSON.parse(`${spot}`);
   } catch (e) {
     console.log(e, 'getSpot 에러');
+    return null;
   }
-  return JSON.parse(`${spot}`);
 };
 
 export const getDataFromStorage = async key => {

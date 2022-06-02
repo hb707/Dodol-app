@@ -5,6 +5,8 @@ import {
   READ_R,
   read_S,
   CREATE_R,
+  create_S,
+  create_F,
   ReadActionAttribute,
 } from '../Reducers/capsule';
 import { Capsule, ICapsule } from '../types';
@@ -70,8 +72,17 @@ function* capsuleREAD(action: ReadActionAttribute) {
   }
 }
 
-function* capsuleCREATE(action: IAction) {
-  const response = yield call(createAPI, action.payload);
+function* capsuleCREATE(action: IAction): Promise {
+  try {
+    const response: AxiosResponse<any> = yield call(createAPI, action.payload);
+    console.log('capsulesaga', response.data);
+    if (response.data.result !== 'success') throw new Error();
+    console.log('a');
+    yield put(create_S(response.data.data));
+  } catch {
+    console.log('b');
+    yield put(create_F());
+  }
 }
 
 function* capsuleOPEN(action: IAction) {
