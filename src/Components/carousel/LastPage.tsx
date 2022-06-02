@@ -77,6 +77,7 @@ function LastPage({ navigation, style }: ILastpage) {
               style={{
                 marginTop: 14,
                 color: '#cecece',
+                fontFamily: 'font1',
               }}
             >
               캡슐 만들기
