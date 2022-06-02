@@ -133,9 +133,9 @@ function MemoryListScreen({ navigation, route }: Props) {
                 }}
               >
                 💬{'  '}
-                {v.m_content.length > 15
-                  ? `${v.m_content.substring(0, 16)}...`
-                  : v.m_content}
+                {v.m_content.split('\n')[0].length > 13
+                  ? `${v.m_content.split('\n')[0].substring(0, 14)}...`
+                  : v.m_content.split('\n')[0]}
               </Text>
             </View>
           </View>
