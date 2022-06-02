@@ -120,9 +120,7 @@ function* capsuleOPEN(action: IAction) {
         }
         newCapsule.push(tmp);
       });
-      setTimeout(function* aa() {
-        yield put(read_S(newCapsule));
-      }, 4000);
+      yield put(read_S(newCapsule));
     }
   }
 }

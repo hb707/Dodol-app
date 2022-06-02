@@ -106,3 +106,11 @@ export const getDataFromStorage = async key => {
     return e;
   }
 };
+
+export const setDataToStorage = async (key, value) => {
+  try {
+    await AsyncStorage.setItem(key, JSON.stringify(value));
+  } catch (e) {
+    console.log(e, `${key} setDataToStorage 에러`);
+  }
+};
