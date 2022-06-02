@@ -29,6 +29,17 @@ function App() {
       require('./assets/navIcon/IMG_1413.png'),
       require('./assets/navIcon/IMG_1414.png'),
       require('./assets/navIcon/IMG_1415.png'),
+      require('./assets/capsule/openCapsule0.png'),
+      require('./assets/capsule/openCapsule1.png'),
+      require('./assets/capsule/openCapsule2.png'),
+      require('./assets/capsule/openCapsule3.png'),
+      require('./assets/capsule/openCapsule4.png'),
+      require('./assets/capsule/openCapsule5.png'),
+      require('./assets/capsule/openCapsule6.png'),
+      require('./assets/capsule/openCapsule7.png'),
+      require('./assets/capsule/openCapsule8.png'),
+      require('./assets/capsule/openCapsule9.png'),
+
     ]);
   };
 
