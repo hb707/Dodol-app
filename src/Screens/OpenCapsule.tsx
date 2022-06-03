@@ -370,7 +370,7 @@ function OpenCapsule({ navigation, route }: Props) {
                 <Text
                   style={{ fontSize: 0.06 * SCREEN_WIDTH, fontFamily: 'font1' }}
                 >
-                  {thisCapsule.c_location?.split(',')[3]}
+                  {thisCapsule.c_location?.split(',')[2]}
                 </Text>
               </ImageBackground>
               <ImageBackground

@@ -60,7 +60,7 @@ function MemoryListScreen({ navigation, route }: Props) {
     dispatch(mRead({ c_idx: cIdx }));
   }, [dispatch, cIdx]);
 
-  const writers = cItem.c_collaborator.join(', ')
+  const writers = cItem.c_collaborator ? cItem.c_collaborator.join(', ') : '';
 
   const item = () =>
     memory.data.map((v: IMemory) => (

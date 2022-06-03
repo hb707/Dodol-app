@@ -45,16 +45,6 @@ export const storeCapsule = async value => {
   }
 };
 
-// export const getCapsule = async () => {
-//   try {
-//     const data = await JSON.parse(await AsyncStorage.getItem('@capsule_item'));
-//     return data;
-//   } catch (e) {
-//     console.log(e);
-//     return e;
-//   }
-// };
-
 export const storeThumb = async (value: string): Promise<string | void> => {
   try {
     const storeData = await AsyncStorage.setItem(
@@ -104,6 +94,14 @@ export const getDataFromStorage = async key => {
   } catch (e) {
     console.log(e, 'getDataFromStorage 에러');
     return e;
+  }
+};
+
+export const removeItemByKey = async (key: string) => {
+  try {
+    await AsyncStorage.removeItem(key);
+  } catch (e) {
+    console.log(e, 'remove storage error');
   }
 };
 

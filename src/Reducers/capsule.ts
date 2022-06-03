@@ -111,7 +111,7 @@ function capsule(state: ICapsule = initialState, action: CapsuleAction) {
             c_content: action.payload.c_content,
             c_thumb: action.payload.c_thumb,
             c_location: action.payload.c_location,
-            // c_collaborator: [action.payload.c_collaborator],
+            c_collaborator: action.payload.c_collaborator,
             c_createdAt: action.payload.c_createdAt,
             c_openAt: action.payload.c_openAt,
             isOpened: action.payload.isOpend,
