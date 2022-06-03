@@ -24,7 +24,7 @@ export interface Capsule {
   c_content: string | null;
   c_thumb: string | null;
   c_createdAt: Date | null;
-  c_openAt: Date | null;
+  c_openAt: Date | null | string;
   c_location: string | null;
   isOpened: boolean | null;
   c_collaborator: string[];

@@ -39,7 +39,8 @@ function App() {
       require('./assets/capsule/openCapsule7.png'),
       require('./assets/capsule/openCapsule8.png'),
       require('./assets/capsule/openCapsule9.png'),
-
+      require('./assets/openDateLabel.png'),
+      require('./assets/openLocationLabel.png'),
     ]);
   };
 
