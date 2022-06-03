@@ -20,7 +20,6 @@ import { mRead } from '../Reducers/memory';
 import defaultPic from '../../assets/background.jpeg';
 import defaultCapsuleThumbPic from '../../assets/default_capsule_thumbnail.png';
 import { IState, IMemory } from '../types';
-import backgroundImg from '../../assets/paper.jpeg';
 import polaroid from '../../assets/polaroid.png';
 
 type RootStackParamList = {
