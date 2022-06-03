@@ -18,7 +18,6 @@ import Collaborator from '../../Screens/Collaborator';
 import CLocation from '../../Screens/CLocation';
 import OpenCapsule from '../../Screens/OpenCapsule';
 
-
 const Stack = createNativeStackNavigator();
 
 function Route() {
@@ -52,7 +51,6 @@ function Route() {
             <Stack.Screen name="CreateMemory" component={CreateMemory} />
             <Stack.Screen name="Collaborator" component={Collaborator} />
             <Stack.Screen name="OpenCapsule" component={OpenCapsule} />
-
           </>
         )}
       </Stack.Navigator>

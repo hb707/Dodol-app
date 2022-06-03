@@ -1,3 +1,5 @@
+import * as ImagePicker from 'expo-image-picker';
+
 export interface IUser {
   isLogin: boolean;
   me: {
@@ -33,6 +35,7 @@ export interface Capsule {
 export interface ICapsule {
   capsule: Capsule[];
   loading: boolean;
+  success: boolean;
   error: {
     msg: string | null;
     status: boolean;
@@ -70,6 +73,13 @@ export interface IState {
   user: IUser;
   capsule: ICapsule;
   memory: IMemoryState;
+}
+
+export interface ImageOptions {
+  mediaTypes: ImagePicker.MediaTypeOptions;
+  allowsEditing: boolean;
+  aspect: [number, number];
+  quality: number;
 }
 
 export const backUrl = 'http://43.200.42.181';

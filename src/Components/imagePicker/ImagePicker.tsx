@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Fontisto } from '@expo/vector-icons';
+import { ImageOptions } from '../../types';
 
 type OnChangeImg = (payload: string[]) => void;
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -58,13 +59,6 @@ const styles = StyleSheet.create({
     borderRadius: 13,
   },
 });
-
-interface ImageOptions {
-  mediaTypes: ImagePicker.MediaTypeOptions;
-  allowsEditing: boolean;
-  aspect: [number, number];
-  quality: number;
-}
 
 const imageOptions: ImageOptions = {
   mediaTypes: ImagePicker.MediaTypeOptions.Images,

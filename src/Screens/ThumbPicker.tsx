@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Button, Image, Pressable } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Fontisto } from '@expo/vector-icons';
 import { getThumb, storeThumb } from '../Storages/storage';
+import { ImageOptions } from '../types';
 
 const styles = StyleSheet.create({
   container: {
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const imageOptions = {
+const imageOptions: ImageOptions = {
   mediaTypes: ImagePicker.MediaTypeOptions.Images,
   allowsEditing: true,
   aspect: [4, 3],
@@ -42,14 +43,15 @@ const imageOptions = {
 };
 
 function ThumbPicker() {
-  const [imageUrl, setImageUrl] = useState();
+  type TImageState = string;
+  const [imageUrl, setImageUrl] = useState<TImageState>();
   const status = ImagePicker.useCameraPermissions();
 
   const GetPermission = async () => {
     if (!status.granted) {
       const permission = await ImagePicker.requestCameraPermissionsAsync();
     }
-    const img = await ImagePicker.launchCameraAsync({ imageOptions });
+    const img = await ImagePicker.launchCameraAsync(imageOptions);
     if (!img.cancelled) {
       setImageUrl(img.uri);
       storeThumb(img.uri);
@@ -57,7 +59,7 @@ function ThumbPicker() {
   };
 
   const PickImage = async () => {
-    const img = await ImagePicker.launchImageLibraryAsync({ imageOptions });
+    const img = await ImagePicker.launchImageLibraryAsync(imageOptions);
     if (!img.cancelled) {
       setImageUrl(img.uri);
       storeThumb(img.uri);
