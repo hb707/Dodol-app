@@ -93,11 +93,13 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
   // console.log(new Date(`${cYear}-${cMonth}-${cDay}`))
   let capsule: IPayload;
   const dispatch = useDispatch();
-  const capsuleState = useSelector(state => state.capsule);
+  const capsuleState = useSelector((state: IState) => state.capsule);
 
-  if (capsuleState.success === true) {
-    navigation.navigate('Main');
-  }
+  useEffect(() => {
+    if (capsuleState.success === true) {
+      navigation.navigate('Main');
+    }
+  });
 
   const SubmitHandler = async () => {
     const cGenerator: Iuser = await getUser();

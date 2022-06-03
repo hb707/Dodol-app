@@ -39,7 +39,6 @@ function MainScreen({ navigation }: Props) {
 
   const storeAndLoad = async () => {
     await storeCapsule(capsuleState);
-    await Promise.all([...thumbs()]);
   };
   useEffect(() => {
     if (!saveGlobal) {
