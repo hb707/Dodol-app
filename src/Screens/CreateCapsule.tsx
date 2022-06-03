@@ -230,7 +230,12 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
         </View>
       </ScrollView>
       <View style={styles.navBar}>
-        <NavBar style={{ flex: 1 }} navigation={navigation} route={route} />
+        <NavBar
+          style={{ flex: 1 }}
+          navigation={navigation}
+          route={route}
+          currentScreen="Add"
+        />
       </View>
     </View>
   );

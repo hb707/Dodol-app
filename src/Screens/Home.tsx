@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
     flex: 0.3,
     top: screen.width * 0.3,
     left: screen.width * -0.2,
-    fontSize: fontScale * 35,
+    fontSize: fontScale * 40,
+    fontFamily: 'font3',
   },
   jar: {
     top: screen.width * 0.05,

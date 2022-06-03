@@ -1,8 +1,16 @@
-import React from 'react';
-import { StyleSheet, View, Pressable, Text } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Pressable, Text, Image } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import profileIcon2 from '../../../assets/navIcon/IMG_1405.png';
+import profileIcon1 from '../../../assets/navIcon/IMG_1406.png';
+import addIcon2 from '../../../assets/navIcon/IMG_1407.png';
+import addIcon1 from '../../../assets/navIcon/IMG_1410.png';
+import listIcon2 from '../../../assets/navIcon/IMG_1411.png';
+import listIcon1 from '../../../assets/navIcon/IMG_1413.png';
+import homeIcon1 from '../../../assets/navIcon/IMG_1414.png';
+import homeIcon2 from '../../../assets/navIcon/IMG_1415.png';
 
 const styles = StyleSheet.create({
   container: {
@@ -34,11 +42,14 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     textAlign: 'center',
     borderRadius: 30,
+    fontFamily: 'font1',
   },
   navTitle: {
     fontSize: 10,
     color: 'gray',
+    fontFamily: 'font1',
   },
+  textFont: { fontSize: 12, fontFamily: 'font1', marginTop: 5 },
 });
 
 type RootStackParamList = {
@@ -52,7 +63,7 @@ type RootStackParamList = {
 
 type Props = NativeStackScreenProps<RootStackParamList>;
 
-function NavBar({ navigation }: Props) {
+function NavBar({ navigation, currentScreen }: Props) {
   return (
     <View style={styles.container}>
       <Pressable
@@ -61,8 +72,11 @@ function NavBar({ navigation }: Props) {
           navigation.navigate('Main');
         }}
       >
-        <MaterialCommunityIcons name="home" size={28} color="gray" />
-        <Text style={{ fontSize: 12 }}>홈</Text>
+        <Image
+          source={currentScreen === 'Main' ? homeIcon2 : homeIcon1}
+          style={{ width: 24, height: 24 }}
+        />
+        <Text style={styles.textFont}>홈</Text>
       </Pressable>
       <Pressable
         style={styles.btn}
@@ -70,8 +84,11 @@ function NavBar({ navigation }: Props) {
           navigation.navigate('List');
         }}
       >
-        <Ionicons name="md-menu" size={28} color="gray" />
-        <Text style={{ fontSize: 12 }}>캡슐목록</Text>
+        <Image
+          source={currentScreen === 'List' ? listIcon2 : listIcon1}
+          style={{ width: 24, height: 24 }}
+        />
+        <Text style={styles.textFont}>캡슐목록</Text>
       </Pressable>
       <Pressable
         style={styles.btn}
@@ -79,8 +96,11 @@ function NavBar({ navigation }: Props) {
           navigation.navigate('CreateCapsule');
         }}
       >
-        <Ionicons name="add-circle" size={28} color="gray" />
-        <Text style={{ fontSize: 12 }}>추가</Text>
+        <Image
+          source={currentScreen === 'Add' ? addIcon2 : addIcon1}
+          style={{ width: 24, height: 24 }}
+        />
+        <Text style={styles.textFont}>추가</Text>
       </Pressable>
       <Pressable
         style={styles.btn}
@@ -88,8 +108,11 @@ function NavBar({ navigation }: Props) {
           navigation.navigate('Profile');
         }}
       >
-        <Ionicons name="person" size={28} color="gray" />
-        <Text style={{ fontSize: 12 }}>프로필</Text>
+        <Image
+          source={currentScreen === 'Profile' ? profileIcon2 : profileIcon1}
+          style={{ width: 24, height: 24 }}
+        />
+        <Text style={styles.textFont}>프로필</Text>
       </Pressable>
     </View>
   );

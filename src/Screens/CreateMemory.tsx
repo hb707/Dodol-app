@@ -40,37 +40,42 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#aeaeae',
+    borderWidth: 3,
+    borderColor: '#000000',
   },
   input: {
     width: SCREEN_WIDTH * 0.9,
-    paddingVertical: 10,
+    paddingVertical: 20,
     paddingHorizontal: 20,
     fontSize: 14,
-    borderWidth: 1,
-    borderColor: '#aeaeae',
-    backgroundColor: 'rgba(0,0,0,0.1)',
+    borderWidth: 3,
+    borderColor: '#000000',
+    // backgroundColor: 'rgba(0,0,0,0.1)',
     borderRadius: 15,
     marginBottom: 20,
   },
   contentContainer: {
+    width: SCREEN_WIDTH,
     alignItems: 'center',
     justifyContent: 'center',
   },
   submitBtn: {
     flex: 1,
-    backgroundColor: '#F5D042',
+    backgroundColor: 'orange',
     padding: 15,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 3,
+    borderColor: '#000000',
+    borderRadius: 20,
+    marginTop: 40,
   },
   title: {
     fontSize: 16,
-    fontWeight: '700',
+    fontFamily: 'font1',
     marginTop: 20,
     marginBottom: 15,
-    marginLeft: '6%',
+    marginLeft: 30,
   },
 });
 
@@ -114,52 +119,60 @@ function CreateMemoryScreen({ navigation, route }: Props) {
 
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
-      <ImageBackground
-        source={backgroundImg}
-        style={{ width: '100%', height: '100%' }}
-      >
-        <View style={{ flex: 1, justifyContent: 'center' }}>
-          <View style={{ flex: 1, justifyContent: 'center' }} />
-          <Text
-            style={{ textAlign: 'center', fontSize: 20, marginVertical: 24 }}
-          >
-            캡슐에 담을 글을 써주세요
-          </Text>
-          {image.length !== 0 && <Preview image={image} style={{ flex: 5 }} />}
+      <View style={{ flex: 1, justifyContent: 'center', width: SCREEN_WIDTH }}>
+        <View style={{ flex: 1, justifyContent: 'center' }} />
+        <Text
+          style={{
+            textAlign: 'center',
+            fontSize: 20,
+            marginVertical: 12,
+            fontFamily: 'font1',
+          }}
+        />
+        {image.length !== 0 && <Preview image={image} style={{ flex: 5 }} />}
 
-          <View style={{ flex: 3, marginLeft: '5%' }}>
-            <ImgPicker onChangeImg={onChangeImg} />
-          </View>
-
-          <Text style={styles.title}>내용</Text>
-          <View
-            style={{ flexDirection: 'column', flex: 6, alignItems: 'center' }}
-          >
-            <TextInput
-              value={content}
-              onChangeText={onChangeContent}
-              style={{
-                ...styles.input,
-                flex: 6,
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 300,
-                borderRadius: 15,
-              }}
-              placeholder="타임캡슐에 남기고 싶은 내용을 작성해주세요."
-              textAlignVertical="top"
-              textAlign="left"
-              multiline
-            />
-          </View>
-          <Text style={styles.title}>음악검색</Text>
-          <SearchMusic onChangeMusic={onChangeMusic} />
-
-          <Pressable onPress={handleSubmit} style={styles.submitBtn}>
-            <Text>제출</Text>
-          </Pressable>
+        <View style={{ flex: 3, marginHorizontal: 30 }}>
+          <ImgPicker onChangeImg={onChangeImg} />
         </View>
-      </ImageBackground>
+
+        <Text style={styles.title}>내용</Text>
+        <View
+          style={{ flexDirection: 'column', flex: 6, alignItems: 'center' }}
+        >
+          <TextInput
+            value={content}
+            onChangeText={onChangeContent}
+            style={{
+              ...styles.input,
+              flex: 6,
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 300,
+              borderRadius: 15,
+              fontFamily: 'font1',
+            }}
+            placeholder="타임캡슐에 남기고 싶은 내용을 작성해주세요."
+            textAlignVertical="top"
+            textAlign="left"
+            multiline
+          />
+        </View>
+        <Text style={styles.title}>음악검색</Text>
+        <SearchMusic onChangeMusic={onChangeMusic} />
+
+        <Pressable onPress={handleSubmit} style={styles.submitBtn}>
+          <Text
+            style={{
+              fontFamily: 'font1',
+              color: '#ffffff',
+              fontSize: 18,
+              letterSpacing: 10,
+            }}
+          >
+            제출
+          </Text>
+        </Pressable>
+      </View>
     </KeyboardAwareScrollView>
   );
   // return (

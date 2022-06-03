@@ -114,7 +114,11 @@ function Page({ navigation, item, style }: Ipage) {
               resizeMode="contain"
             >
               <Text
-                style={{ fontSize: 0.06 * SCREEN_WIDTH, fontWeight: '700' }}
+                style={{
+                  fontSize: 0.06 * SCREEN_WIDTH,
+                  // fontWeight: '700',
+                  fontFamily: 'font1',
+                }}
               >
                 {item.c_title}
               </Text>
@@ -131,7 +135,7 @@ function Page({ navigation, item, style }: Ipage) {
               source={require('../../../assets/capsule_date_bg.png')}
               resizeMode="contain"
             >
-              <Text style={{ fontWeight: '700' }}>
+              <Text style={{ fontFamily: 'font1' }}>
                 {dDay < 0 ? '캡슐을 눌러보세요' : `D-${dDay || 'Day'}`}
               </Text>
             </ImageBackground>
