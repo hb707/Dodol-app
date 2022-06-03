@@ -8,7 +8,7 @@ import {
   Pressable,
   ImageBackground,
   Platform,
-  Modal
+  Modal,
 } from 'react-native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
@@ -47,14 +47,14 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 
 function MemoryListScreen({ navigation, route }: Props) {
   const { cIdx } = route.params;
-  const [modalVisible, setModalVisible] = useState(false)
+  const [modalVisible, setModalVisible] = useState(false);
 
   const dispatch = useDispatch();
 
   const memory = useSelector((state: IState) => state.memory);
-  const capsuleList = useSelector((state: IState) => state.capsule.capsule)
+  const capsuleList = useSelector((state: IState) => state.capsule.capsule);
 
-  const cItem = capsuleList.filter((v) => v.c_idx === cIdx)[0]
+  const cItem = capsuleList.filter(v => v.c_idx === cIdx)[0];
 
   useEffect(() => {
     dispatch(mRead({ c_idx: cIdx }));
@@ -96,8 +96,8 @@ function MemoryListScreen({ navigation, route }: Props) {
               source={
                 v.MemoryImgs[0]
                   ? {
-                    uri: `http://43.200.42.181/upload/${v.MemoryImgs[0].img}`,
-                  }
+                      uri: `http://43.200.42.181/upload/${v.MemoryImgs[0].img}`,
+                    }
                   : defaultPic
               }
               style={{
@@ -146,7 +146,6 @@ function MemoryListScreen({ navigation, route }: Props) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <View style={{ flex: 12, justifyContent: 'center' }}>
-
         <ScrollView
           contentContainerStyle={{
             width: SCREEN_WIDTH,
@@ -168,7 +167,7 @@ function MemoryListScreen({ navigation, route }: Props) {
               marginBottom: 30,
               ...Platform.select({
                 ios: {
-                  shadowColor: "#000",
+                  shadowColor: '#000',
                   shadowOffset: {
                     width: 10,
                     height: 10,
@@ -183,22 +182,51 @@ function MemoryListScreen({ navigation, route }: Props) {
             }}
           >
             <View>
-              <Text style={{ fontSize: 20, fontFamily: 'font1' }}>{cItem.c_title}</Text>
-              <Text style={{ fontSize: 12, fontFamily: 'font1', color: 'gray' }} >{cItem.c_openAt && JSON.stringify(cItem.c_openAt).substring(1, 11)}</Text>
-              <Text style={{ paddingVertical: 10, width: SCREEN_WIDTH * 0.5, fontSize: 16, fontFamily: 'font1' }}>{cItem.c_content}</Text>
-              <View style={{ fontSize: 12, fontFamily: 'font1', color: '#444', alignItems: 'center', flexDirection: 'row' }}>
+              <Text style={{ fontSize: 20, fontFamily: 'font1' }}>
+                {cItem.c_title}
+              </Text>
+              <Text
+                style={{ fontSize: 12, fontFamily: 'font1', color: 'gray' }}
+              >
+                {cItem.c_openAt &&
+                  JSON.stringify(cItem.c_openAt).substring(1, 11)}
+              </Text>
+              <Text
+                style={{
+                  paddingVertical: 10,
+                  width: SCREEN_WIDTH * 0.5,
+                  fontSize: 16,
+                  fontFamily: 'font1',
+                }}
+              >
+                {cItem.c_content}
+              </Text>
+              <View
+                style={{
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}
+              >
                 <Ionicons name="md-people" size={20} color="#444" />
-                <Text style={{ fontFamily: 'font1' }}>{'  '}{cItem.c_collaborator ? cItem.c_collaborator.length + 1 : 1}명</Text>
+                <Text
+                  style={{ fontFamily: 'font1', fontSize: 12, color: '#444' }}
+                >
+                  {'  '}
+                  {cItem.c_collaborator ? cItem.c_collaborator.length + 1 : 1}명
+                </Text>
               </View>
-
             </View>
-            <Pressable onPress={() => { setModalVisible(!modalVisible) }}>
+            <Pressable
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
+            >
               <Image
                 source={
                   cItem.c_thumb
                     ? {
-                      uri: `http://43.200.42.181/upload/${cItem.c_thumb}`,
-                    }
+                        uri: `http://43.200.42.181/upload/${cItem.c_thumb}`,
+                      }
                     : defaultCapsuleThumbPic
                 }
                 style={{
@@ -210,15 +238,23 @@ function MemoryListScreen({ navigation, route }: Props) {
               />
             </Pressable>
             <Modal animationType="fade" transparent visible={modalVisible}>
-              <Pressable onPress={() => { setModalVisible(false) }} style={{ flex: 1, justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.8)' }}>
+              <Pressable
+                onPress={() => {
+                  setModalVisible(false);
+                }}
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  backgroundColor: 'rgba(0,0,0,0.8)',
+                }}
+              >
                 <Image
                   source={
                     cItem.c_thumb
                       ? {
-                        uri: `http://43.200.42.181/upload/${cItem.c_thumb}`,
-                      }
+                          uri: `http://43.200.42.181/upload/${cItem.c_thumb}`,
+                        }
                       : defaultCapsuleThumbPic
-
                   }
                   style={{
                     width: SCREEN_WIDTH,
@@ -227,7 +263,6 @@ function MemoryListScreen({ navigation, route }: Props) {
                 />
               </Pressable>
             </Modal>
-
           </View>
 
           {memory.data.length !== 0 ? (
@@ -238,10 +273,9 @@ function MemoryListScreen({ navigation, route }: Props) {
             </View>
           )}
         </ScrollView>
-
       </View>
       <NavBar style={{ flex: 1 }} navigation={navigation} />
-    </View >
+    </View>
   );
 }
 

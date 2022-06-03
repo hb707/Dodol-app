@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import capsuleOpenActions from '../actions/capsuleOpen';
-import { IPayload } from '../api/capsule';
+import { CapsuleCreateSuccessPayload, IPayload } from '../api/capsule';
 import { ICapsule, Capsule } from '../types';
 
 export const CREATE_R = 'capsule/CREATE_REQUEST' as const;
@@ -24,7 +24,7 @@ export const create_R = (payload: IPayload) => ({
   payload,
 });
 
-export const create_S = (payload: IPayload) => ({
+export const create_S = (payload: CapsuleCreateSuccessPayload) => ({
   type: CREATE_S,
   payload,
 });
@@ -70,7 +70,9 @@ const initialState: ICapsule = {
 export type CapsuleAction =
   | ReturnType<typeof create_R>
   | ReturnType<typeof read_R>
-  | ReturnType<typeof read_S>;
+  | ReturnType<typeof read_S>
+  | ReturnType<typeof create_S>
+  | ReturnType<typeof create_F>;
 
 function capsule(state: ICapsule = initialState, action: CapsuleAction) {
   switch (action.type) {
@@ -97,9 +99,8 @@ function capsule(state: ICapsule = initialState, action: CapsuleAction) {
         loading: true,
         success: false,
       };
+
     case CREATE_S: {
-      console.log('create_S');
-      console.log(action.payload);
       return {
         ...state,
         capsule: [
@@ -114,7 +115,7 @@ function capsule(state: ICapsule = initialState, action: CapsuleAction) {
             c_collaborator: action.payload.c_collaborator,
             c_createdAt: action.payload.c_createdAt,
             c_openAt: action.payload.c_openAt,
-            isOpened: action.payload.isOpend,
+            isOpened: action.payload.isOpened,
           },
         ],
         loading: false,
