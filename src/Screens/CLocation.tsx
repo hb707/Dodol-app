@@ -8,6 +8,7 @@ import {
   Button,
   Dimensions,
   Image,
+  Pressable,
 } from 'react-native';
 import axios from 'axios';
 import MapView, { Marker } from 'react-native-maps';
@@ -24,15 +25,23 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignContent: 'center',
-    paddingTop: screen.height * 0.2,
+    paddingTop: screen.height * 0.1,
+  },
+  setSpot: {
+    fontSize: screen.fontScale * 20,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    fontFamily: 'font1',
+    letterSpacing: 3,
   },
   mapBox: {
     flex: 5,
     width: screen.width * 0.9,
-    height: screen.height * 0.9,
-    borderWidth: 2,
+    borderWidth: 3,
     marginLeft: screen.width * 0.05,
+    borderRadius: 10,
     position: 'relative',
+    marginVertical: 12,
   },
   marker: {
     position: 'absolute',
@@ -44,19 +53,35 @@ const styles = StyleSheet.create({
   },
   addressBox: {
     flex: 1,
-    width: screen.width * 0.7,
-    height: screen.height * 0.05,
-    marginLeft: screen.width * 0.15,
-    padding: screen.height * 0.05,
+    borderWidth: 3,
+    borderColor: '#000000',
+    borderRadius: 15,
+    width: screen.width * 0.9,
+    marginLeft: screen.width * 0.05,
+    backgroundColor: '#e4c86c',
   },
   address: {
-    flex: 1,
     fontSize: screen.fontScale * 20,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    fontFamily: 'font1',
+    letterSpacing: 5,
   },
   closeBtn: {
-    flex: 1,
-    backgroundColor: 'white',
-    fontSize: 100,
+    borderColor: '#000000',
+    borderRadius: 15,
+    borderWidth: 3,
+    marginVertical: 15,
+    width: screen.width * 0.9,
+    marginLeft: screen.width * 0.05,
+    backgroundColor: '#815854',
+  },
+  close: {
+    fontSize: screen.fontScale * 20,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    fontFamily: 'font1',
+    letterSpacing: 3,
   },
 });
 
@@ -131,6 +156,7 @@ function ModalLocation({
 
   return (
     <View style={styles.container}>
+      <Text style={styles.setSpot}>캡슐을 뭍을 위치를 지정해주세요</Text>
       <View style={styles.mapBox}>
         <MapView
           style={{ flex: 1 }}
@@ -145,7 +171,11 @@ function ModalLocation({
       <View style={styles.addressBox}>
         <Text style={styles.address}>{cAddress}</Text>
       </View>
-      <Button style={styles.closeBtn} title="close" onPress={closeModal} />
+      <View style={styles.closeBtn}>
+        <Pressable onPress={closeModal}>
+          <Text style={styles.close}>위치 설정 완료! 팝업 닫기 !</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
