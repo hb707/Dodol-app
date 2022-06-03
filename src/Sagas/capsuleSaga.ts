@@ -79,7 +79,8 @@ function* capsuleCREATE(action: IAction): Promise {
     if (response.data.result !== 'success') throw new Error();
     console.log('a');
     yield put(create_S(response.data.data));
-  } catch {
+  } catch (e) {
+    console.log(e);
     console.log('b');
     yield put(create_F());
   }

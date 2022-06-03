@@ -12,6 +12,7 @@ import Carousel from '../Components/carousel/Carousel';
 import { Capsule, ICapsule, IState } from '../types';
 import * as capsuleAction from '../Reducers/capsule';
 import { getThumb, storeCapsule } from '../Storages/storage';
+import Loading from '../Components/loading/loading';
 
 // Async Storage
 const STORAGE_KEY = '@capsule_item';
@@ -28,29 +29,38 @@ const screenWidth = Math.round(Dimensions.get('window').width);
 
 function MainScreen({ navigation }: Props) {
   const [saveGlobal, setSaveGlobal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch();
   const capsuleState = useSelector((state: IState) => state.capsule);
   const thumbs = () =>
-    capsuleState.capsule.map(v => {
+    capsuleState.capsule.forEach(v => {
       if (v.c_thumb !== null && v.c_thumb !== '')
-        return Image.prefetch(`http://43.200.42.181/upload/${v.c_thumb}`);
+        Image.prefetch(`http://43.200.42.181/upload/${v.c_thumb}`);
     });
 
   const storeAndLoad = async () => {
     await storeCapsule(capsuleState);
-    await Promise.all([...thumbs()]);
   };
   useEffect(() => {
-    if (!saveGlobal) {
+    if (isLoading) {
       dispatch({ type: capsuleAction.READ_R });
-      setSaveGlobal(true);
-    } else {
-      storeAndLoad();
     }
-  }, [saveGlobal]);
-  storeAndLoad();
-  return (
+  });
+
+  useEffect(() => {
+    (async () => {
+      if (capsuleState.loading === false) {
+        thumbs();
+        setIsLoading(false);
+        await storeAndLoad();
+      }
+    })();
+  }, [capsuleState.loading]);
+  return isLoading ? (
+    <Loading />
+  ) : (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <View style={{ flex: 12, justifyContent: 'center' }}>
         <Carousel

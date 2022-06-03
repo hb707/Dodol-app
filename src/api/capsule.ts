@@ -55,23 +55,18 @@ export const createAPI = async (
   const name = payload.c_thumb.split('/');
   const fileName = name[name.length - 1];
 
-  // const c_thumb =
-
-  const {
-    c_title,
-    c_content,
-    c_location,
-    c_openAt,
-    // c_collaborator,
-  } = payload;
+  const { c_title, c_content, c_location, c_openAt, c_collaborator } = payload;
 
   const formData: IFormData = new FormData();
+  c_collaborator.forEach(v => formData.append('c_collaborator', v.u_idx));
   formData.append('c_generator', c_generator);
   formData.append('c_title', c_title);
   formData.append('c_content', c_content);
   formData.append(
     'c_location',
-    `${c_location.longitude},${c_location.latitude},${c_location.cAddress}`,
+    `${c_location.latitude},${c_location.longitude},${
+      c_location.cAddress || '퇴계로'
+    }`,
   );
   formData.append('collaborator', 5);
   formData.append('collaborator', 6);
@@ -83,6 +78,7 @@ export const createAPI = async (
     type: 'image/jpeg',
     uri,
   });
+  console.log(formData);
 
   let response = null;
   try {

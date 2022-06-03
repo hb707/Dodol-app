@@ -1,35 +1,48 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Button, Image, Pressable } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Button,
+  Image,
+  Pressable,
+  Dimensions,
+} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Fontisto } from '@expo/vector-icons';
 import { getThumb, storeThumb } from '../Storages/storage';
 import { ImageOptions } from '../types';
+
+const screen = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 30,
   },
   thumbButtons: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
-    width: 220,
+    width: screen.width * 0.9,
   },
   thumbButton: {
-    width: '40%',
-    borderWidth: 2,
+    borderWidth: 3,
     borderRadius: 15,
-    padding: '5%',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    width: 125,
   },
   img: {
-    width: 300,
-    height: 250,
+    width: screen.width * 0.9,
+    height: screen.width * 0.9,
+    borderColor: 'black',
+    borderWidth: 3,
+    borderRadius: 30,
     margin: 25,
     marginTop: 50,
   },
@@ -38,7 +51,7 @@ const styles = StyleSheet.create({
 const imageOptions: ImageOptions = {
   mediaTypes: ImagePicker.MediaTypeOptions.Images,
   allowsEditing: true,
-  aspect: [4, 3],
+  aspect: [4, 4],
   quality: 1,
 };
 
@@ -69,11 +82,23 @@ function ThumbPicker() {
     <View style={styles.container}>
       <View style={styles.thumbButtons}>
         <Pressable onPress={PickImage} style={styles.thumbButton}>
-          <Text>사진업로드</Text>
+          <Text
+            style={{
+              fontFamily: 'font1',
+            }}
+          >
+            사진업로드
+          </Text>
           <Fontisto name="photograph" size={24} color="black" />
         </Pressable>
         <Pressable onPress={GetPermission} style={styles.thumbButton}>
-          <Text>카메라</Text>
+          <Text
+            style={{
+              fontFamily: 'font1',
+            }}
+          >
+            카메라
+          </Text>
           <Fontisto name="camera" size={24} color="black" />
         </Pressable>
       </View>
