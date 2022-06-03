@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0.2)',
+    // backgroundColor: 'rgba(0,0,0,0.2)',
     height: SCREEN_HEIGHT * 0.9,
   },
   inputContainer: {
@@ -35,13 +35,16 @@ const styles = StyleSheet.create({
     height: 50,
     paddingHorizontal: 20,
     paddingVertical: 7,
-    backgroundColor: '#aeaeae',
+    // backgroundColor: '#aeaeae',
     borderRadius: 25,
+    borderWidth: 3,
+    borderColor: '#000000',
+    fontFamily: 'font1',
   },
   submitBtn: {
     height: 50,
     width: '20%',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#000000',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,
@@ -116,7 +119,9 @@ function CollaboratorScreen({
         }}
         key={i}
       >
-        <Text style={{ fontSize: 20, marginLeft: 10 }}>{v.u_alias}</Text>
+        <Text style={{ fontSize: 20, marginLeft: 10, fontFamily: 'font1' }}>
+          {v.u_alias}
+        </Text>
         <Pressable
           onPress={() => {
             const newList = [...list];
@@ -131,6 +136,7 @@ function CollaboratorScreen({
               paddingHorizontal: 14,
               paddingVertical: 7,
               color: 'white',
+              fontFamily: 'font1',
             }}
           >
             삭제
@@ -143,11 +149,13 @@ function CollaboratorScreen({
     <KeyboardAwareScrollView contentContainerStyle={styles.container}>
       <View
         style={{
-          backgroundColor: '#555555',
+          backgroundColor: '#ffffff',
           padding: 20,
           width: SCREEN_WIDTH * 0.9,
           borderRadius: 20,
           alignItems: 'center',
+          borderWidth: 3,
+          borderColor: '#000000',
         }}
       >
         <View style={styles.inputContainer}>
@@ -157,7 +165,7 @@ function CollaboratorScreen({
             onChangeText={onChangeCode}
           />
           <Pressable style={styles.submitBtn} onPress={searchRequest()}>
-            <Text>검색</Text>
+            <Text style={{ color: '#ffffff', fontFamily: 'font1' }}>검색</Text>
           </Pressable>
         </View>
         <View
@@ -182,18 +190,20 @@ function CollaboratorScreen({
                 style={{
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: 'gray',
-                  paddingHorizontal: 20,
+                  borderColor: '#000000',
+                  borderWidth: 3,
+                  paddingHorizontal: 10,
                   borderRadius: 10,
                 }}
                 onPress={() => addList(searchResult)}
               >
-                <Ionicons name="person-add-sharp" size={24} color="black" />
+                <Ionicons name="person-add-sharp" size={24} color="#000000" />
               </Pressable>
               <Text
                 style={{
                   fontSize: 30,
                   marginLeft: 20,
+                  fontFamily: 'font1',
                 }}
               >
                 {searchResult.u_alias}
@@ -205,7 +215,7 @@ function CollaboratorScreen({
               style={{
                 width: 200,
                 height: 40,
-                // fontSize: 24,
+                fontFamily: 'font1',
               }}
             >
               회원코드를 정확히 입력해주세요
@@ -219,8 +229,18 @@ function CollaboratorScreen({
             // backgroundColor: 'blue',
           }}
         >
-          <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
-            <Text style={{ fontSize: 20, marginBottom: 10 }}>
+          <ScrollView
+            contentContainerStyle={{
+              alignItems: 'center',
+              borderTopColor: '#000000',
+              borderTopWidth: 3,
+              paddingTop: 30,
+              width: '100%',
+            }}
+          >
+            <Text
+              style={{ fontSize: 20, marginBottom: 10, fontFamily: 'font1' }}
+            >
               추가된 친구 ({list.length})
             </Text>
             {item()}
@@ -232,12 +252,22 @@ function CollaboratorScreen({
             height: 50,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: '#cecece',
             borderRadius: 20,
+            borderWidth: 3,
+            backgroundColor: '#000000',
           }}
           onPress={submitCollaborator}
         >
-          <Text>등록</Text>
+          <Text
+            style={{
+              fontFamily: 'font1',
+              color: '#ffffff',
+              letterSpacing: 10,
+              fontSize: 20,
+            }}
+          >
+            등록
+          </Text>
         </Pressable>
       </View>
     </KeyboardAwareScrollView>

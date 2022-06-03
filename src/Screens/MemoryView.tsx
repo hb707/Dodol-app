@@ -129,10 +129,12 @@ function MemoryViewScreen({ navigation, route }: Props) {
           <View style={{ flex: 3, width: SCREEN_WIDTH }}>
             <View style={styles.titleView}>
               <View>
-                <Text style={{ fontSize: 20 }}>{data.User.u_alias}</Text>
-                <Text style={{ fontSize: 14, color: 'gray' }}>
-                  @ 2022. 05.28 - 캡슐날짜 prop으로 받기
+                <Text style={{ fontSize: 20, fontFamily: 'font1' }}>
+                  {data.User.u_alias}
                 </Text>
+                {/* <Text style={{ fontSize: 14, color: 'gray' }}>
+                  @ 2022. 05.28
+                </Text> */}
               </View>
               <View style={{ flexDirection: 'row' }}>
                 {data.MemoryMusic.link ? (
@@ -185,7 +187,9 @@ function MemoryViewScreen({ navigation, route }: Props) {
               padding: 20,
             }}
           >
-            <Text>{data.m_content}</Text>
+            <Text style={{ fontFamily: 'font2', fontSize: 30 }}>
+              {data.m_content}
+            </Text>
           </ScrollView>
         </ScrollView>
       </View>

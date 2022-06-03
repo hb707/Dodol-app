@@ -349,7 +349,7 @@ function OpenCapsule({ navigation, route }: Props) {
                 resizeMode="contain"
               >
                 <Text
-                  style={{ fontSize: 0.06 * SCREEN_WIDTH, fontWeight: '700' }}
+                  style={{ fontSize: 0.06 * SCREEN_WIDTH, fontFamily: 'font1' }}
                 >
                   {thisCapsule.c_title}
                 </Text>
@@ -368,7 +368,7 @@ function OpenCapsule({ navigation, route }: Props) {
                 resizeMode="contain"
               >
                 <Text
-                  style={{ fontSize: 0.06 * SCREEN_WIDTH, fontWeight: '700' }}
+                  style={{ fontSize: 0.06 * SCREEN_WIDTH, fontFamily: 'font1' }}
                 >
                   {thisCapsule.c_location?.split(',')[3]}
                 </Text>
@@ -386,7 +386,7 @@ function OpenCapsule({ navigation, route }: Props) {
                 resizeMode="contain"
               >
                 <Text
-                  style={{ fontSize: 0.06 * SCREEN_WIDTH, fontWeight: '700' }}
+                  style={{ fontSize: 0.05 * SCREEN_WIDTH, fontFamily: 'font1' }}
                 >
                   {thisCapsule.c_openAt?.toString().split('T')[0]}
                 </Text>
@@ -403,7 +403,7 @@ function OpenCapsule({ navigation, route }: Props) {
             marginBottom: 5,
           }}
         >
-          <Text style={{ fontSize: 16, color: 'red', fontWeight: '600' }}>
+          <Text style={{ fontSize: 16, color: 'red', fontFamily: 'font1' }}>
             {errors}
           </Text>
         </View>
@@ -418,7 +418,7 @@ function OpenCapsule({ navigation, route }: Props) {
               borderRadius: 20,
             }}
           >
-            <Text style={{ color: '#fff', fontSize: 20, fontWeight: '700' }}>
+            <Text style={{ color: '#fff', fontSize: 20, fontFamily: 'font1' }}>
               {btnText}
             </Text>
           </View>

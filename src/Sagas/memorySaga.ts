@@ -96,10 +96,12 @@ function* memoryCREATE(action: IAction) {
       });
     } else {
       // failure reducer 실행 : 서버 에러
+      console.log('서버에러');
       yield put({ type: 'memory/CREATE_FAILURE' });
     }
   } catch (e) {
     // failure reducer 실행 : axios 에러
+    console.log('axios에러');
     yield put({ type: 'memory/CREATE_FAILURE' });
   }
 }

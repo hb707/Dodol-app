@@ -47,10 +47,24 @@ function OpenCapsuleAlert({ setAlert }: IProps) {
             alignItems: 'center',
           }}
         >
-          <Text style={{ color: '#000', fontSize: 18, letterSpacing: -0.4 }}>
+          <Text
+            style={{
+              color: '#000',
+              fontSize: 18,
+              letterSpacing: -0.4,
+              fontFamily: 'font1',
+            }}
+          >
             병을 터치 해서
           </Text>
-          <Text style={{ color: '#000', fontSize: 18, letterSpacing: 0.4 }}>
+          <Text
+            style={{
+              color: '#000',
+              fontSize: 18,
+              letterSpacing: 0.4,
+              fontFamily: 'font1',
+            }}
+          >
             캡슐에 추억을 담아 보세요.
           </Text>
         </View>
@@ -79,7 +93,9 @@ function OpenCapsuleAlert({ setAlert }: IProps) {
                 color="black"
               />
             )}
-            <Text style={{ marginLeft: 3 }}>다시 보지 않기</Text>
+            <Text style={{ marginLeft: 3, fontFamily: 'font1' }}>
+              다시 보지 않기
+            </Text>
           </View>
         </Pressable>
         <Pressable style={{ width: '100%' }} onPress={setAlert}>
@@ -95,7 +111,7 @@ function OpenCapsuleAlert({ setAlert }: IProps) {
               borderTopWidth: 4,
             }}
           >
-            <Text style={{ fontSize: 18, fontWeight: '600' }}>닫기</Text>
+            <Text style={{ fontSize: 18, fontFamily: 'font1' }}>닫기</Text>
           </View>
         </Pressable>
       </View>
