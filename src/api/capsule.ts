@@ -1,7 +1,7 @@
 import FormData from 'form-data';
 import axios, { AxiosPromise, AxiosResponse } from 'axios';
 import { useDispatch } from 'react-redux';
-import { backUrl, IState, Iuser } from '../types';
+import { backUrl, IState, IUser, Iuser } from '../types';
 import { getUser } from '../Storages/storage';
 import { CapsuleIdx } from '../Sagas/capsuleSaga';
 import { ILocation } from '../Screens/CLocation';
@@ -13,8 +13,21 @@ export interface IPayload {
   c_content: string;
   c_location: ILocation | null;
   c_openAt: string;
-  c_collaborator: number[];
+  c_collaborator: Iuser[];
   c_thumb: string | null;
+}
+
+export interface CapsuleCreateSuccessPayload {
+  c_generator: Iuser;
+  c_title: string;
+  c_content: string;
+  c_location: ILocation | null;
+  c_openAt: string;
+  c_collaborator: Iuser[];
+  c_thumb: string | null;
+  c_idx: number;
+  c_createdAt: Date;
+  isOpened: boolean;
 }
 
 interface IFormData extends FormData {
