@@ -28,7 +28,7 @@ export const getUser = async () => {
   return JSON.parse(user);
 };
 
-export const removeUser = async navigation => {
+export const removeUser = async () => {
   try {
     await AsyncStorage.removeItem('user');
     console.log('removed');

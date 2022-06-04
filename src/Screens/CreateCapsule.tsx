@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import {
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
   Pressable,
-  Button,
   Modal,
   Dimensions,
 } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { MaterialCommunityIcons, Ionicons, Feather } from '@expo/vector-icons';
+import { Ionicons, Feather } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import moment from 'moment';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ThumbPicker from './ThumbPicker';
@@ -26,7 +23,7 @@ import {
   getSpot,
   removeItemByKey,
 } from '../Storages/storage';
-import { IState, backUrl, Iuser } from '../types';
+import { IState, IUser, Iuser } from '../types';
 import CollaboratorScreen from './Collaborator';
 import { IPayload } from '../api/capsule';
 
@@ -90,6 +87,7 @@ const styles = StyleSheet.create({
   navBar: {
     flex: 1,
   },
+  errors: { color: 'tomato', fontFamily: 'font1', fontSize: 16 },
 });
 
 type RootStackParamList = {
@@ -99,15 +97,10 @@ type RootStackParamList = {
   Collaborator: {
     onChangeCollaborator: (payload: number[]) => void;
   };
+  Main: undefined;
 };
 
 type Props = NativeStackScreenProps<RootStackParamList>;
-
-const REST_API_KEY = '07e2741dea7ed6e8b2ba90e09024f231';
-
-const userAgent =
-  'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1';
-const INJECTED_JAVASCRIPT = `window.ReactNativeWebView.postMessage('message from webView')`;
 
 interface errorsAttribute {
   title: string;
@@ -119,7 +112,7 @@ interface errorsAttribute {
 function CreateCapsuleScreen({ navigation, route }: Props) {
   const [cName, setcName] = useState<string>('');
   const [cDesc, setcDesc] = useState<string>('');
-  const [cCollaborator, setcCollaborator] = useState([]);
+  const [cCollaborator, setcCollaborator] = useState<Iuser[]>([]);
   const [cYear, setYear] = useState('');
   const [cMonth, setMonth] = useState('');
   const [cDay, setDay] = useState('');
@@ -140,7 +133,7 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
 
   useEffect(() => {
     if (!submit) {
-      (async function () {
+      (async function a() {
         await removeItemByKey('spot');
         await removeItemByKey('thumbUrl');
       })();
@@ -160,62 +153,28 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
     let titlePass = false;
     let descriptionPass = false;
 
+    const errorCheck = { ...errors };
+
     if (cLocation === null) {
-      setErrors({
-        ...errors,
-        location: '캡슐을 묻을 위치를 지정해주세요',
-      });
-      setTimeout(() => {
-        setErrors({
-          ...errors,
-          location: '',
-        });
-      }, 2000);
+      errorCheck.location = '캡슐을 묻을 위치를 지정해주세요';
     } else {
       locationPass = true;
     }
 
     if (!checkDate(cYear, cMonth, cDay)) {
-      setErrors({
-        ...errors,
-        date: '유효한 날짜를 입력해 주세요.',
-      });
-      setTimeout(() => {
-        setErrors({
-          ...errors,
-          date: '',
-        });
-      });
+      errorCheck.date = '유효한 날짜를 입력해주세요.';
     } else {
       datePass = true;
     }
 
     if (cName.replace(/' '/g, '') === '') {
-      setErrors({
-        ...errors,
-        title: '캡슐 이름을 정해주세요',
-      });
-      setTimeout(() => {
-        setErrors({
-          ...errors,
-          title: '',
-        });
-      });
+      errorCheck.title = '캡슐의 이름을 정해주세요.';
     } else {
       titlePass = true;
     }
 
     if (cDesc.replace(/' '/g, '') === '') {
-      setErrors({
-        ...errors,
-        description: '캡슐 이름을 정해주세요',
-      });
-      setTimeout(() => {
-        setErrors({
-          ...errors,
-          description: '',
-        });
-      });
+      errorCheck.description = '캡슐에 대한 설명은 적어주세요.';
     } else {
       descriptionPass = true;
     }
@@ -233,13 +192,23 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
       };
       setSubmit(true);
       dispatch(create_R(capsule));
+    } else {
+      setErrors(errorCheck);
+      setTimeout(() => {
+        setErrors({
+          title: '',
+          description: '',
+          location: '',
+          date: '',
+        });
+      }, 3000);
     }
   };
 
-  const onChangeCollaborator = (payload: number[]) => {
+  const onChangeCollaborator = (payload: Iuser[]) => {
     setcCollaborator(payload);
   };
-  console.log(errors);
+
   return (
     <View style={styles.container}>
       <View style={styles.page}>
@@ -266,14 +235,17 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
               value={cName}
               placeholder="캡슐명을 작성해주세요"
             />
-            <Text>{errors.title}</Text>
+            <View style={{ height: 30 }}>
+              {errors.title === '' || (
+                <Text style={styles.errors}>{errors.title}</Text>
+              )}
+            </View>
           </View>
 
           <View
             style={{
               ...styles.inputBox,
               flexDirection: 'column',
-              marginVertical: 10,
             }}
           >
             <Text style={styles.key}> 캡슐 설명</Text>
@@ -292,13 +264,18 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
               textAlign="left"
               multiline
             />
+            <View style={{ height: 30 }}>
+              {errors.description === '' || (
+                <Text style={styles.errors}>{errors.description}</Text>
+              )}
+            </View>
           </View>
 
           <View
             style={{
               width: SCREEN_WIDTH * 0.9,
               marginLeft: SCREEN_WIDTH * 0.05,
-              marginVertical: 10,
+              justifyContent: 'center',
             }}
           >
             <Text style={styles.key}> 위치 및 친구추가</Text>
@@ -376,6 +353,11 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
                 </Pressable>
               </View>
             </View>
+            <View style={{ height: 30, width: '100%', alignItems: 'center' }}>
+              {errors.location === '' || (
+                <Text style={styles.errors}>{errors.location}</Text>
+              )}
+            </View>
           </View>
 
           <View
@@ -387,7 +369,6 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
           >
             <Text style={styles.key}> 썸네일 업로드</Text>
             <ThumbPicker />
-            {errors.location === '' || <Text>{errors.location}</Text>}
           </View>
 
           <View
@@ -423,6 +404,11 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
                 value={cDay}
                 placeholder="DD"
               />
+            </View>
+            <View style={{ height: 25 }}>
+              {errors.date === '' || (
+                <Text style={styles.errors}>{errors.date}</Text>
+              )}
             </View>
           </View>
           <View

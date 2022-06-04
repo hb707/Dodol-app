@@ -34,11 +34,6 @@ function MainScreen({ navigation }: Props) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch();
   const capsuleState = useSelector((state: IState) => state.capsule);
-  const thumbs = () =>
-    capsuleState.capsule.forEach(v => {
-      if (v.c_thumb !== null && v.c_thumb !== '')
-        Image.prefetch(`http://43.200.42.181/upload/${v.c_thumb}`);
-    });
 
   const storeAndLoad = async () => {
     await storeCapsule(capsuleState);
@@ -52,7 +47,6 @@ function MainScreen({ navigation }: Props) {
   useEffect(() => {
     (async () => {
       if (capsuleState.loading === false) {
-        thumbs();
         setIsLoading(false);
         await storeAndLoad();
       }

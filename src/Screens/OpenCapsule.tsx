@@ -161,7 +161,7 @@ function OpenCapsule({ navigation, route }: Props) {
       setBtnText('캡슐을 묻은 위치로 이동해주세요');
       return;
     }
-    setBtnText('병이 열릴때 까지 병을 터치해주세요');
+    setBtnText('병을 계속 터치해서 열어주세요');
     setOpenCapsule('success');
   };
 
