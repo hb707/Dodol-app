@@ -135,7 +135,7 @@ function MemoryViewScreen({ navigation, route }: Props) {
                 </Text> */}
               </View>
               <View style={{ flexDirection: 'row' }}>
-                {data.MemoryMusic.link ? (
+                {data.MemoryMusic && data.MemoryMusic.link ? (
                   <>
                     <Pressable onPress={togglePlaying}>
                       <View style={styles.musicPlayBtn}>
