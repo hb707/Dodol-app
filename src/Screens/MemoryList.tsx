@@ -20,7 +20,6 @@ import { mRead } from '../Reducers/memory';
 import defaultPic from '../../assets/background.jpeg';
 import defaultCapsuleThumbPic from '../../assets/default_capsule_thumbnail.png';
 import { IState, IMemory } from '../types';
-import backgroundImg from '../../assets/paper.jpeg';
 import polaroid from '../../assets/polaroid.png';
 
 type RootStackParamList = {
@@ -59,8 +58,6 @@ function MemoryListScreen({ navigation, route }: Props) {
   useEffect(() => {
     dispatch(mRead({ c_idx: cIdx }));
   }, [dispatch, cIdx]);
-
-  const writers = cItem.c_collaborator ? cItem.c_collaborator.join(', ') : '';
 
   const item = () =>
     memory.data.map((v: IMemory) => (
@@ -115,7 +112,6 @@ function MemoryListScreen({ navigation, route }: Props) {
               <Text
                 style={{
                   fontSize: 18,
-                  // fontWeight: 'bold',
                   fontFamily: 'font1',
                   marginBottom: 10,
                 }}
@@ -182,31 +178,10 @@ function MemoryListScreen({ navigation, route }: Props) {
             }}
           >
             <View>
-              <Text style={{ fontSize: 20, fontFamily: 'font1' }}>
-                {cItem.c_title}
-              </Text>
-              <Text
-                style={{ fontSize: 12, fontFamily: 'font1', color: 'gray' }}
-              >
-                {cItem.c_openAt &&
-                  JSON.stringify(cItem.c_openAt).substring(1, 11)}
-              </Text>
-              <Text
-                style={{
-                  paddingVertical: 10,
-                  width: SCREEN_WIDTH * 0.5,
-                  fontSize: 16,
-                  fontFamily: 'font1',
-                }}
-              >
-                {cItem.c_content}
-              </Text>
-              <View
-                style={{
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                }}
-              >
+              <Text style={{ fontSize: 20, fontFamily: 'font1' }}>{cItem.c_title}</Text>
+              <Text style={{ fontSize: 12, fontFamily: 'font1', color: 'gray' }} >{cItem.c_openAt && JSON.stringify(cItem.c_openAt).substring(1, 11)}</Text>
+              <Text style={{ paddingVertical: 10, width: SCREEN_WIDTH * 0.5, fontSize: 16, fontFamily: 'font1' }}>{cItem.c_content}</Text>
+              <View style={{ alignItems: 'center', flexDirection: 'row' }}>
                 <Ionicons name="md-people" size={20} color="#444" />
                 <Text
                   style={{ fontFamily: 'font1', fontSize: 12, color: '#444' }}
