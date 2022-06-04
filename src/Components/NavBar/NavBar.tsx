@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, View, Pressable, Text, Image } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import profileIcon2 from '../../../assets/navIcon/IMG_1405.png';
 import profileIcon1 from '../../../assets/navIcon/IMG_1406.png';
@@ -59,11 +57,15 @@ type RootStackParamList = {
   List: undefined;
   CreateCapsule: undefined;
   Profile: undefined;
+  NavBar: { currentScreen: string } | undefined;
 };
 
-type Props = NativeStackScreenProps<RootStackParamList>;
+type Props = NativeStackScreenProps<RootStackParamList, 'NavBar'>;
+type NavProps = Props & {
+  currentScreen: string;
+};
 
-function NavBar({ navigation, currentScreen }: Props) {
+function NavBar({ navigation, currentScreen }: NavProps) {
   return (
     <View style={styles.container}>
       <Pressable

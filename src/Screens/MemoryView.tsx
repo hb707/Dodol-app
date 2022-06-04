@@ -5,7 +5,6 @@ import {
   Dimensions,
   Image,
   Pressable,
-  ImageBackground,
   StyleSheet,
 } from 'react-native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -15,7 +14,6 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 import { Ionicons } from '@expo/vector-icons';
 import NavBar from '../Components/NavBar/NavBar';
 import { IMemory } from '../types';
-import backgroundImg from '../../assets/paper.jpeg';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
