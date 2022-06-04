@@ -6,7 +6,6 @@ import {
   StyleSheet,
   Dimensions,
   Pressable,
-  ImageBackground,
 } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useDispatch } from 'react-redux';
@@ -19,7 +18,6 @@ import { IPayload } from '../Sagas/memorySaga';
 import Preview from '../Components/imagePicker/Preview';
 
 import SearchMusic from '../Components/searchMusic/SearchMusic';
-import backgroundImg from '../../assets/paper.jpeg';
 
 type RootStackParamList = {
   Home: undefined;
@@ -175,11 +173,6 @@ function CreateMemoryScreen({ navigation, route }: Props) {
       </View>
     </KeyboardAwareScrollView>
   );
-  // return (
-  //   <View>
-  //     <Text>왜????</Text>
-  //   </View>
-  // );
 }
 
 export default CreateMemoryScreen;

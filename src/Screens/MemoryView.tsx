@@ -191,7 +191,11 @@ function MemoryViewScreen({ navigation, route }: Props) {
           </ScrollView>
         </ScrollView>
       </View>
-      <NavBar style={{ flex: 1 }} navigation={navigation} />
+      <NavBar
+        style={{ flex: 1 }}
+        navigation={navigation}
+        currentScreen="MemoryView"
+      />
     </>
   );
 }
