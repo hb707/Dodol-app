@@ -3,14 +3,14 @@ import {
   StyleSheet,
   View,
   Text,
-  Button,
   Image,
   Pressable,
   Dimensions,
+  Alert,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Fontisto } from '@expo/vector-icons';
-import { getThumb, storeThumb } from '../Storages/storage';
+import { storeData } from '../Storages/storage';
 import { ImageOptions } from '../types';
 
 const screen = Dimensions.get('screen');
@@ -58,24 +58,36 @@ const imageOptions: ImageOptions = {
 function ThumbPicker() {
   type TImageState = string;
   const [imageUrl, setImageUrl] = useState<TImageState>();
-  const status = ImagePicker.useCameraPermissions();
 
   const GetPermission = async () => {
-    if (!status.granted) {
-      const permission = await ImagePicker.requestCameraPermissionsAsync();
-    }
-    const img = await ImagePicker.launchCameraAsync(imageOptions);
-    if (!img.cancelled) {
-      setImageUrl(img.uri);
-      storeThumb(img.uri);
-    }
+    try {
+      const permission: ImagePicker.PermissionResponse =
+        await ImagePicker.getCameraPermissionsAsync();
+      if (!permission.granted) {
+        if (!permission.canAskAgain) {
+          Alert.alert('설정에서 카메라 접근을 허용해주세요');
+          return;
+        }
+        const finalPermission =
+          await ImagePicker.requestCameraPermissionsAsync();
+        if (!finalPermission.granted) {
+          Alert.alert('카메라 접근이 허용되지 않았습니다');
+          return;
+        }
+      }
+      const img = await ImagePicker.launchCameraAsync(imageOptions);
+      if (!img.cancelled) {
+        setImageUrl(img.uri);
+        storeData('thumbUrl', img.uri);
+      }
+    } catch (e) {}
   };
 
   const PickImage = async () => {
     const img = await ImagePicker.launchImageLibraryAsync(imageOptions);
     if (!img.cancelled) {
       setImageUrl(img.uri);
-      storeThumb(img.uri);
+      storeData('thumbUrl', img.uri);
     }
   };
   return (

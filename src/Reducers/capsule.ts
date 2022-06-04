@@ -29,9 +29,9 @@ export const create_S = (payload: CapsuleCreateSuccessPayload) => ({
   payload,
 });
 
-export const create_F = (payload: IPayload) => ({
+export const create_F = () => ({
   type: CREATE_F,
-  payload,
+  payload: null,
 });
 
 export const read_R = (payload: ReadPayloadAttribute) => ({

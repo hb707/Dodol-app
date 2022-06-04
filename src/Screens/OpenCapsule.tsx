@@ -14,7 +14,7 @@ import { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import NavBar from '../Components/NavBar/NavBar';
 import { IMemory, Capsule, IState } from '../types';
-import { getDataFromStorage, setDataToStorage } from '../Storages/storage';
+import { getData } from '../Storages/storage';
 
 import capsuleThumbFrame from '../../assets/capsule_thumb_frame.png';
 import defaultThumb from '../../assets/default_capsule_thumbnail.png';
@@ -115,7 +115,7 @@ function OpenCapsule({ navigation, route }: Props) {
   const userState = useSelector((state: IState) => state.user);
 
   const getCapsule = async () => {
-    const tmp = (await getDataFromStorage('@capsule_item')).capsule;
+    const tmp = (await getData('@capsule_item')).capsule;
     const result = tmp.filter((v: Capsule) => v.c_idx === cIdx);
     setThisCapusle(result[0]);
   };
@@ -208,7 +208,7 @@ function OpenCapsule({ navigation, route }: Props) {
   };
 
   const checkAlert = async () => {
-    const data = await getDataFromStorage('@noAlertAgain');
+    const data = await getData('@noAlertAgain');
     if (data) {
       setAlert(data.value);
     }

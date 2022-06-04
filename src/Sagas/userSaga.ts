@@ -1,12 +1,12 @@
 import { put, takeLatest, call } from 'redux-saga/effects';
 import { AxiosResponse } from 'axios';
-import { getUser, removeUser } from '../Storages/storage';
+import { getData } from '../Storages/storage';
 import { READ_R, READ_S, READ_F } from '../Reducers/user';
 import profileActions, { ProfileActionType } from '../actions/userProfile';
 import { updateAPI, quitAPI } from '../api/userProfile';
 import quitAction, { QuitActionType } from '../actions/userQuit';
 
-const user = getUser();
+const user = getData('user');
 
 function* userREAD() {
   try {

@@ -107,14 +107,14 @@ function ModalLocation({
 }: {
   setModalVisible: (flag: boolean) => void;
 }) {
-  const initialRegion: ILocation = {
+  const initialRegion: ILocationForParameter = {
     longitude: Number(127.00634649077266),
     latitude: Number(37.563817018270434),
     latitudeDelta: Number(0.1857534755372825),
     longitudeDelta: Number(0.2738749137452601),
   };
   const [cSpot, setcSpot] = useState<ILocationForParameter>(initialRegion);
-  const [cAddress, setcAddress] = useState('퇴계로');
+  const [cAddress, setcAddress] = useState<string>('퇴계로');
 
   const getAdress = async () => {
     try {

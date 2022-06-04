@@ -11,7 +11,6 @@ interface IProps {
 
 function OpenCapsuleAlert({ setAlert }: IProps) {
   const [noAlertAgain, setNoAlertAgain] = useState(false);
-
   useEffect(() => {
     setDataToStorage('@noAlertAgain', { value: noAlertAgain });
   }, [noAlertAgain]);

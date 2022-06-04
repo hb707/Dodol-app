@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { call, takeLatest, put } from 'redux-saga/effects';
 import axios, { AxiosPromise, AxiosResponse } from 'axios';
 import {
@@ -12,9 +11,6 @@ import {
 import { Capsule, ICapsule } from '../types';
 import { createAPI, readAPI, openAPI } from '../api/capsule';
 import capsuleOpenActions from '../actions/capsuleOpen';
-
-// 리덕스는 store에 전역으로 정보 저장
-// 사가는 미들웨어로 상태변경
 
 export interface CapsuleIdx {
   c_idx: number;
@@ -72,9 +68,10 @@ function* capsuleREAD(action: ReadActionAttribute) {
   }
 }
 
-function* capsuleCREATE(action: IAction): Promise {
+function* capsuleCREATE(action: IAction) {
   try {
     const response: AxiosResponse<any> = yield call(createAPI, action.payload);
+    console.log(response.data);
     if (response.data.result !== 'success') throw new Error();
     yield put(create_S(response.data.data));
   } catch (e) {

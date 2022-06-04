@@ -11,7 +11,7 @@ import NavBar from '../Components/NavBar/NavBar';
 import Carousel from '../Components/carousel/Carousel';
 import { Capsule, ICapsule, IState } from '../types';
 import * as capsuleAction from '../Reducers/capsule';
-import { getThumb, storeCapsule } from '../Storages/storage';
+import { getData, storeData } from '../Storages/storage';
 import Loading from '../Components/loading/loading';
 
 // Async Storage
@@ -41,7 +41,7 @@ function MainScreen({ navigation }: Props) {
     });
 
   const storeAndLoad = async () => {
-    await storeCapsule(capsuleState);
+    await storeData('@capsule_item', capsuleState);
   };
   useEffect(() => {
     if (isLoading) {

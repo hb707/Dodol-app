@@ -5,7 +5,6 @@ import {
   Dimensions,
   Image,
   Pressable,
-  ImageBackground,
   StyleSheet,
 } from 'react-native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
