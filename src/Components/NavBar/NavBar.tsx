@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, View, Pressable, Text, Image } from 'react-native';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import profileIcon2 from '../../../assets/navIcon/IMG_1405.png';
 import profileIcon1 from '../../../assets/navIcon/IMG_1406.png';
 import addIcon2 from '../../../assets/navIcon/IMG_1407.png';
@@ -50,24 +49,15 @@ const styles = StyleSheet.create({
   textFont: { fontSize: 12, fontFamily: 'font1', marginTop: 5 },
 });
 
-type RootStackParamList = {
-  Home: undefined;
-  Feed: { sort: 'latest' | 'top' } | undefined;
-  Main: undefined;
-  List: undefined;
-  CreateCapsule: undefined;
-  Profile: undefined;
-  NavBar: { currentScreen: string } | undefined;
-};
-
-type Props = NativeStackScreenProps<RootStackParamList, 'NavBar'>;
-type NavProps = Props & {
+interface NavProps {
+  style: any;
+  navigation: any;
   currentScreen: string;
-};
+}
 
-function NavBar({ navigation, currentScreen }: NavProps) {
+function NavBar({ style, navigation, currentScreen }: NavProps) {
   return (
-    <View style={styles.container}>
+    <View style={{ ...style, ...styles.container }}>
       <Pressable
         style={styles.btn}
         onPress={() => {

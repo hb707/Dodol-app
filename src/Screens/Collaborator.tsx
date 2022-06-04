@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     alignItems: 'center',
     justifyContent: 'center',
-    // backgroundColor: 'rgba(0,0,0,0.2)',
     height: SCREEN_HEIGHT * 0.9,
   },
   inputContainer: {
@@ -35,7 +34,6 @@ const styles = StyleSheet.create({
     height: 50,
     paddingHorizontal: 20,
     paddingVertical: 7,
-    // backgroundColor: '#aeaeae',
     borderRadius: 25,
     borderWidth: 3,
     borderColor: '#000000',

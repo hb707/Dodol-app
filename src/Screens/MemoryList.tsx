@@ -93,8 +93,8 @@ function MemoryListScreen({ navigation, route }: Props) {
               source={
                 v.MemoryImgs[0]
                   ? {
-                      uri: `http://43.200.42.181/upload/${v.MemoryImgs[0].img}`,
-                    }
+                    uri: `http://43.200.42.181/upload/${v.MemoryImgs[0].img}`,
+                  }
                   : defaultPic
               }
               style={{
@@ -200,8 +200,8 @@ function MemoryListScreen({ navigation, route }: Props) {
                 source={
                   cItem.c_thumb
                     ? {
-                        uri: `http://43.200.42.181/upload/${cItem.c_thumb}`,
-                      }
+                      uri: `http://43.200.42.181/upload/${cItem.c_thumb}`,
+                    }
                     : defaultCapsuleThumbPic
                 }
                 style={{
@@ -227,8 +227,8 @@ function MemoryListScreen({ navigation, route }: Props) {
                   source={
                     cItem.c_thumb
                       ? {
-                          uri: `http://43.200.42.181/upload/${cItem.c_thumb}`,
-                        }
+                        uri: `http://43.200.42.181/upload/${cItem.c_thumb}`,
+                      }
                       : defaultCapsuleThumbPic
                   }
                   style={{
@@ -249,7 +249,7 @@ function MemoryListScreen({ navigation, route }: Props) {
           )}
         </ScrollView>
       </View>
-      <NavBar style={{ flex: 1 }} navigation={navigation} />
+      <NavBar style={{ flex: 1 }} navigation={navigation} currentScreen='MemoryList' />
     </View>
   );
 }
