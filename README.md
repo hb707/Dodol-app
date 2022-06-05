@@ -34,8 +34,11 @@
 |  김지현    |    <a href="https://github.com/yellow-w"><img src="https://img.shields.io/badge/yellow%2D%2Dw-831814?style=flat-square&logo=github&logoColor=white&link=https://github.com/yellow-w"/></a>    | 프론트엔드 |
 |  한빈     | <a href="https://github.com/hb707"><img src="https://img.shields.io/badge/hb707-194673?style=flat-square&logo=github&logoColor=white&link=https://github.com/hb707"/></a>             | 프론트엔드 |
 
+
+ <a href="https://github.com/green-kong/Dodol-server"> <h3> 👉 Dodol-server Repo 바로가기</h3> </a>
 <br>
 <br>
+
 
  # ⏰ WorkFlow
  
