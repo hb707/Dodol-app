@@ -2,7 +2,7 @@
 # 💫  DODOL 프로젝트 소개
 <a href="https://makehabit.co.kr/"> <img alt="습관삼끼" src="./assets/readme/dodol.jpg" width="500" height="300"> </a>
 
-##  위치기반 타임캡슐 서비스
+###  위치기반 타임캡슐 서비스
 #### 친구들과 함께 장소를 정해 추억을 담은 타임캡슐을 묻어보세요!
 
 
@@ -54,7 +54,6 @@
  - map api를 이용한 위치지정 및 캡슐오픈 기능 구현
  - 전체적인 디자인 및 컨셉 완성
  - 디버깅 및 typescript 에러 수정
- - typescript 에러 수정
 
 
 <br>
