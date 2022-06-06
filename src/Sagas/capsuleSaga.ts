@@ -56,7 +56,9 @@ function* capsuleREAD(action: ReadActionAttribute) {
         tmp.c_location = v.c_location;
         tmp.isOpened = v.isOpened;
         if (v.Collaborators.length !== 0) {
-          tmp.c_collaborator = v.Collaborators.map((w: any) => w.User.u_alias);
+          tmp.c_collaborator = v.Collaborators.map(
+            (w: any) => w.User && w.User.u_alias,
+          );
         }
         payload.push(tmp);
       });
