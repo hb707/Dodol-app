@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
   text: {
     width: 0.4 * SCREEN_WIDTH,
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: 'font1',
     alignItems: 'center',
     justifyContent: 'center',
@@ -60,21 +60,30 @@ const styles = StyleSheet.create({
 
 function ProfileScreen({ navigation }: Props) {
   const userState = useSelector((state: IState) => state.user);
+  const capsuleState = useSelector((state: IState) => state.capsule);
   const [firstRender, setFirstRender] = useState(true);
   const [isEditting, setIsEditting] = useState(false);
   const [copyAlert, setCopyAlert] = useState('');
   const [value, setValue] = useState('test');
+  const [amountCapsule, setAmountCapsule] = useState<number>(0);
+  const [amountOpenedCapsule, setAmountOpenedCapsule] = useState<number>(0);
 
   const input: React.RefObject<TextInput> = useRef(null);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (firstRender) return;
+    if (firstRender) {
+      setAmountCapsule(capsuleState.capsule.length);
+      setAmountOpenedCapsule(
+        capsuleState.capsule.filter(v => v.isOpened).length,
+      );
+    }
 
     if (!isEditting) {
+      const u_idx = userState.me.u_idx as number;
       dispatch(
         profileActions.request({
-          u_idx: 1,
+          u_idx,
           u_alias: value,
           u_id: null,
           error: null,
@@ -200,7 +209,7 @@ function ProfileScreen({ navigation }: Props) {
               width: 0.6 * SCREEN_WIDTH,
             }}
           >
-            <Text>test</Text>
+            <Text>{amountCapsule}</Text>
           </View>
         </View>
 
@@ -220,7 +229,7 @@ function ProfileScreen({ navigation }: Props) {
               width: 0.6 * SCREEN_WIDTH,
             }}
           >
-            <Text>test</Text>
+            <Text>{amountOpenedCapsule}</Text>
           </View>
         </View>
 

@@ -14,7 +14,6 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 import { Ionicons } from '@expo/vector-icons';
 import NavBar from '../Components/NavBar/NavBar';
 import { IMemory } from '../types';
-import backgroundImg from '../../assets/paper.jpeg';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -136,7 +135,7 @@ function MemoryViewScreen({ navigation, route }: Props) {
                 </Text> */}
               </View>
               <View style={{ flexDirection: 'row' }}>
-                {data.MemoryMusic.link ? (
+                {data.MemoryMusic && data.MemoryMusic.link ? (
                   <>
                     <Pressable onPress={togglePlaying}>
                       <View style={styles.musicPlayBtn}>
@@ -192,7 +191,11 @@ function MemoryViewScreen({ navigation, route }: Props) {
           </ScrollView>
         </ScrollView>
       </View>
-      <NavBar style={{ flex: 1 }} navigation={navigation} />
+      <NavBar
+        style={{ flex: 1 }}
+        navigation={navigation}
+        currentScreen="MemoryView"
+      />
     </>
   );
 }

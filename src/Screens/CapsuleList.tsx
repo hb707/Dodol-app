@@ -119,7 +119,7 @@ function CapsuleListScreen({ navigation }: Props) {
             <View style={{ flexDirection: 'row' }}>
               <Ionicons name="md-people" size={20} color="black" />
               <Text style={{ marginLeft: 5, fontFamily: 'font1' }}>
-                {v.c_collaborator.length + 1}명
+                {v.c_collaborator ? v.c_collaborator.length + 1 : 1}명
               </Text>
             </View>
             <Text style={{ color: '#666', fontFamily: 'font1' }}>

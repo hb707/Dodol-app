@@ -3,24 +3,45 @@ import { IPayload } from '../Sagas/memorySaga';
 
 // 1. 액션
 export const mCREATE = 'memory/CREATE_REQUEST' as const;
+export const mCREATE_S = 'memory/CREATE_SUCCESS' as const;
+export const mCREATE_F = 'memory/CREATE_FAILURE' as const;
 export const mREAD = 'memory/READ_REQUEST' as const;
+export const mREAD_S = 'memory/READ_SUCCESS' as const;
+export const mREAD_F = 'memory/READ_FAILURE' as const;
 
 // 2. 액션함수
 export const mCreate = (payload: IPayload) => ({
-  type: 'memory/CREATE_REQUEST',
+  type: mCREATE,
   payload,
 });
-export const mRead = (payload: { c_idx: number }) => ({
-  type: 'memory/READ_REQUEST',
+export const mCreateSuccess = (payload: IMemory) => ({
+  type: mCREATE_S,
   payload,
+});
+export const mCreateFailure = () => ({
+  type: mCREATE_F,
+});
+export const mRead = (payload: { c_idx: number }) => ({
+  type: mREAD,
+  payload,
+});
+export const mReadSuccess = (payload: IMemory[]) => ({
+  type: mREAD_S,
+  payload,
+});
+export const mReadFailure = () => ({
+  type: mREAD_F,
 });
 
 // 3. 액션타입
 export type MemoryAction =
   | ReturnType<typeof mCreate>
-  | ReturnType<typeof mRead>;
+  | ReturnType<typeof mCreateSuccess>
+  | ReturnType<typeof mCreateFailure>
+  | ReturnType<typeof mRead>
+  | ReturnType<typeof mReadSuccess>
+  | ReturnType<typeof mReadFailure>;
 
-// 4. state 초기값 -- 백엔드 api 확인 후 수정🔥
 interface IMemoryState {
   data: IMemory[];
   loading: boolean;
@@ -57,28 +78,22 @@ function memory(
 ): IMemoryState {
   const newData = [...state.data];
   switch (action.type) {
-    case mCREATE:
-      return {
-        ...state,
-        loading: true,
-      };
-
     // memory create
-    case 'memory/CREATE_REQUEST':
+    case mCREATE:
       return {
         ...state,
         loading: true,
         error: false,
       };
 
-    case 'memory/CREATE_SUCCESS':
+    case mCREATE_S:
       newData.push(action.payload);
       return {
         ...state,
         data: newData,
         loading: false,
       };
-    case 'memory/CREATE_FAILURE':
+    case mCREATE_F:
       return {
         ...state,
         error: true,
@@ -86,20 +101,20 @@ function memory(
       };
 
     // memory read
-    case 'memory/READ_REQUEST':
+    case mREAD:
       return {
         ...state,
         loading: true,
         error: false,
       };
 
-    case 'memory/READ_SUCCESS':
+    case mREAD_S:
       return {
         ...state,
         data: action.payload,
         loading: false,
       };
-    case 'memory/READ_FAILURE':
+    case mREAD_F:
       return {
         ...state,
         error: true,

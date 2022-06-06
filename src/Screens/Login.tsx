@@ -39,8 +39,8 @@ const requestToken = async (code: string, navigation: Props, dispatch: any) => {
   });
 
   try {
-    const response = await axios.post(requestTokenUrl, options);
-    ACCESS_TOKEN = response.data.access_token;
+    const tokenResponse = await axios.post(requestToeknUrl, options);
+    ACCESS_TOKEN = tokenResponse.data.access_token;
 
     body = {
       ACCESS_TOKEN,
@@ -49,11 +49,6 @@ const requestToken = async (code: string, navigation: Props, dispatch: any) => {
         Authorization: `Bearer ${ACCESS_TOKEN}`,
       },
     };
-  } catch (e) {
-    console.log('에러 발생', e);
-  }
-
-  try {
     const response = await axios.post(REDIRECT_URI, body);
     const value = response.data;
     const result = await storeUser(value);
