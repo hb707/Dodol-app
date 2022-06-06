@@ -73,8 +73,12 @@ function* capsuleREAD(action: ReadActionAttribute) {
 function* capsuleCREATE(action: IAction) {
   try {
     const response: AxiosResponse<any> = yield call(createAPI, action.payload);
-    if (response.data.result !== 'success') throw new Error();
-    yield put(create_S(response.data.data));
+    // if (response.data.result !== 'success') throw new Error();
+    if (response.data.result === 'success') {
+      yield put(create_S(response.data.data));
+    } else {
+      yield put(create_F());
+    }
   } catch (e) {
     yield put(create_F());
   }

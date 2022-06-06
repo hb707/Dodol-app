@@ -133,8 +133,9 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
         await removeItemByKey('thumbUrl');
       })();
     }
-    if (capsuleState.success === true && submit === true) {
+    if (submit) {
       setNoti(Number(cYear), Number(cMonth), Number(cDay));
+      setSubmit(false);
       navigation.navigate('Main');
     }
   }, [submit]);
@@ -188,7 +189,7 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
       };
       setSubmit(true);
       dispatch(create_R(capsule));
-      navigation.navigate('Main');
+      // navigation.navigate('Main');
     } else {
       setErrors(errorCheck);
       setTimeout(() => {
