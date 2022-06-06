@@ -86,7 +86,6 @@ export const createAPI = async (
     type: 'image/jpeg',
     uri,
   });
-  console.log(formData);
 
   let response = null;
   try {

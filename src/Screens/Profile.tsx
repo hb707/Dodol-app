@@ -200,7 +200,7 @@ function ProfileScreen({ navigation }: Props) {
               width: 0.6 * SCREEN_WIDTH,
             }}
           >
-            <Text>Test</Text>
+            <Text>test</Text>
           </View>
         </View>
 
@@ -220,7 +220,7 @@ function ProfileScreen({ navigation }: Props) {
               width: 0.6 * SCREEN_WIDTH,
             }}
           >
-            <Text>Test</Text>
+            <Text>test</Text>
           </View>
         </View>
 

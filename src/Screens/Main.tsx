@@ -41,7 +41,7 @@ function MainScreen({ navigation }: Props) {
     });
 
   const storeAndLoad = async () => {
-    await storeData('@capsule_item', capsuleState);
+    await storeData(STORAGE_KEY, capsuleState);
   };
   useEffect(() => {
     if (isLoading) {

@@ -125,7 +125,6 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
   let capsule: IPayload;
   const dispatch = useDispatch();
   const capsuleState = useSelector((state: IState) => state.capsule);
-  console.log(capsuleState);
 
   useEffect(() => {
     if (!submit) {
@@ -189,6 +188,7 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
       };
       setSubmit(true);
       dispatch(create_R(capsule));
+      navigation.navigate('Main');
     } else {
       setErrors(errorCheck);
       setTimeout(() => {
