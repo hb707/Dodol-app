@@ -72,9 +72,10 @@ function ProfileScreen({ navigation }: Props) {
     if (firstRender) return;
 
     if (!isEditting) {
+      const u_idx = userState.me.u_idx as number;
       dispatch(
         profileActions.request({
-          u_idx: 1,
+          u_idx,
           u_alias: value,
           u_id: null,
           error: null,
