@@ -13,7 +13,8 @@
 
 
 # 📌 주요 기능
-[![gif](https://user-images.githubusercontent.com/96301958/172196799-fb088320-18c2-4d31-95eb-3185f87fa475.gif)](https://www.youtube.com/watch?v=P6JsVEG6K6o)
+[![gif](https://user-images.githubusercontent.com/96301958/172196799-fb088320-18c2-4d31-95eb-3185f87fa475.gif)](https://www.youtube.com/watch?v=P6JsVEG6K6o)  
+
 위 gif 클릭 시 시연 영상으로 이동 합니다.
 
 - 로그인 : kakao 로그인을 이용해 어플 접근성을 낮춤
