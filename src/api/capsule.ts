@@ -1,11 +1,9 @@
 import FormData from 'form-data';
-import axios, { AxiosPromise, AxiosResponse } from 'axios';
-import { useDispatch } from 'react-redux';
-import { backUrl, IState, IUser, Iuser } from '../types';
-import { getUser } from '../Storages/storage';
+import axios, { AxiosResponse } from 'axios';
+import { backUrl, Iuser } from '../types';
+import { getData } from '../Storages/storage';
 import { CapsuleIdx } from '../Sagas/capsuleSaga';
 import { ILocation } from '../Screens/CLocation';
-import { create_S } from '../Reducers/capsule';
 
 export interface IPayload {
   c_generator: Iuser;
@@ -45,14 +43,14 @@ interface IFormData extends FormData {
 }
 
 export const readAPI = async () => {
-  const { u_idx } = await getUser();
+  const { u_idx } = await getData('user');
   try {
     const response = await axios.post(`${backUrl}/api/capsule/list`, {
       u_idx,
     });
     return response;
   } catch (error) {
-    console.log('에러');
+    console.log('api/capsule error');
     return error;
   }
 };
@@ -71,7 +69,7 @@ export const createAPI = async (
   const { c_title, c_content, c_location, c_openAt, c_collaborator } = payload;
 
   const formData: IFormData = new FormData();
-  c_collaborator.forEach(v => formData.append('c_collaborator', v.u_idx));
+  c_collaborator.forEach(v => formData.append('collaborator', v.u_idx));
   formData.append('c_generator', c_generator);
   formData.append('c_title', c_title);
   formData.append('c_content', c_content);
@@ -81,17 +79,13 @@ export const createAPI = async (
       c_location.cAddress || '퇴계로'
     }`,
   );
-  formData.append('collaborator', 5);
-  formData.append('collaborator', 6);
-
-  formData.append('c_openAt', '2022-06-01');
+  formData.append('c_openAt', c_openAt);
 
   formData.append('capsuleImg', {
     name: fileName,
     type: 'image/jpeg',
     uri,
   });
-  console.log(formData);
 
   let response = null;
   try {
@@ -100,12 +94,11 @@ export const createAPI = async (
         'content-type': 'multipart/form-data',
       },
     });
-    console.log('capsuleapi', response.data);
     if (response.data.result === 'fail') throw new Error('에러');
+    return response;
   } catch (error) {
-    console.log(error);
+    return response;
   }
-  return response;
 };
 
 export const openAPI = async (payload: CapsuleIdx) => {

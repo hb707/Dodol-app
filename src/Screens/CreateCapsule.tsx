@@ -17,15 +17,11 @@ import ThumbPicker from './ThumbPicker';
 import ModalLocation, { ILocation } from './CLocation';
 import NavBar from '../Components/NavBar/NavBar';
 import { create_R } from '../Reducers/capsule';
-import {
-  getUser,
-  getThumb,
-  getSpot,
-  removeItemByKey,
-} from '../Storages/storage';
+import { getData, getSpot, removeItemByKey } from '../Storages/storage';
 import { IState, IUser, Iuser } from '../types';
 import CollaboratorScreen from './Collaborator';
 import { IPayload } from '../api/capsule';
+import setNoti from '../api/notification';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -126,7 +122,6 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
     date: '',
   });
 
-  // console.log(new Date(`${cYear}-${cMonth}-${cDay}`))
   let capsule: IPayload;
   const dispatch = useDispatch();
   const capsuleState = useSelector((state: IState) => state.capsule);
@@ -139,13 +134,14 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
       })();
     }
     if (capsuleState.success === true && submit === true) {
+      setNoti(Number(cYear), Number(cMonth), Number(cDay));
       navigation.navigate('Main');
     }
   }, [submit]);
 
   const SubmitHandler = async () => {
-    const cGenerator: Iuser = await getUser();
-    const cThumb: string | null = await getThumb();
+    const cGenerator: Iuser = await getData('user');
+    const cThumb: string | null = await getData('thumbUrl');
     const cLocation: ILocation | null = await getSpot();
 
     let locationPass = false;
@@ -192,6 +188,7 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
       };
       setSubmit(true);
       dispatch(create_R(capsule));
+      navigation.navigate('Main');
     } else {
       setErrors(errorCheck);
       setTimeout(() => {

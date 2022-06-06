@@ -16,7 +16,7 @@ import { delete_S } from '../Reducers/user';
 import NavBar from '../Components/NavBar/NavBar';
 import profileActions from '../actions/userProfile';
 import { IState, IUser } from '../types';
-import { getUser, removeUser } from '../Storages/storage';
+import { getData, removeItemByKey } from '../Storages/storage';
 import quitAction from '../actions/userQuit';
 
 type RootStackParamList = {
@@ -103,7 +103,7 @@ function ProfileScreen({ navigation }: Props) {
 
   const quitUser = () => {
     const { u_idx } = userState.me;
-    removeUser();
+    removeItemByKey('user');
     dispatch(quitAction.request({ u_idx }));
   };
 
@@ -235,8 +235,8 @@ function ProfileScreen({ navigation }: Props) {
 
         <Pressable
           onPress={async () => {
-            await removeUser();
-            const user: any = getUser();
+            await removeItemByKey('user');
+            const user: any = getData('user');
             dispatch(delete_S(user));
           }}
         >

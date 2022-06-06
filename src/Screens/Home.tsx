@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useDispatch } from 'react-redux';
-import { getUser } from '../Storages/storage';
+import { getData } from '../Storages/storage';
 import { read_S } from '../Reducers/user';
 import JarImage from '../../assets/Home/dodol.png';
 import loginBtn from '../../assets/Home/kakao_login_medium_wide.png';
@@ -59,7 +59,7 @@ function HomeScreen({ navigation, route }: Props) {
   const dispatch = useDispatch();
 
   const sendUser = async () => {
-    const user = await getUser();
+    const user = await getData('user');
     if (user) {
       dispatch(read_S(user));
     }

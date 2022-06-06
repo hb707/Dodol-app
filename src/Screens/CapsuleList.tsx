@@ -82,14 +82,15 @@ function CapsuleListScreen({ navigation }: Props) {
 
   const item = () =>
     list.map(v => (
-      <Pressable
+      < Pressable
         style={styles.itemContainer}
         onPress={() => {
           // eslint-disable-next-line no-unused-expressions
           v.isOpened
             ? navigation.navigate('MemoryList', { cIdx: v.c_idx })
             : navigation.navigate('OpenCapsule', { cIdx: v.c_idx })
-        }}
+        }
+        }
         key={v.c_idx}
       >
         <Image
