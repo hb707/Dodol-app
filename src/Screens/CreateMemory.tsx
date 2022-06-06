@@ -25,6 +25,7 @@ type RootStackParamList = {
   Feed: { sort: 'latest' | 'top' } | undefined;
   CreateMemory: { cIdx: number };
   MemoryList: { cIdx: number };
+  OpenCapsule: { cIdx: number };
 };
 
 type Props = NativeStackScreenProps<RootStackParamList, 'CreateMemory'>;
@@ -100,7 +101,7 @@ function CreateMemoryScreen({ navigation, route }: Props) {
     };
 
     dispatch(mCreate(payload));
-    navigation.navigate('MemoryList', { cIdx });
+    navigation.navigate('OpenCapsule', { cIdx });
   };
 
   const getUser = async () => {
