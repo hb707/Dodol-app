@@ -59,12 +59,7 @@ export const createAPI = async (
   payload: IPayload,
 ): Promise<AxiosResponse<any> | null> => {
   const c_generator = payload.c_generator.u_idx;
-  if (payload.c_thumb === null) return null;
   if (payload.c_location === null) return null;
-
-  const uri: string = payload.c_thumb.replace(/[\\]/g, '').replace(/["]/g, '');
-  const name = payload.c_thumb.split('/');
-  const fileName = name[name.length - 1];
 
   const { c_title, c_content, c_location, c_openAt, c_collaborator } = payload;
 
@@ -81,12 +76,18 @@ export const createAPI = async (
   );
   formData.append('c_openAt', c_openAt);
 
-  formData.append('capsuleImg', {
-    name: fileName,
-    type: 'image/jpeg',
-    uri,
-  });
-
+  if (payload.c_thumb !== null) {
+    const uri: string = payload.c_thumb
+      .replace(/[\\]/g, '')
+      .replace(/["]/g, '');
+    const name = payload.c_thumb.split('/');
+    const fileName = name[name.length - 1];
+    formData.append('capsuleImg', {
+      name: fileName,
+      type: 'image/jpeg',
+      uri,
+    });
+  }
   let response = null;
   try {
     response = await axios.post(`${backUrl}/api/capsule/create`, formData, {

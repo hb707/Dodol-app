@@ -39,7 +39,7 @@ const requestToken = async (code: string, navigation: Props, dispatch: any) => {
   });
 
   try {
-    const tokenResponse = await axios.post(requestToeknUrl, options);
+    const tokenResponse = await axios.post(requestTokenUrl, options);
     ACCESS_TOKEN = tokenResponse.data.access_token;
 
     body = {
