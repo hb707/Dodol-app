@@ -440,7 +440,6 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
         <NavBar
           style={{ flex: 1 }}
           navigation={navigation}
-          route={route}
           currentScreen="Add"
         />
       </View>

@@ -432,7 +432,11 @@ function OpenCapsule({ navigation, route }: Props) {
           }}
         />
       )}
-      <NavBar style={{ flex: 1 }} navigation={navigation} />
+      <NavBar
+        currentScreen="OpenCapsule"
+        style={{ flex: 1 }}
+        navigation={navigation}
+      />
     </View>
   );
 }
