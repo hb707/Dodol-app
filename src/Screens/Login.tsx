@@ -1,10 +1,13 @@
-import React, { Props } from 'react';
+import React from 'react';
 import qs from 'querystring';
 import { WebView } from 'react-native-webview';
 import { View } from 'react-native';
 import axios from 'axios';
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type {
+  NativeStackScreenProps,
+  NativeStackNavigationProp,
+} from '@react-navigation/native-stack';
 import { useDispatch } from 'react-redux';
 import { getData, storeUser } from '../Storages/storage';
 import { read_S } from '../Reducers/user';
@@ -25,7 +28,11 @@ const userAgent =
   'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1';
 const INJECTED_JAVASCRIPT = `window.ReactNativeWebView.postMessage('message from webView')`;
 
-const requestToken = async (code: string, navigation: Props, dispatch: any) => {
+const requestToken = async (
+  code: string,
+  navigation: NativeStackNavigationProp<RootStackParamList>,
+  dispatch: any,
+) => {
   const requestTokenUrl = 'https://kauth.kakao.com/oauth/token';
   const requestUserUrl = 'https://kapi.kakao.com/v1/user/access_token_info';
   let ACCESS_TOKEN: string;

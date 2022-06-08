@@ -206,7 +206,7 @@ function CreateCapsuleScreen({ navigation, route }: Props) {
   const onChangeCollaborator = (payload: Iuser[]) => {
     setcCollaborator(payload);
   };
-  console.log(cCollaborator);
+
   return (
     <View style={styles.container}>
       <View style={styles.page}>

@@ -8,8 +8,8 @@ import {
   create_F,
   ReadActionAttribute,
 } from '../Reducers/capsule';
-import { Capsule, ICapsule } from '../types';
-import { createAPI, readAPI, openAPI } from '../api/capsule';
+import { Capsule, ICapsule, Iuser } from '../types';
+import { createAPI, readAPI, openAPI, IPayload } from '../api/capsule';
 import capsuleOpenActions from '../actions/capsuleOpen';
 
 export interface CapsuleIdx {
@@ -21,9 +21,9 @@ interface IRes extends AxiosPromise {
   result: string;
 }
 
-interface IAction {
+interface IAction<T> {
   type: string;
-  payload: ICapsule[] | CapsuleIdx;
+  payload: T;
 }
 
 function* capsuleREAD(action: ReadActionAttribute) {
@@ -70,9 +70,12 @@ function* capsuleREAD(action: ReadActionAttribute) {
   }
 }
 
-function* capsuleCREATE(action: IAction) {
+function* capsuleCREATE(action: IAction<IPayload>) {
   try {
-    const response: AxiosResponse<any> = yield call(createAPI, action.payload);
+    const response: AxiosResponse<any> = yield call<typeof createAPI>(
+      createAPI,
+      action.payload,
+    );
     // if (response.data.result !== 'success') throw new Error();
     if (response.data.result === 'success') {
       yield put(create_S(response.data.data));
@@ -84,9 +87,8 @@ function* capsuleCREATE(action: IAction) {
   }
 }
 
-function* capsuleOPEN(action: IAction) {
-  const payload = action.payload as CapsuleIdx;
-  const openResponse: AxiosResponse<any> = yield call(openAPI, payload);
+function* capsuleOPEN(action: IAction<CapsuleIdx>) {
+  const openResponse: AxiosResponse<any> = yield call(openAPI, action.payload);
   if (openResponse.data.result === 'success') {
     const readResponse: AxiosResponse<any> = yield call(readAPI);
     if (readResponse.data.result === 'success') {

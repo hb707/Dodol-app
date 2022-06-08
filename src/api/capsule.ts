@@ -55,13 +55,11 @@ export const readAPI = async () => {
   }
 };
 
-export const createAPI = async (
-  payload: IPayload,
-): Promise<AxiosResponse<any> | null> => {
+export const createAPI = async (payload: IPayload) => {
   const c_generator = payload.c_generator.u_idx;
-  if (payload.c_location === null) return null;
 
-  const { c_title, c_content, c_location, c_openAt, c_collaborator } = payload;
+  const { c_title, c_content, c_openAt, c_collaborator } = payload;
+  const c_location = payload.c_location as ILocation;
 
   const formData: IFormData = new FormData();
   c_collaborator.forEach(v => formData.append('collaborator', v.u_idx));
@@ -88,17 +86,14 @@ export const createAPI = async (
       uri,
     });
   }
-  let response = null;
   try {
-    response = await axios.post(`${backUrl}/api/capsule/create`, formData, {
+    return await axios.post(`${backUrl}/api/capsule/create`, formData, {
       headers: {
         'content-type': 'multipart/form-data',
       },
     });
-    if (response.data.result === 'fail') throw new Error('에러');
-    return response;
   } catch (error) {
-    return response;
+    return error;
   }
 };
 
