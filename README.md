@@ -3,7 +3,12 @@
 <a href="https://play.google.com/store/apps/details?id=com.klh.dodol"> <img alt="습관삼끼" src="./assets/readme/dodol.jpg" width="500" height="300"> </a>
 ### 👆22/06/22 Play Stroe 출시! 위 사진을 누르면 Google Play Store 로 이동합니다!👆
 
-###  위치기반 타임캡슐 서비스
+---  
+  
+</br>
+</br>
+
+##  위치기반 타임캡슐 서비스
 #### 친구들과 함께 장소를 정해 추억을 담은 타임캡슐을 묻어보세요!
 
 
