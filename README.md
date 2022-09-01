@@ -1,7 +1,7 @@
 
 # 💫  DODOL 프로젝트 소개
 <a href="https://play.google.com/store/apps/details?id=com.klh.dodol"> <img alt="습관삼끼" src="./assets/readme/dodol.jpg" width="500" height="300"> </a>
-### 👆22/06/22 Play Stroe 출시! 위 사진을 누르면 Google Play Store 로 이동합니다!👆
+### 👆22/06/22 Play Store 출시! 위 사진을 누르면 Google Play Store 로 이동합니다!👆
 
 ---  
   
